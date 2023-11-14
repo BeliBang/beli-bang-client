@@ -6,7 +6,13 @@ const stylesLib = StyleSheet.create({
     },
     btnSm : {
         width: 100,
-        
+
+    },
+    inputField: {
+        height: 40,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderRadius: 20,
     },
     flex1 : {
         flex: 1
