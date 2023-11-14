@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function UserHomeScreen() {
+export default function SellerHomeScreen() {
   return (
     <View>
-      <Text>INI HALAMAN HOME</Text>
+      <Text>INI HALAMAN HOME SELLER</Text>
     </View>
   );
 }
