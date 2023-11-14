@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import * as React from 'react';
 import { TextInput, Button } from 'react-native-paper';
+import stylesLib from '../../assets/styles/styles-lib';
 
 export default function LoginScreen() {
   const [email, setEmail] = React.useState('');
@@ -18,26 +19,28 @@ export default function LoginScreen() {
     <View style={styles.container}>
       <View style={{ justifyContent: 'center', height: '50%' }}>
         <View style={[styles.containerEmail, styles.pad90]}>
-          <Text style={[{ color: '#FEF5ED' }]}>Email</Text>
-          <TextInput value={email} onChangeText={(text) => setEmail(text)} />
+          <Text style={[stylesLib.colCr, { fontSize: 25, paddingLeft: 20, marginBottom: 10 }]}>email</Text>
+          <TextInput value={email} onChangeText={(text) => setEmail(text)} style={[styles.inputField]} />
         </View>
-        <View style={[styles.containerPassword, styles.pad90]}>
-          <Text style={[{ color: '#FEF5ED' }]}>Password</Text>
-          <TextInput value={password} onChangeText={(text) => setPassword(text)} />
+        <View style={[styles.containerPassword, styles.pad90, {marginTop: 20}]}>
+          <Text style={[stylesLib.colCr, styles.inputLabel, { paddingLeft: 20 }]}>password</Text>
+          <TextInput value={password} onChangeText={(text) => setPassword(text)} style={[styles.inputField]} />
         </View>
       </View>
       <View>
-        <Text style={{ textAlign: 'center', fontSize: 25, color: '#FEF5ED' }}>Don't have an account ?</Text>
-        <Text style={{ textAlign: 'center', fontSize: 25, marginBottom: 20, color: '#FEF5ED' }}>
+        <Text style={[{ textAlign: 'center', fontSize: 25 }, stylesLib.colCr]}>Don't have an account ?</Text>
+      </View>
+      <View style={[{flexDirection: 'row', justifyContent: 'center'}]}>
+        <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colCr]}>
           Sign up
-          <TouchableOpacity onPress={() => clickHere()}>
-            <Text style={[styles.textHere]}> here</Text>
-          </TouchableOpacity>
         </Text>
+        <TouchableOpacity onPress={() => clickHere()} style={[styles.textHere, {marginLeft: 9}]}>
+          <Text style={[styles.textHere]}>here</Text>
+        </TouchableOpacity>
       </View>
       <View style={[styles.pad30]}>
-        <Button mode="contained" onPress={() => Login()} style={[styles.buttonLogin]}>
-          <Text style={[styles.textLogin]}>Login</Text>
+        <Button mode="contained" onPress={() => Login()} style={[styles.buttonLogin]} labelStyle={[stylesLib.colGrLight, {fontSize: 22}]}>
+          Login
         </Button>
       </View>
     </View>
@@ -50,12 +53,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#739072',
   },
   pad90: {
-    paddingRight: 90,
-    paddingLeft: 90,
+    paddingRight: 50,
+    paddingLeft: 50,
   },
   pad30: {
-    paddingRight: 230,
-    paddingLeft: 230,
+    alignItems: 'center'
   },
   containerEmail: {
     justifyContent: 'center',
@@ -65,14 +67,29 @@ const styles = StyleSheet.create({
   },
   buttonLogin: {
     backgroundColor: '#FEF5ED',
-    height: 50,
   },
   textLogin: {
     color: '#739072',
-    fontSize: 20,
+    fontSize: 25,
+    padding:0,
+    fontWeight: '800',
+    backgroundColor: 'red',
+    height: 30
   },
   textHere: {
     fontSize: 25,
     color: '#FEF5ED',
+    textDecorationLine: 'underline',
+    fontWeight: '900'
   },
+  inputField: {
+    height: 40,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderRadius: 20,
+  },
+  inputLabel : {
+    fontSize: 25, 
+    marginBottom: 10
+  }
 });
