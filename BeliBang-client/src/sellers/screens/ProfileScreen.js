@@ -1,12 +1,15 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../../store/actions/actionCreator';
 import * as React from 'react';
 import { Avatar } from 'react-native-paper';
+import * as SecureStore from 'expo-secure-store';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProfileScreen() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const user = useSelector((state) => {
     return state.user;
   });
@@ -25,15 +28,21 @@ export default function ProfileScreen() {
       });
   }, []);
 
+  const clickSignOut = async () => {
+    await SecureStore.deleteItemAsync('access_token');
+    return navigation.navigate('LoginScreen');
+  };
+
   return (
     <View style={[styles.container]}>
-      <Text>INI PROFILE SCREEN</Text>
+      <Text>INI PROFILE SELLER SCREEN</Text>
       <Avatar.Image size={50} source={{ uri: user.profilePicture }} />
       <Text>{user.username}</Text>
       <Text>{user.email}</Text>
       <Text>{user.password}</Text>
       <Text>{user.phoneNumber}</Text>
       <Text>{user.address}</Text>
+      <Button title="Logout" onPress={() => clickSignOut()} />
     </View>
   );
 }

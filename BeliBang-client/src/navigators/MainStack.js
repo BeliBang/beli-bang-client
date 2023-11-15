@@ -35,16 +35,16 @@ export default function MainStack() {
       <Stack.Screen
         name="CustomerTab"
         component={CustomerTab}
-        // options={{
-        //   headerShown: false,
-        // }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="SellerTab"
         component={SellerTab}
-        // options={{
-        //   headerShown: false,
-        // }}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

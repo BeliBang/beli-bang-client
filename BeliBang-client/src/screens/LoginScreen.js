@@ -2,20 +2,37 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import * as React from 'react';
 import { TextInput, Button } from 'react-native-paper';
 import stylesLib from '../../assets/styles/styles-lib';
+import * as SecureStore from 'expo-secure-store';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+      navigation.navigate('CustomerTab');
+    } else {
+      console.log('No values stored under that key.');
+    }
+  }
+
+  getValueFor('access_token');
+
   function Login() {
     console.log({ email, password });
     // hit login endpoint, jika berhasil akan mengembalikan rolenya, sementara di harcode
-    let role = 'Seller';
+    let role = 'Customer';
     if (role === 'Customer') {
+      save('access_token', 'abcdasfasdafafdf');
       navigation.navigate('CustomerTab');
     } else {
-      // navigation.navigate('SellerTab');
-      navigation.navigate('RegisterStore');
+      navigation.navigate('SellerTab');
+      // navigation.navigate('RegisterStore');
     }
   }
 
