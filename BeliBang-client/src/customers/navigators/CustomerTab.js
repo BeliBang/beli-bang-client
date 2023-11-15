@@ -9,7 +9,7 @@ import stylesLib from '../../../assets/styles/styles-lib';
 
 const Tab = createBottomTabNavigator();
 
-export default function UserTab() {
+export default function CustomerTab() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
