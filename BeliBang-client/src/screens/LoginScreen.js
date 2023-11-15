@@ -14,7 +14,8 @@ export default function LoginScreen({ navigation }) {
     if (role === 'Customer') {
       navigation.navigate('CustomerTab');
     } else {
-      navigation.navigate('SellerTab');
+      // navigation.navigate('SellerTab');
+      navigation.navigate('RegisterStore');
     }
   }
 
