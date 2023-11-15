@@ -3,45 +3,22 @@ import * as React from 'react';
 import { TextInput, Button } from 'react-native-paper';
 import stylesLib from '../../assets/styles/styles-lib';
 
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const dispatch = useDispatch();
-  const users = useSelector((state) => {
-    console.log(state, '<<<<<<<<');
-    return state.users;
-  });
-
-  console.log(users, '<<<<<<<<');
-  useEffect(() => {
-    fetch('http://localhost:3000/users')
-      .then((res) => {
-        if (!res.ok) throw new Error('Something wrong!');
-        return res.json();
-      })
-      .then((users) => {
-        dispatch({
-          type: 'users/fetch',
-          payload: users,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   function Login() {
     console.log({ email, password });
-
-    navigation.navigate('CustomerTab');
+    // hit login endpoint, jika berhasil akan mengembalikan rolenya, sementara di harcode
+    let role = 'Customer';
+    if (role === 'Customer') {
+      navigation.navigate('CustomerTab');
+    } else {
+      navigation.navigate('SellerTab');
+    }
   }
 
   function clickHere() {
-    console.log('here <------------');
     navigation.navigate('RegisterScreen');
   }
 
