@@ -19,12 +19,12 @@ export default function LoginScreen() {
     <View style={styles.container}>
       <View style={{ justifyContent: 'center', height: '50%' }}>
         <View style={[styles.containerEmail, styles.pad90]}>
-          <Text style={[stylesLib.colCr, { fontSize: 25, paddingLeft: 20, marginBottom: 10 }]}>email</Text>
-          <TextInput value={email} onChangeText={(text) => setEmail(text)} style={[styles.inputField]} />
+          <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>email</Text>
+          <TextInput value={email} onChangeText={(text) => setEmail(text)} style={[stylesLib.inputField]} />
         </View>
         <View style={[styles.containerPassword, styles.pad90, {marginTop: 20}]}>
-          <Text style={[stylesLib.colCr, styles.inputLabel, { paddingLeft: 20 }]}>password</Text>
-          <TextInput value={password} onChangeText={(text) => setPassword(text)} style={[styles.inputField]} />
+          <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>password</Text>
+          <TextInput value={password} onChangeText={(text) => setPassword(text)} style={[stylesLib.inputField]} />
         </View>
       </View>
       <View>
@@ -81,15 +81,5 @@ const styles = StyleSheet.create({
     color: '#FEF5ED',
     textDecorationLine: 'underline',
     fontWeight: '900'
-  },
-  inputField: {
-    height: 40,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    borderRadius: 20,
-  },
-  inputLabel : {
-    fontSize: 25, 
-    marginBottom: 10
   }
 });

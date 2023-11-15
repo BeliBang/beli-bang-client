@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native"
 
 const stylesLib = StyleSheet.create({
-    fontFam : {
+    fontFam: {
         fontFamily: 'sans-serif'
     },
-    btnSm : {
+    btnSm: {
         width: 100,
 
     },
@@ -14,58 +14,62 @@ const stylesLib = StyleSheet.create({
         borderTopRightRadius: 20,
         borderRadius: 20,
     },
-    flex1 : {
+    inputLabel: {
+        fontSize: 25,
+        marginBottom: 10
+    },
+    flex1: {
         flex: 1
     },
-    flex2 : {
+    flex2: {
         flex: 2
     },
-    flex3 : {
+    flex3: {
         flex: 3
     },
-    flex4 : {
+    flex4: {
         flex: 4
     },
-    flex5 : {
+    flex5: {
         flex: 5
     },
-    flex6 : {
+    flex6: {
         flex: 6
     },
-    flex7 : {
+    flex7: {
         flex: 7
     },
-    flex8 : {
+    flex8: {
         flex: 8
     },
-    flex9 : {
+    flex9: {
         flex: 9
     },
-    w1 : {
+    w1: {
         width: 50
     },
-    w2 : {
+    w2: {
         width: 100
     },
-    w3 : {
+    w3: {
         width: 150
     },
-    w4 : {
+    w4: {
         width: 200
     },
-    w5 : {
+    w5: {
         width: 250
     },
-    w6 : {
+    w6: {
         width: 300
     },
-    w7 : {
+    w7: {
         width: 350
     },
-    w8 : {
+    w8: {
         width: 400
     },
-    w9 : {
+    w9: {
         width: 450
     },
     colGrBold: {
@@ -98,6 +102,6 @@ const stylesLib = StyleSheet.create({
     bgColCr: {
         backgroundColor: 'rgb(236, 227, 206)'
     }
-  })
+})
 
 export default stylesLib
