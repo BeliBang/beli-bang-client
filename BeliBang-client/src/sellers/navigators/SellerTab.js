@@ -6,6 +6,7 @@ import WeatherScreen from '../screens/WeatherScreen';
 import SellerHomeScreen from '../screens/SellerHomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
+import OrderSellerScreen from '../screens/OrderSellerScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,14 @@ export default function SellerTab() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Order Seller"
+        component={OrderSellerScreen}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
         }}
       />
       <Tab.Screen
