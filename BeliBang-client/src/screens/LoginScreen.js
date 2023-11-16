@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as React from 'react';
 import { TextInput, Button } from 'react-native-paper';
 import stylesLib from '../../assets/styles/styles-lib';
 import * as SecureStore from 'expo-secure-store';
+import iconBB from '../../assets/belibang-CB.png'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
@@ -42,12 +43,15 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={[{ marginTop:20 }]}>
+        <Image source={iconBB} style={[stylesLib.logo]} />
+      </View>
       <View style={{ justifyContent: 'center', height: '50%' }}>
         <View style={[styles.containerEmail, styles.pad90]}>
-          <Text style={[stylesLib.colCr, { fontSize: 25, paddingLeft: 20, marginBottom: 10 }]}>email</Text>
-          <TextInput value={email} onChangeText={(text) => setEmail(text)} style={[styles.inputField]} />
+          <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>email</Text>
+          <TextInput value={email} onChangeText={(text) => setEmail(text)} style={[stylesLib.inputField]} />
         </View>
-        <View style={[styles.containerPassword, styles.pad90, { marginTop: 20 }]}>
+        <View style={[styles.containerPassword, styles.pad90, {marginTop: 20}]}>
           <Text style={[stylesLib.colCr, styles.inputLabel, { paddingLeft: 20 }]}>password</Text>
           <TextInput value={password} onChangeText={(text) => setPassword(text)} style={[styles.inputField]} />
         </View>
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#FEF5ED',
     textDecorationLine: 'underline',
-    fontWeight: '900',
+    fontWeight: '900'
   },
   inputField: {
     height: 40,
@@ -111,8 +115,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderRadius: 20,
   },
-  inputLabel: {
-    fontSize: 25,
-    marginBottom: 10,
-  },
+  inputLabel : {
+    fontSize: 25, 
+    marginBottom: 10
+  }
 });

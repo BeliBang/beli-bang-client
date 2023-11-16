@@ -30,10 +30,10 @@ export default function RegisterScreen({ navigation }) {
       </View>
       <View style={style.switchButtonContainer}>
         <TouchableOpacity onPress={() => clickHere()} style={[style.footerText, { marginRight: 30 }]}>
-          <Text style={[style.activeLink, stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, style.roundedLink]}>Buyer</Text>
+          <Text style={[style.inactiveLink, stylesLib.colGrBold, stylesLib.bgColCrBold, stylesLib.pad10, style.roundedLink]}>Buyer</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => clickHere()} style={[style.footerText, { marginLeft: 30 }]}>
-          <Text style={[style.inactiveLink, stylesLib.colGrBold, stylesLib.bgColCrBold,stylesLib.pad10, style.roundedLink]}>Seller</Text>
+          <Text style={[style.activeLink, stylesLib.colGrBold, stylesLib.bgColCr,stylesLib.pad10, style.roundedLink]}>Seller</Text>
         </TouchableOpacity>
       </View>
       <View style={[{alignItems:'center'}]}>

@@ -2,8 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Platform, Button, Image } fro
 import * as React from 'react';
 import { TextInput } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
-// import stylesLib from '../../assets/styles/styles-lib';
-
+import stylesLib from '../../../assets/styles/styles-lib'
 export default function RegisterStore({ navigation }) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
@@ -35,23 +34,30 @@ export default function RegisterStore({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ justifyContent: 'center', height: '50%' }}>
-        <Text>Nama Dagangan</Text>
-        <TextInput value={name} onChangeText={(text) => setName(text)} />
-        <Text>Deskripsi</Text>
-        <TextInput value={description} onChangeText={(text) => setDescription(text)} />
-        <Text>Foto Dagangan</Text>
-        <View>
-          <Button title="Pilih Gambar" onPress={pickImage} />
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      <View style={{ justifyContent: 'center' }}>
+        <View style={[stylesLib.pad30, {marginBottom: 30, marginTop: 40}]}>
+          <Text style={[stylesLib.inputLabel]}>Nama Dagangan</Text>
+          <TextInput value={name} onChangeText={(text) => setName(text)} style={[stylesLib.inputField]} />
         </View>
-        <Button
-          onPress={(e) => {
-            clickRegister();
-          }}
-          title="Register"
-          color="#841584"
-        />
+        <View style={[stylesLib.pad30, {marginBottom: 30}]}>
+          <Text style={[stylesLib.inputLabel]}>Deskripsi</Text>
+          <TextInput value={description} onChangeText={(text) => setDescription(text)} style={[stylesLib.inputField]} />
+        </View>
+        <View style={[{alignItems: 'center'}]}>
+          <View style={[{marginBottom: 10}]}>
+            <Text style={[{fontSize: 25}]}>Foto Dagangan</Text>
+          </View>
+          <View style={[{marginBottom: 20}]}>
+            <TouchableOpacity onPress={() => pickImage()} style={[]}>
+              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr,stylesLib.pad10, {fontSize: 20, borderRadius: 20}]}>PILIH GAMBAR</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[{marginBottom: 20}]}>
+            <TouchableOpacity onPress={() => pickImage()} style={[]}>
+              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr,stylesLib.pad10, {fontSize: 20, borderRadius: 20}]}>DAFTAR</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </View>
   );
