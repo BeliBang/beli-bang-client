@@ -13,11 +13,11 @@ async function getValueFor(key) {
 
 console.log(getValueFor('access_token'));
 
-export default function UserHomeScreen() {
+export default function UserHomeScreen({ navigation }) {
   return (
     <View>
       <Text>INI HALAMAN HOME</Text>
-      <Button title="Lihat list pedagang" />
+      <Button title="Lihat list pedagang" onPress={() => navigation.navigate('MapScreen')} />
     </View>
   );
 }

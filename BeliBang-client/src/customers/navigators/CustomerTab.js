@@ -1,11 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import UserHomeScreen from '../screens/UserHomeScreen';
+// import UserHomeScreen from '../screens/UserHomeScreen';
 import LikeScreen from '../screens/LikeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import OrderCustScreen from '../screens/OrderCustScreen';
 import { Ionicons, Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import stylesLib from '../../../assets/styles/styles-lib';
+import HomeStack from './HomeStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +26,7 @@ export default function CustomerTab() {
     >
       <Tab.Screen
         name="Home"
-        component={UserHomeScreen}
+        component={HomeStack}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
