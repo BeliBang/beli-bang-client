@@ -16,8 +16,8 @@ console.log(getValueFor('access_token'));
 export default function UserHomeScreen({ navigation }) {
   return (
     <View>
-      <Text>INI HALAMAN HOME</Text>
-      <Button title="Lihat list pedagang" onPress={() => navigation.navigate('MapScreen')} />
+      <Button title="Look list of street seller" onPress={() => navigation.navigate('ListStores')} />
+      <Button title="Look street seller on the map" onPress={() => navigation.navigate('MapScreen')} />
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import { FETCH_FOODS, FETCH_STORE, FETCH_USER, FETCH_USERS } from './actionType';
+import { FETCH_FOODS, FETCH_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actionType';
 
 export const fetchUsersAction = (payload) => {
   return {
@@ -10,6 +10,13 @@ export const fetchUsersAction = (payload) => {
 export const fetchUserAction = (payload) => {
   return {
     type: FETCH_USER,
+    payload,
+  };
+};
+
+export const fetchStoresAction = (payload) => {
+  return {
+    type: FETCH_STORES,
     payload,
   };
 };
@@ -68,6 +75,17 @@ export const fetchStore = (id) => {
       const data = await response.json();
       const action = fetchStoreAction(data);
       dispatch(action);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const fetchAllStore = () => {
+  return async (dispatch) => {
+    try {
+      // hit endpoint get all store(include usernya), difilter dimana status store true, dan jaraknya maks 300 meter
     } catch (err) {
       console.log(err);
       throw err;
