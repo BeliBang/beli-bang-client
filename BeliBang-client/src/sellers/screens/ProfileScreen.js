@@ -30,6 +30,7 @@ export default function ProfileScreen() {
 
   const clickSignOut = async () => {
     await SecureStore.deleteItemAsync('access_token');
+    await SecureStore.deleteItemAsync('role');
     return navigation.navigate('LoginScreen');
   };
 

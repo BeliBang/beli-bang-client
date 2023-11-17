@@ -1,68 +1,146 @@
-import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 import stylesLib from '../../assets/styles/styles-lib';
-import iconBB from '../../assets/belibang-CB.png'
+import iconBB from '../../assets/belibang-CB.png';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { register } from '../../store/actions/actionCreator';
+import * as SecureStore from 'expo-secure-store';
 
 export default function RegisterScreen({ navigation }) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [role, setRole] = useState('Customer');
+  const [hidePass, setHidePass] = useState(true);
+  const dispatch = useDispatch();
+
+  async function saveAccessToken(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  async function saveRole(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  const inputForm = {
+    username,
+    email,
+    password,
+    phoneNumber,
+    address,
+    role,
+  };
+
+  function clickSignup() {
+    dispatch(register(inputForm))
+      .then((result) => {
+        // console.log(result, '<<<<< ini payload');
+        saveAccessToken('access_token', result.access_token);
+        saveRole('role', result.role);
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setPhoneNumber('');
+        setAddress('');
+        setRole('Customer');
+        setHidePass(true);
+        if (result.role === 'Customer') {
+          navigation.navigate('CustomerTab');
+        } else if (result.role === 'Seller') {
+          navigation.navigate('RegisterStore');
+        }
+        console.log('REGISTER SUCCESS!');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <View style={[stylesLib.bgColGrLight, stylesLib.flex1]}>
-      <View style={[{ marginTop:20 }]}>
+      <View style={[{ marginTop: 20 }]}>
         <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
-      <View style={{ justifyContent: 'center', height: '40%', marginBottom:20 }}>
-        <View style={[stylesLib.pad50, { marginBottom: 30}]}>
+      <View style={{ justifyContent: 'center', height: '40%', marginBottom: 20 }}>
+        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
           <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>username</Text>
-          <TextInput style={[stylesLib.bgColCr ,stylesLib.inputField]} />
+          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={setUsername} />
         </View>
-        <View style={[stylesLib.pad50]}>
+        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
+          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>email</Text>
+          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={setEmail} />
+        </View>
+        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
           <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>password</Text>
-          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} />
+          <TextInput
+            style={[stylesLib.bgColCr, stylesLib.inputField]}
+            onChangeText={setPassword}
+            secureTextEntry={hidePass ? true : false}
+            blurOnSubmit={false}
+            autoCapitalize="none"
+            returnKeyType="next"
+            right={<TextInput.Icon icon="eye" onPress={() => setHidePass(!hidePass)} />}
+          />
+        </View>
+        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
+          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>phone number</Text>
+          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ''))} keyboardType="numeric" />
+        </View>
+        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
+          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>address</Text>
+          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={setAddress} />
         </View>
       </View>
       <View>
-        <Text style={[{ textAlign: 'center', fontSize: 25}, stylesLib.colCr]}>already have an account?</Text>
+        <Text style={[{ textAlign: 'center', fontSize: 25, marginTop: 30 }, stylesLib.colCr]}>already have an account?</Text>
       </View>
       <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
         <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colCr]}>log in</Text>
         <TouchableOpacity onPress={() => clickHere()} style={[style.activeLink, { marginLeft: 9 }]}>
-          <Text style={[style.loginLink]}>here</Text>
+          <Text style={[style.loginLink]} onPress={() => navigation.navigate('LoginScreen')}>
+            here
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={style.switchButtonContainer}>
-        <TouchableOpacity onPress={() => clickHere()} style={[style.footerText, { marginRight: 30 }]}>
-          <Text style={[style.activeLink, stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, style.roundedLink]}>Buyer</Text>
+        <TouchableOpacity onPress={() => setRole('Customer')} style={[style.footerText, { marginRight: 30 }]}>
+          <Text style={[role === 'Customer' ? style.activeLink : style.inactiveLink, role === 'Customer' ? stylesLib.bgColCr : stylesLib.bgColCrBold, stylesLib.colGrBold, stylesLib.pad10, style.roundedLink]}>Buyer</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickHere()} style={[style.footerText, { marginLeft: 30 }]}>
-          <Text style={[style.inactiveLink, stylesLib.colGrBold, stylesLib.bgColCrBold,stylesLib.pad10, style.roundedLink]}>Seller</Text>
+        <TouchableOpacity onPress={() => setRole('Seller')} style={[style.footerText, { marginLeft: 30 }]}>
+          <Text style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? stylesLib.bgColCr : stylesLib.bgColCrBold, , stylesLib.pad10, style.roundedLink]}>Seller</Text>
         </TouchableOpacity>
       </View>
-      <View style={[{alignItems:'center'}]}>
-        <Button mode="contained" style={[stylesLib.bgColCr]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]}>Sign Up</Button>
+      <View style={[{ alignItems: 'center' }]}>
+        <Button mode="contained" style={[stylesLib.bgColCr]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]} onPress={clickSignup}>
+          Sign Up
+        </Button>
       </View>
     </View>
   );
 }
 
 const style = StyleSheet.create({
-  activeLink : {
+  activeLink: {
     fontSize: 25,
     color: '#FEF5ED',
   },
-  loginLink : {
+  loginLink: {
     fontSize: 25,
     color: '#FEF5ED',
     textDecorationLine: 'underline',
-    fontWeight: '900'
+    fontWeight: '900',
   },
-  switchButtonContainer : {
+  switchButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 40
+    marginBottom: 40,
   },
-  inactiveLink : {
+  inactiveLink: {
     fontSize: 25,
   },
-  roundedLink : {
-    borderRadius: 20
-  }
-})
+  roundedLink: {
+    borderRadius: 20,
+  },
+});

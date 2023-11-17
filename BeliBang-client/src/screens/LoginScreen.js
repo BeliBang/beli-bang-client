@@ -2,58 +2,84 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as React from 'react';
 import { TextInput, Button } from 'react-native-paper';
 import stylesLib from '../../assets/styles/styles-lib';
+import { useDispatch } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
-import iconBB from '../../assets/belibang-CB.png'
+import iconBB from '../../assets/belibang-CB.png';
+import { login } from '../../store/actions/actionCreator';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-
-  async function save(key, value) {
-    await SecureStore.setItemAsync(key, value);
-  }
+  const [hidePass, setHidePass] = React.useState(true);
+  const dispatch = useDispatch();
 
   async function getValueFor(key) {
     let result = await SecureStore.getItemAsync(key);
-    if (result) {
+    if (result === 'Customer') {
       navigation.navigate('CustomerTab');
+    } else if (result === 'Seller') {
+      navigation.navigate('SellerTab');
     } else {
       console.log('No values stored under that key.');
     }
   }
 
-  getValueFor('access_token');
+  getValueFor('role');
 
-  function Login() {
-    console.log({ email, password });
-    // hit login endpoint, jika berhasil akan mengembalikan rolenya, sementara di harcode
-    let role = 'Customer';
-    if (role === 'Customer') {
-      save('access_token', 'abcdasfasdafafdf');
-      navigation.navigate('CustomerTab');
-    } else {
-      navigation.navigate('SellerTab');
-      // navigation.navigate('RegisterStore');
-    }
+  async function saveAccessToken(key, value) {
+    await SecureStore.setItemAsync(key, value);
   }
 
-  function clickHere() {
-    navigation.navigate('RegisterScreen');
+  async function saveRole(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  const inputForm = {
+    email,
+    password,
+  };
+
+  function clickLogin() {
+    dispatch(login(inputForm))
+      .then((payload) => {
+        console.log(payload, '<<<<< ini payload');
+        saveAccessToken('access_token', payload.access_token);
+        saveRole('role', payload.role);
+        if (payload.role === 'Customer') {
+          navigation.navigate('CustomerTab');
+        } else {
+          navigation.navigate('SellerTab');
+        }
+        setEmail('');
+        setPassword('');
+        console.log('LOGIN SUCCESS!');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
     <View style={styles.container}>
-      <View style={[{ marginTop:20 }]}>
+      <View style={[{ marginTop: 20 }]}>
         <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
       <View style={{ justifyContent: 'center', height: '50%' }}>
         <View style={[styles.containerEmail, styles.pad90]}>
           <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>email</Text>
-          <TextInput value={email} onChangeText={(text) => setEmail(text)} style={[stylesLib.inputField]} />
+          <TextInput onChangeText={setEmail} style={[stylesLib.bgColCr, stylesLib.inputField]} />
         </View>
-        <View style={[styles.containerPassword, styles.pad90, {marginTop: 20}]}>
+        <View style={[styles.containerPassword, styles.pad90, { marginTop: 20 }]}>
           <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>password</Text>
-          <TextInput value={password} onChangeText={(text) => setPassword(text)} style={[stylesLib.inputField]} />
+          <TextInput
+            style={[stylesLib.bgColCr, stylesLib.inputField]}
+            onChangeText={setPassword}
+            secureTextEntry={hidePass ? true : false}
+            blurOnSubmit={false}
+            autoCapitalize="none"
+            returnKeyType="next"
+            right={<TextInput.Icon icon="eye" onPress={() => setHidePass(!hidePass)} />}
+          />
         </View>
       </View>
       <View>
@@ -61,12 +87,12 @@ export default function LoginScreen({ navigation }) {
       </View>
       <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
         <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colCr]}>Sign up</Text>
-        <TouchableOpacity onPress={() => clickHere()} style={[styles.textHere, { marginLeft: 9 }]}>
+        <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} style={[styles.textHere, { marginLeft: 9 }]}>
           <Text style={[styles.textHere]}>here</Text>
         </TouchableOpacity>
       </View>
       <View style={[styles.pad30]}>
-        <Button mode="contained" onPress={() => Login()} style={[styles.buttonLogin]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]}>
+        <Button mode="contained" onPress={clickLogin} style={[styles.buttonLogin]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]}>
           Login
         </Button>
       </View>
@@ -107,6 +133,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#FEF5ED',
     textDecorationLine: 'underline',
-    fontWeight: '900'
-  }
+    fontWeight: '900',
+  },
 });

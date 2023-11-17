@@ -28,9 +28,9 @@ export default function MainStack() {
       <Stack.Screen
         name="RegisterStore"
         component={RegisterStore}
-        // options={{
-        //   headerShown: false,
-        // }}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="CustomerTab"

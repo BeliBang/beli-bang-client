@@ -28,7 +28,7 @@ export const fetchFoodsAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://4589-103-156-164-57.ngrok-free.app';
+let baseUrl = 'https://3bbd-103-156-164-57.ngrok-free.app';
 
 export const fetchUsers = () => {
   return async (dispatch) => {
@@ -83,6 +83,52 @@ export const fetchFoods = (id) => {
       const data = await response.json();
       const action = fetchFoodsAction(data);
       dispatch(action);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const login = (inputForm) => {
+  return async (dispatch) => {
+    try {
+      console.log(inputForm, '<<<<< ini input form');
+      // hit login endpoint, jika berhasil akan mengembalikan role dan access_token, sementara keduanya di hardcode
+      const hasilHitEndPointLogin = {
+        role: 'Customer',
+        access_token: '>>> ini access token user <<<',
+      };
+      return hasilHitEndPointLogin;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const register = (inputForm) => {
+  return async (dispatch) => {
+    try {
+      console.log(inputForm, '<<<<< ini input form');
+      // hit register endpoint, jika berhasil akan mengembalikan role dan access_token, sementara keduanya di hardcode
+      const hasilHitEndPointRegister = {
+        role: inputForm.role,
+        access_token: '>>> ini access token user <<<',
+      };
+      return hasilHitEndPointRegister;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const registerStore = (inputForm) => {
+  return async (dispatch) => {
+    try {
+      console.log(inputForm, '<<<<< ini input form');
+      // hit register/create store endpoint
     } catch (err) {
       console.log(err);
       throw err;
