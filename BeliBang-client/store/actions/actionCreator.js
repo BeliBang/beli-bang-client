@@ -1,4 +1,5 @@
-import { FETCH_FOODS, FETCH_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actionType';
+// import axios from 'axios';
+import { FETCH_DETAIL_STORE, FETCH_FOODS, FETCH_OPEN_STORES, FETCH_SELLER_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actionType';
 
 export const fetchUsersAction = (payload) => {
   return {
@@ -21,9 +22,23 @@ export const fetchStoresAction = (payload) => {
   };
 };
 
-export const fetchStoreAction = (payload) => {
+export const fetchOpenStoresAction = (payload) => {
   return {
-    type: FETCH_STORE,
+    type: FETCH_OPEN_STORES,
+    payload,
+  };
+};
+
+export const fetchSellerStoreAction = (payload) => {
+  return {
+    type: FETCH_SELLER_STORE,
+    payload,
+  };
+};
+
+export const fetchDetailStoreAction = (payload) => {
+  return {
+    type: FETCH_DETAIL_STORE,
     payload,
   };
 };
@@ -35,7 +50,48 @@ export const fetchFoodsAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://7cc3-103-156-164-57.ngrok-free.app';
+let baseUrl = 'https://d733-103-156-164-57.ngrok-free.app';
+
+export const login = (inputForm) => {
+  return async (dispatch) => {
+    try {
+      console.log(inputForm, '<<<<< ini input form');
+      const response = await fetch(`${baseUrl}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputForm),
+      });
+      if (!response.ok) throw data.message;
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const register = (inputForm) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputForm),
+      });
+      if (!response.ok) throw data.message;
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
 
 export const fetchUsers = () => {
   return async (dispatch) => {
@@ -52,12 +108,17 @@ export const fetchUsers = () => {
   };
 };
 
-export const fetchUser = (id) => {
+export const fetchUser = (userId, access_token) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${baseUrl}/users/${id}`);
+      const response = await fetch(`${baseUrl}/users/${userId}`, {
+        headers: {
+          access_token,
+        },
+      });
       if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
+      console.log(data, '<<< data');
       const action = fetchUserAction(data);
       dispatch(action);
     } catch (err) {
@@ -67,13 +128,17 @@ export const fetchUser = (id) => {
   };
 };
 
-export const fetchStore = (id) => {
+export const fetchSellerStore = ({ access_token }) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${baseUrl}/stores/${id}`);
+      const response = await fetch(`${baseUrl}/stores/seller`, {
+        headers: {
+          access_token,
+        },
+      });
       if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
-      const action = fetchStoreAction(data);
+      const action = fetchSellerStoreAction(data);
       dispatch(action);
     } catch (err) {
       console.log(err);
@@ -82,24 +147,17 @@ export const fetchStore = (id) => {
   };
 };
 
-export const fetchAllStore = () => {
+export const fetchDetailStore = (storeId, access_token) => {
   return async (dispatch) => {
     try {
-      // hit endpoint get all store(include usernya), difilter dimana status store true, dan jaraknya maks 300 meter
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-};
-
-export const fetchFoods = (id) => {
-  return async (dispatch) => {
-    try {
-      const response = await fetch(`${baseUrl}/foods?StoreId=${id}`);
+      const response = await fetch(`${baseUrl}/stores/${storeId}`, {
+        headers: {
+          access_token,
+        },
+      });
       if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
-      const action = fetchFoodsAction(data);
+      const action = fetchDetailStoreAction(data);
       dispatch(action);
     } catch (err) {
       console.log(err);
@@ -108,14 +166,20 @@ export const fetchFoods = (id) => {
   };
 };
 
-export const fetchTransaction = (payload) => {
+export const showStores = (access_token) => {
   return async (dispatch) => {
+    console.log(access_token);
     try {
-      const id = 1;
-      // console.log(payload, '<<< ini payload');
-      // const response = await fetch(`${baseUrl}/users/${id}?_embed=transactions`);
-      // const data = await response.json();
-      // return data
+      const response = await fetch(`${baseUrl}/stores`, {
+        method: 'GET',
+        headers: {
+          access_token: access_token,
+        },
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      const action = fetchOpenStoresAction(data);
+      dispatch(action);
     } catch (err) {
       console.log(err);
       throw err;
@@ -123,45 +187,20 @@ export const fetchTransaction = (payload) => {
   };
 };
 
-export const login = (inputForm) => {
+export const registerStore = (formData, access_token) => {
   return async (dispatch) => {
     try {
-      console.log(inputForm, '<<<<< ini input form');
-      // hit login endpoint, jika berhasil akan mengembalikan role dan access_token, sementara keduanya di hardcode
-      const hasilHitEndPointLogin = {
-        role: 'Seller',
-        access_token: '>>> ini access token user <<<',
-      };
-      return hasilHitEndPointLogin;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-};
-
-export const register = (inputForm) => {
-  return async (dispatch) => {
-    try {
-      console.log(inputForm, '<<<<< ini input form');
-      // hit register endpoint, jika berhasil akan mengembalikan role dan access_token, sementara keduanya di hardcode
-      const hasilHitEndPointRegister = {
-        role: inputForm.role,
-        access_token: '>>> ini access token user <<<',
-      };
-      return hasilHitEndPointRegister;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-};
-
-export const registerStore = (inputForm) => {
-  return async (dispatch) => {
-    try {
-      console.log(inputForm, '<<<<< ini input form');
-      // hit register/create store endpoint
+      const response = await fetch(`${baseUrl}/stores`, {
+        method: 'POST',
+        headers: {
+          access_token: access_token,
+        },
+        'Content-Type': 'multipart/form-data',
+        body: formData,
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      console.log(data, '<<<< data');
     } catch (err) {
       console.log(err);
       throw err;
@@ -189,6 +228,33 @@ export const createTransaction = (payload) => {
       // if (!response.ok) throw new Error('Something Wrong!');
       // const data = await response.json();
       // return data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const fetchTransaction = (payload) => {
+  return async (dispatch) => {
+    try {
+      const id = 1;
+      // console.log(payload, '<<< ini payload');
+      // const response = await fetch(`${baseUrl}/users/${id}?_embed=transactions`);
+      // const data = await response.json();
+      // return data
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const updateLocationUser = (userLocation, access_token) => {
+  return async (dispatch) => {
+    try {
+      // hit endpoint update location user
+      console.log('update location');
     } catch (err) {
       console.log(err);
       throw err;

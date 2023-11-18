@@ -25,21 +25,26 @@ export default function RegisterScreen({ navigation }) {
     await SecureStore.setItemAsync(key, value);
   }
 
-  const inputForm = {
-    username,
-    email,
-    password,
-    phoneNumber,
-    address,
-    role,
-  };
+  async function saveUserId(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
 
   function clickSignup() {
+    const inputForm = {
+      username,
+      email,
+      password,
+      phoneNumber,
+      address,
+      role,
+    };
+
     dispatch(register(inputForm))
       .then((result) => {
-        // console.log(result, '<<<<< ini payload');
+        console.log(result, '<<<<< ini payload');
         saveAccessToken('access_token', result.access_token);
         saveRole('role', result.role);
+        saveUserId('userId', result.id.toString());
         setUsername('');
         setEmail('');
         setPassword('');
