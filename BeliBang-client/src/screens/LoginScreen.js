@@ -28,6 +28,17 @@ export default function LoginScreen({ navigation }) {
 
   async function saveAccessToken(key, value) {
     await SecureStore.setItemAsync(key, value);
+  function Login() {
+    console.log({ email, password });
+    // hit login endpoint, jika berhasil akan mengembalikan rolenya, sementara di harcode
+    let role = 'Seller';
+    if (role === 'Customer') {
+      save('access_token', 'abcdasfasdafafdf');
+      navigation.navigate('CustomerTab');
+    } else {
+      navigation.navigate('SellerTab');
+      // navigation.navigate('RegisterStore');
+    }
   }
 
   async function saveRole(key, value) {
