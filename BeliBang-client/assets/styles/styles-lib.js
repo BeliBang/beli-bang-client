@@ -4,7 +4,6 @@ const stylesLib = StyleSheet.create({
     fontFam: {
         fontFamily: 'sans-serif'
     },
-<<<<<<< HEAD
     pad10: {
         paddingLeft: 10,
         paddingRight: 10
@@ -105,8 +104,6 @@ const stylesLib = StyleSheet.create({
     padR100: {
         paddingRight: 100
     },
-=======
->>>>>>> c696b14ab7e2c1f9f6cdefe5569b23b95c9fbeac
     btnSm: {
         width: 100,
 
@@ -124,12 +121,8 @@ const stylesLib = StyleSheet.create({
     },
     inputLabel: {
         fontSize: 25,
-<<<<<<< HEAD
         marginBottom: 10,
         paddingLeft: 25
-=======
-        marginBottom: 10
->>>>>>> c696b14ab7e2c1f9f6cdefe5569b23b95c9fbeac
     },
     flex1: {
         flex: 1

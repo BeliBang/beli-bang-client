@@ -27,7 +27,7 @@ export default function LoginScreen({ navigation }) {
   function Login() {
     console.log({ email, password });
     // hit login endpoint, jika berhasil akan mengembalikan rolenya, sementara di harcode
-    let role = 'Customer';
+    let role = 'Seller';
     if (role === 'Customer') {
       save('access_token', 'abcdasfasdafafdf');
       navigation.navigate('CustomerTab');
