@@ -7,7 +7,7 @@ import SellerHomeScreen from '../screens/SellerHomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import OrderSellerScreen from '../screens/OrderSellerScreen';
-import EditScreen from '../screens/EditFoodScreen'
+import EditScreen from '../screens/EditFoodScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,9 +29,18 @@ export default function SellerTab() {
         name="Home"
         component={SellerHomeScreen}
         options={{
-          headerShown: false,
+          // headerShown: false,
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+        }}
+      />
+
+      <Tab.Screen
+        name="Weather"
+        component={WeatherScreen}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="weather-partly-cloudy" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
         }}
       />
       <Tab.Screen
@@ -40,14 +49,6 @@ export default function SellerTab() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Weather"
-        component={WeatherScreen}
-        options={{
-          tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="weather-partly-cloudy" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
         }}
       />
       <Tab.Screen
@@ -62,15 +63,6 @@ export default function SellerTab() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
-        }}
-      />
-      <Tab.Screen
-        name="EditScreen"
-        component={EditScreen}
-        options={{
-          // headerShown: false,
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
         }}

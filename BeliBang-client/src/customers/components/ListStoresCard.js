@@ -3,10 +3,9 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-export default function ListStoresCard({ title, imageSource, sellerLatitude, sellerLongitude, userLatitude, userLongitude }) {
+export default function ListStoresCard({ title, imageSource, sellerLatitude, sellerLongitude, userLatitude, userLongitude, storeId }) {
   const navigation = useNavigation();
   const [isFavorite, setIsFavorite] = useState(false);
-  const storeId = 1;
 
   const handleFavoritePress = () => {
     setIsFavorite(!isFavorite);

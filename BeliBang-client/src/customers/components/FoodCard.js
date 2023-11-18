@@ -11,6 +11,17 @@ export default function FoodCard({ name, image, description, price }) {
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  function formatCurrency(number) {
+    const formattedNumber = new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(number);
+
+    return formattedNumber;
+  }
+
   return (
     <View style={styles.foodItemContainer}>
       <TouchableOpacity onPress={handleImagePress}>
@@ -19,14 +30,14 @@ export default function FoodCard({ name, image, description, price }) {
       <View style={styles.foodItemDetails}>
         <Text style={styles.foodItemName}>{name}</Text>
         <Text style={styles.foodItemDescription}>{description}</Text>
-        <Text style={styles.foodItemPrice}>{price}</Text>
+        <Text style={styles.foodItemPrice}>{formatCurrency(price)}</Text>
       </View>
       <Modal visible={modalVisible} animationType="fade" transparent={false} onRequestClose={closeModal}>
         <View style={styles.modalContainer}>
           <Image source={{ uri: image }} style={styles.modalImage} />
           <Text style={styles.modalName}>{name}</Text>
           <Text style={styles.modalDescription}>{description}</Text>
-          <Text style={styles.modalPrice}>{price}</Text>
+          <Text style={styles.modalPrice}>{formatCurrency(price)}</Text>
           <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>

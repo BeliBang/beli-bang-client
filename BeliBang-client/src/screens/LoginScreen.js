@@ -28,20 +28,13 @@ export default function LoginScreen({ navigation }) {
 
   async function saveAccessToken(key, value) {
     await SecureStore.setItemAsync(key, value);
-  function Login() {
-    console.log({ email, password });
-    // hit login endpoint, jika berhasil akan mengembalikan rolenya, sementara di harcode
-    let role = 'Seller';
-    if (role === 'Customer') {
-      save('access_token', 'abcdasfasdafafdf');
-      navigation.navigate('CustomerTab');
-    } else {
-      navigation.navigate('SellerTab');
-      // navigation.navigate('RegisterStore');
-    }
   }
 
   async function saveRole(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  async function saveUserId(key, value) {
     await SecureStore.setItemAsync(key, value);
   }
 
@@ -53,9 +46,9 @@ export default function LoginScreen({ navigation }) {
   function clickLogin() {
     dispatch(login(inputForm))
       .then((payload) => {
-        console.log(payload, '<<<<< ini payload');
         saveAccessToken('access_token', payload.access_token);
         saveRole('role', payload.role);
+        saveUserId('userId', payload.id.toString());
         if (payload.role === 'Customer') {
           navigation.navigate('CustomerTab');
         } else {
@@ -146,5 +139,4 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: '900',
   },
-  });
-}
+});

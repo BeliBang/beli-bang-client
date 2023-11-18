@@ -46,18 +46,18 @@ export default function RegisterStore({ navigation }) {
     }
   };
 
-  function clickDaftar() {
+  function clickRegister() {
     formData.append('name', name);
     formData.append('description', description);
-    formData.append('image', formDataImage);
-    formData.append('access_token', access_token);
-    dispatch(registerStore(formData))
+    formData.append('imageUrl', JSON.stringify(formDataImage));
+    // formData.append('access_token', access_token);
+    dispatch(registerStore(formData, access_token))
       .then(() => {
         setName('');
         setDescription('');
         setImage(null);
         setAccess_Token(null);
-        navigation.navigate('SellerTab');
+        // navigation.navigate('SellerTab');
         console.log('SUCCESS CREATE STORE!');
       })
       .catch((err) => {
@@ -69,26 +69,26 @@ export default function RegisterStore({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={{ justifyContent: 'center' }}>
         <View style={[stylesLib.pad30, { marginBottom: 30, marginTop: 40 }]}>
-          <Text style={[stylesLib.inputLabel]}>Nama Dagangan</Text>
+          <Text style={[stylesLib.inputLabel]}>Name Store :</Text>
           <TextInput value={name} onChangeText={setName} style={[stylesLib.inputField]} />
         </View>
         <View style={[stylesLib.pad30, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.inputLabel]}>Deskripsi</Text>
+          <Text style={[stylesLib.inputLabel]}>Description :</Text>
           <TextInput value={description} onChangeText={setDescription} style={[stylesLib.inputField]} />
         </View>
         <View style={[{ alignItems: 'center' }]}>
           <View style={[{ marginBottom: 10 }]}>
-            <Text style={[{ fontSize: 25 }]}>Foto Dagangan</Text>
+            <Text style={[{ fontSize: 25 }]}>Store photo :</Text>
           </View>
           <View style={[{ marginBottom: 20 }]}>
             <TouchableOpacity onPress={pickImage} style={[]}>
-              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20 }]}>PILIH GAMBAR</Text>
+              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20 }]}>Choose image</Text>
             </TouchableOpacity>
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
           </View>
           <View style={[{ marginBottom: 20 }]}>
-            <TouchableOpacity onPress={clickDaftar} style={[]}>
-              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20 }]}>DAFTAR</Text>
+            <TouchableOpacity onPress={clickRegister} style={[]}>
+              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20 }]}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>
