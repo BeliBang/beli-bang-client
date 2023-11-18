@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import FoodCard from '../components/FoodCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchStore } from '../../../store/actions/actionCreator';
+import { createTransaction, fetchStore } from '../../../store/actions/actionCreator';
 import { useNavigation } from '@react-navigation/native';
+import * as SecureStore from 'expo-secure-store';
 
 export default function DetailStore({ route }) {
   const navigation = useNavigation();
-  // const dispatch = useDispatch()
+  const [access_token, setAccess_Token] = React.useState(null);
   // const store = useSelector(state => state.store)
-  //   const storeId = route.params.storeId;
 
   // useEffect(() => {
   //     dispatch(fetchStore(storeId))
@@ -20,6 +20,17 @@ export default function DetailStore({ route }) {
   //         console.log(err);
   //     })
   // },[])
+
+  async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    setAccess_Token(result);
+  }
+
+  getValueFor('access_token');
+
+  const dispatch = useDispatch();
+
+  const StoreId = route.params.storeId;
 
   // DATA HARDCODE
   const foodData = [
@@ -61,8 +72,14 @@ export default function DetailStore({ route }) {
   ];
 
   function clickCall() {
-    console.log('CALLING ABANG"!');
-    navigation.navigate('UserHomeScreen');
+    dispatch(createTransaction({ access_token, StoreId }))
+      .then((result) => {
+        console.log('CALLING ABANG BERHASIL! :', result);
+        navigation.navigate('UserHomeScreen');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (

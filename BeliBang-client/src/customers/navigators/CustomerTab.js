@@ -3,10 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LikeScreen from '../screens/LikeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import OrderCustScreen from '../screens/OrderCustScreen';
+// import OrderCustScreen from '../screens/OrderCustScreen';
 import { Ionicons, Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import stylesLib from '../../../assets/styles/styles-lib';
 import HomeStack from './HomeStack';
+import OrderStack from './OrderStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +43,7 @@ export default function CustomerTab() {
       />
       <Tab.Screen
         name="Order"
-        component={OrderCustScreen}
+        component={OrderStack}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,

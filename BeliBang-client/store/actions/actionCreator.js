@@ -35,7 +35,7 @@ export const fetchFoodsAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://3bbd-103-156-164-57.ngrok-free.app';
+let baseUrl = 'https://7cc3-103-156-164-57.ngrok-free.app';
 
 export const fetchUsers = () => {
   return async (dispatch) => {
@@ -108,6 +108,21 @@ export const fetchFoods = (id) => {
   };
 };
 
+export const fetchTransaction = (payload) => {
+  return async (dispatch) => {
+    try {
+      const id = 1;
+      // console.log(payload, '<<< ini payload');
+      // const response = await fetch(`${baseUrl}/users/${id}?_embed=transactions`);
+      // const data = await response.json();
+      // return data
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
 export const login = (inputForm) => {
   return async (dispatch) => {
     try {
@@ -147,6 +162,33 @@ export const registerStore = (inputForm) => {
     try {
       console.log(inputForm, '<<<<< ini input form');
       // hit register/create store endpoint
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const createTransaction = (payload) => {
+  return async (dispatch) => {
+    try {
+      // sementara UserId di hardcode dulu, nanti didapet dari server setelah mengembalikan akses token
+      const dataTransaction = {
+        StoreId: payload.StoreId,
+        UserId: 1,
+        status: 'Proccessing',
+      };
+
+      const response = await fetch(`${baseUrl}/transactions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataTransaction),
+      });
+      // if (!response.ok) throw new Error('Something Wrong!');
+      // const data = await response.json();
+      // return data;
     } catch (err) {
       console.log(err);
       throw err;

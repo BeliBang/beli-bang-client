@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 export default function ListStoresCard({ title, imageSource, sellerLatitude, sellerLongitude, userLatitude, userLongitude }) {
   const navigation = useNavigation();
   const [isFavorite, setIsFavorite] = useState(false);
-  // sementara di hardcode (detail Store)
   const storeId = 1;
 
   const handleFavoritePress = () => {
@@ -14,12 +13,12 @@ export default function ListStoresCard({ title, imageSource, sellerLatitude, sel
   };
 
   const haversineDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371000; // Radius bumi dalam meter
+    const R = 6371000; // Earth radius in meters
     const dLat = toRadians(lat2 - lat1);
     const dLon = toRadians(lon2 - lon1);
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Jarak dalam meter
+    const distance = R * c; // Distance in meters
 
     return distance;
   };
@@ -36,11 +35,13 @@ export default function ListStoresCard({ title, imageSource, sellerLatitude, sel
         <Image source={{ uri: imageSource }} style={styles.cardImage} />
         <View style={styles.cardDetails}>
           <Text style={styles.cardTitle}>{title}</Text>
-          <View style={styles.starRating}>
-            <FontAwesome name="star" size={24} color="gold" />
-            <Text style={styles.ratingText}>4.8</Text>
+          <View style={styles.ratingDistanceContainer}>
+            <View style={styles.starRating}>
+              <FontAwesome name="star" size={24} color="gold" />
+              <Text style={styles.ratingText}>4.8</Text>
+            </View>
+            <Text style={styles.cardDistance}>{`${distance.toFixed(2)} meters`}</Text>
           </View>
-          <Text style={styles.cardDistance}>{`${distance.toFixed(2)} meters`}</Text>
           <TouchableOpacity onPress={handleFavoritePress} style={styles.favoriteButton}>
             <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={24} color={isFavorite ? '#FF0000' : 'black'} />
           </TouchableOpacity>
@@ -54,10 +55,16 @@ const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ddd',
     borderRadius: 10,
     margin: 10,
     overflow: 'hidden',
+    backgroundColor: 'white',
+    elevation: 2, // for Android
+    shadowColor: '#000', // for iOS
+    shadowOffset: { width: 0, height: 1 }, // for iOS
+    shadowOpacity: 0.8, // for iOS
+    shadowRadius: 2, // for iOS
   },
   cardImage: {
     width: 100,
@@ -71,16 +78,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#333',
   },
-  cardDescription: {
+  cardDistance: {
     fontSize: 14,
     color: '#666',
-  },
-  cardPrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 5,
-    color: 'green',
+    marginTop: 5, // Added marginTop to separate distance from the rating
   },
   favoriteButton: {
     position: 'absolute',
@@ -94,6 +97,10 @@ const styles = StyleSheet.create({
   ratingText: {
     marginLeft: 5,
     fontSize: 16,
-    color: 'black',
+    color: '#333',
+  },
+  ratingDistanceContainer: {
+    flexDirection: 'column', // Changed from 'row' to 'column'
+    alignItems: 'flex-start', // Align items to the start
   },
 });
