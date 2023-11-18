@@ -129,7 +129,7 @@ export const login = (inputForm) => {
       console.log(inputForm, '<<<<< ini input form');
       // hit login endpoint, jika berhasil akan mengembalikan role dan access_token, sementara keduanya di hardcode
       const hasilHitEndPointLogin = {
-        role: 'Customer',
+        role: 'Seller',
         access_token: '>>> ini access token user <<<',
       };
       return hasilHitEndPointLogin;

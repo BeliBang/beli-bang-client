@@ -70,7 +70,7 @@ export default function ProfileScreen() {
         <View  style={[{marginBottom:10}]}>
           <View style={[{flexDirection:'row'}]}>
             <Text style={[{marginBottom:5, marginRight: 10}, stylesLib.colCr, styles.itemTitle]}>password</Text>
-            {!showPassword ? (
+            {showPassword ? (
               <Entypo 
                 name="eye" 
                 size={24} 

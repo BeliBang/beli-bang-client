@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SellerHomeScreen from '../screens/SellerHomeScreen';
-import EditFoodScreen from '../screens/EditFoodScreen';
-import MapScreen from '../screens/MapScreen';
+import AddFoodScreen from '../screens/AddFoodScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +16,7 @@ export default function HomeStack() {
       />
       <Stack.Screen 
         name="EditFoodScreen" 
-        component={EditFoodScreen}
+        component={AddFoodScreen}
         options={{
           headerShown: false,
         }}

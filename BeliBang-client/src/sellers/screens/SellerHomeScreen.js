@@ -6,7 +6,7 @@ import * as React from 'react';
 import { Card } from 'react-native-paper';
 import stylesLib from '../../../assets/styles/styles-lib';
 
-export default function SellerHomeScreen() {
+export default function SellerHomeScreen({ navigation, food }) {
   const dispatch = useDispatch();
   const store = useSelector((state) => {
     return state.store;
@@ -35,7 +35,7 @@ export default function SellerHomeScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={[stylesLib.flex1]}>
+    <SafeAreaView style={[stylesLib.flex1, stylesLib.bgColGrLight]}>
     <ScrollView>
       <View style={[stylesLib.bgColGrLight, {padding:10, paddingBottom:80}]}>
         <Card style={[{marginBottom:20, borderRadius:30}]}>
@@ -62,7 +62,7 @@ export default function SellerHomeScreen() {
           <Text style={[stylesLib.colCr, {fontSize:30, fontWeight:'700'}]}>{store.name}</Text>
           <Text style={[stylesLib.colCr, {fontSize:20, textAlign:'justify'}]}>{store.description}</Text>
           <View style={[{alignSelf:'flex-end', marginTop:10, marginBottom:15}]}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen')}>
               <Text style={[styles.statusBtn, stylesLib.bgColCr, stylesLib.colGrLight, {borderRadius:20, fontWeight:'900', fontSize:15}]}>TAMBAH MAKAN+</Text>
             </TouchableOpacity> 
           </View>

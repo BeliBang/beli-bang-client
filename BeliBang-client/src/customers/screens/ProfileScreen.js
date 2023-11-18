@@ -88,7 +88,7 @@ export default function ProfileScreen() {
             }
           </View>
           <Text style={[styles.item, stylesLib.colCr]}>
-            {showPassword ? user.password : passAsterix(user.password.length)}
+            {/* {showPassword ? user.password : passAsterix(user.password.length)} */}
           </Text>
         </View>
         <View style={[{marginBottom:10}]}>

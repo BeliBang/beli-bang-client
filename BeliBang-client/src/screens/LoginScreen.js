@@ -28,6 +28,8 @@ export default function LoginScreen({ navigation }) {
 
   async function saveAccessToken(key, value) {
     await SecureStore.setItemAsync(key, value);
+  }
+
   function Login() {
     console.log({ email, password });
     // hit login endpoint, jika berhasil akan mengembalikan rolenya, sementara di harcode
@@ -36,6 +38,7 @@ export default function LoginScreen({ navigation }) {
       save('access_token', 'abcdasfasdafafdf');
       navigation.navigate('CustomerTab');
     } else {
+      console.log('ini seller');
       navigation.navigate('SellerTab');
       // navigation.navigate('RegisterStore');
     }
@@ -147,4 +150,3 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   });
-}
