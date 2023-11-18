@@ -146,4 +146,5 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: '900',
   },
-});
+  });
+}
