@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import { FETCH_DETAIL_STORE, FETCH_FOODS, FETCH_OPEN_STORES, FETCH_SELLER_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actionType';
+import { FETCH_CUSTOMER_ORDERS, FETCH_DETAIL_STORE, FETCH_FOODS, FETCH_OPEN_STORES, FETCH_SELLER_ORDERS, FETCH_SELLER_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actionType';
 
 export const fetchUsersAction = (payload) => {
   return {
@@ -49,8 +49,20 @@ export const fetchFoodsAction = (payload) => {
     payload,
   };
 };
+export const fetchSellerOrderAction = (payload) => {
+  return {
+    type: FETCH_SELLER_ORDERS,
+    payload,
+  };
+};
+export const fetchCustomerOrderAction = (payload) => {
+  return {
+    type: FETCH_CUSTOMER_ORDERS,
+    payload,
+  };
+};
 
-let baseUrl = 'https://35f1-103-156-164-57.ngrok-free.app';
+let baseUrl = 'https://6a63-103-156-164-57.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
@@ -63,7 +75,7 @@ export const login = (inputForm) => {
         },
         body: JSON.stringify(inputForm),
       });
-      if (!response.ok) throw data.message;
+      if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
       return data;
     } catch (err) {
@@ -83,7 +95,7 @@ export const register = (inputForm) => {
         },
         body: JSON.stringify(inputForm),
       });
-      if (!response.ok) throw data.message;
+      if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
       return data;
     } catch (err) {
@@ -296,14 +308,40 @@ export const createTransaction = (payload) => {
   };
 };
 
-export const fetchTransaction = (payload) => {
+export const fetchSellerOrder = (access_token) => {
   return async (dispatch) => {
     try {
-      const id = 1;
-      // console.log(payload, '<<< ini payload');
-      // const response = await fetch(`${baseUrl}/users/${id}?_embed=transactions`);
-      // const data = await response.json();
-      // return data
+      const response = await fetch(`${baseUrl}/orders/seller`, {
+        method: 'GET',
+        headers: {
+          access_token,
+        },
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      const action = fetchSellerOrderAction(data);
+      dispatch(action);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const updateStatusOrder = (orderId, status, access_token) => {
+  return async (dispatch) => {
+    try {
+      console.log({ orderId, status, access_token });
+      const response = await fetch(`${baseUrl}/orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+          access_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(status),
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      dispatch(fetchSellerOrder(access_token));
     } catch (err) {
       console.log(err);
       throw err;

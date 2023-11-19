@@ -1,8 +1,18 @@
 import { applyMiddleware, legacy_createStore as createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { FETCH_DETAIL_STORE, FETCH_FOODS, FETCH_OPEN_STORES, FETCH_SELLER_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actions/actionType';
+import { FETCH_CUSTOMER_ORDERS, FETCH_DETAIL_STORE, FETCH_FOODS, FETCH_OPEN_STORES, FETCH_SELLER_ORDERS, FETCH_SELLER_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actions/actionType';
 
-const defaultState = { users: [], user: {}, stores: [], sellerStore: {}, detailStore: {}, foods: [], openStore: [] };
+const defaultState = {
+  users: [],
+  user: {},
+  stores: [],
+  sellerStore: {},
+  detailStore: {},
+  foods: [],
+  openStore: [],
+  sellerOrder: [],
+  customerOrder: [],
+};
 
 function rootReducer(state = defaultState, action) {
   switch (action.type) {
@@ -20,6 +30,10 @@ function rootReducer(state = defaultState, action) {
       return { ...state, detailStore: action.payload };
     case FETCH_FOODS:
       return { ...state, foods: action.payload };
+    case FETCH_SELLER_ORDERS:
+      return { ...state, sellerOrder: action.payload };
+    case FETCH_CUSTOMER_ORDERS:
+      return { ...state, customerOrder: action.payload };
     default:
       return state;
   }

@@ -104,7 +104,7 @@ export default function SellerHomeScreen({ navigation, food }) {
             </View>
           </View>
           <View>
-            {!loading ? (
+            {store.Food ? (
               store.Food.map((food, id) => {
                 return (
                   <Card key={id} style={styles.foodCard}>
@@ -134,7 +134,7 @@ export default function SellerHomeScreen({ navigation, food }) {
                 );
               })
             ) : (
-              <Text>loading</Text>
+              <Text></Text>
             )}
           </View>
         </View>

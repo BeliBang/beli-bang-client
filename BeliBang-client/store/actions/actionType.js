@@ -5,3 +5,5 @@ export const FETCH_OPEN_STORES = 'open/stores/fetch';
 export const FETCH_SELLER_STORE = 'seller/store/fetch';
 export const FETCH_DETAIL_STORE = 'detail/store/fetch';
 export const FETCH_FOODS = 'foods/fetch';
+export const FETCH_SELLER_ORDERS = 'seller/orders/fetch';
+export const FETCH_CUSTOMER_ORDERS = 'seller/orders/fetch';

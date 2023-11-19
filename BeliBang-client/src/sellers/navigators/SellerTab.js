@@ -7,8 +7,9 @@ import SellerHomeScreen from '../screens/SellerHomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import OrderSellerScreen from '../screens/OrderSellerScreen';
-import AddFoodScreen from '../screens/AddFoodScreen'
+import AddFoodScreen from '../screens/AddFoodScreen';
 import SellerHomeStack from './SellerHomeStack';
+import OrderStack from './OrderStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,30 +37,30 @@ export default function SellerTab() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Weather"
         component={WeatherScreen}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="weather-partly-cloudy" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Order Seller"
-        component={OrderSellerScreen}
+        component={OrderStack}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="History"
         component={HistoryScreen}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="history" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
