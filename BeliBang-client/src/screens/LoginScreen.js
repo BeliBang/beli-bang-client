@@ -64,8 +64,8 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={[{ marginTop: 20 }]}>
+    <View style={[styles.container]}>
+      <View style={[{ marginTop: 40 }]}>
         <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
       <View style={{ justifyContent: 'center', height: '50%' }}>

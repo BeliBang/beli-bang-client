@@ -50,7 +50,7 @@ export const fetchFoodsAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://d733-103-156-164-57.ngrok-free.app';
+let baseUrl = 'https://dd18-182-253-245-168.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {

@@ -13,12 +13,16 @@ export default function SellerHomeScreen({ navigation, food }) {
     return state.sellerStore;
   });
 
+  const [loading, setLoading] = React.useState(true)
+  
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true)
         let userId = await SecureStore.getItemAsync('userId');
         let access_token = await SecureStore.getItemAsync('access_token');
         await dispatch(fetchSellerStore({ userId, access_token }));
+        setLoading(false)
       } catch (err) {
         console.log(err);
       }
@@ -55,40 +59,44 @@ export default function SellerHomeScreen({ navigation, food }) {
             <Text style={[stylesLib.colCr, { fontSize: 30, fontWeight: '700' }]}>{store.name}</Text>
             <Text style={[stylesLib.colCr, { fontSize: 20, textAlign: 'justify' }]}>{store.description}</Text>
             <View style={[{ alignSelf: 'flex-end', marginTop: 10, marginBottom: 15 }]}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen')}>
                 <Text style={[styles.statusBtn, stylesLib.bgColCr, stylesLib.colGrLight, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>TAMBAH MAKAN+</Text>
               </TouchableOpacity>
             </View>
           </View>
           <View>
-            {store.Food.map((food, id) => {
-              return (
-                <Card key={id} style={styles.foodCard}>
-                  <Card.Cover source={{ uri: food.imageUrl }} style={styles.foodImage} />
-                  <Card.Content>
-                    <View style={[{ marginTop: 15, marginBottom: 10 }]}>
-                      <Text style={[stylesLib.colGrBold, { fontWeight: '800', fontSize: 25 }]}>{food.name}</Text>
-                      <Text style={[stylesLib.colGrBold, { fontWeight: '600', fontSize: 20 }]}>{food.price}</Text>
-                    </View>
-                    <View style={[{ marginBottom: 10 }]}>
-                      <Text style={[stylesLib.colGrBold, { fontWeight: '500', fontSize: 15, textAlign: 'justify' }]}>{food.description}</Text>
-                    </View>
-                    <View style={[{ flexDirection: 'row', justifyContent: 'space-evenly' }]}>
-                      <View style={[{ borderRadius: 20 }]}>
-                        <TouchableOpacity>
-                          <Text style={[styles.statusBtn, stylesLib.pad20, stylesLib.bgColGrLight, stylesLib.colCr, { borderRadius: 20, fontWeight: '900' }]}>EDIT</Text>
-                        </TouchableOpacity>
+            { !loading? (
+              store.Food.map((food, id) => {
+                return (
+                  <Card key={id} style={styles.foodCard}>
+                    <Card.Cover source={{ uri: food.imageUrl }} style={styles.foodImage} />
+                    <Card.Content>
+                      <View style={[{ marginTop: 15, marginBottom: 10 }]}>
+                        <Text style={[stylesLib.colGrBold, { fontWeight: '800', fontSize: 25 }]}>{food.name}</Text>
+                        <Text style={[stylesLib.colGrBold, { fontWeight: '600', fontSize: 20 }]}>{food.price}</Text>
                       </View>
-                      <View style={[{ borderRadius: 20 }]}>
-                        <TouchableOpacity>
-                          <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontWeight: '900', backgroundColor: '#DB5856' }]}>DELETE</Text>
-                        </TouchableOpacity>
+                      <View style={[{ marginBottom: 10 }]}>
+                        <Text style={[stylesLib.colGrBold, { fontWeight: '500', fontSize: 15, textAlign: 'justify' }]}>{food.description}</Text>
                       </View>
-                    </View>
-                  </Card.Content>
-                </Card>
-              );
-            })}
+                      <View style={[{ flexDirection: 'row', justifyContent: 'space-evenly' }]}>
+                        <View style={[{ borderRadius: 20 }]}>
+                          <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen', {id: food.id})}>
+                            <Text style={[styles.statusBtn, stylesLib.pad20, stylesLib.bgColGrLight, stylesLib.colCr, { borderRadius: 20, fontWeight: '900' }]}>EDIT</Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={[{ borderRadius: 20 }]}>
+                          <TouchableOpacity>
+                            <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontWeight: '900', backgroundColor: '#DB5856' }]}>DELETE</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                );
+              })
+            ): (
+              <Text>loading</Text>
+            )}
           </View>
         </View>
       </ScrollView>

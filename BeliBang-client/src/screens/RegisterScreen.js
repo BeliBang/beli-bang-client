@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import stylesLib from '../../assets/styles/styles-lib';
 import iconBB from '../../assets/belibang-CB.png';
@@ -64,11 +64,11 @@ export default function RegisterScreen({ navigation }) {
       });
   }
   return (
-    <View style={[stylesLib.bgColGrLight, stylesLib.flex1]}>
-      <View style={[{ marginTop: 20 }]}>
+    <ScrollView style={[stylesLib.bgColGrLight, stylesLib.flex1]}>
+      <View style={[{ marginTop: 20, marginBottom: 60 }]}>
         <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
-      <View style={{ justifyContent: 'center', height: '40%', marginBottom: 20 }}>
+      <View style={{ justifyContent: 'center', marginBottom: 20 }}>
         <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
           <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>username</Text>
           <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={setUsername} />
@@ -117,12 +117,12 @@ export default function RegisterScreen({ navigation }) {
           <Text style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? stylesLib.bgColCr : stylesLib.bgColCrBold, , stylesLib.pad10, style.roundedLink]}>Seller</Text>
         </TouchableOpacity>
       </View>
-      <View style={[{ alignItems: 'center' }]}>
+      <View style={[{ alignItems: 'center', marginBottom:40 }]}>
         <Button mode="contained" style={[stylesLib.bgColCr]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]} onPress={clickSignup}>
           Sign Up
         </Button>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

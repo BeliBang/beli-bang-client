@@ -15,7 +15,7 @@ export default function HomeStack() {
         }}
       />
       <Stack.Screen 
-        name="EditFoodScreen" 
+        name="AddFoodScreen" 
         component={AddFoodScreen}
         options={{
           headerShown: false,

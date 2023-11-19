@@ -8,8 +8,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import OrderSellerScreen from '../screens/OrderSellerScreen';
 import AddFoodScreen from '../screens/AddFoodScreen'
-import HomeStack from './HomeStack';
-import EditScreen from '../screens/EditFoodScreen';
+import SellerHomeStack from './SellerHomeStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +28,7 @@ export default function SellerTab() {
     >
       <Tab.Screen
         name="Home"
-        component={SellerHomeScreen}
+        component={SellerHomeStack}
         options={{
           // headerShown: false,
           tabBarLabel: () => null,

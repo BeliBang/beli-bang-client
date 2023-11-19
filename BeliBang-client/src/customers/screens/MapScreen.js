@@ -59,16 +59,20 @@ export default function MapScreen() {
             initialRegion={{
               // latitude: getLocation.coords.latitude,
               // longitude: getLocation.coords.longitude,
-              latitude: -6.93097969657812,
-              longitude: 107.58841195515005,
+              // latitude: -6.93097969657812,
+              // longitude: 107.58841195515005,
+              // latitudeDelta: 0.0022,
+              // longitudeDelta: 0.0021,
+              latitude: -6.343346445029737,
+              longitude: 106.9465023020914,
               latitudeDelta: 0.0022,
               longitudeDelta: 0.0021,
             }}
           >
             <Marker
               coordinate={{
-                latitude: -6.93097969657812,
-                longitude: 107.58841195515005,
+                latitude: -6.343346445029737,
+                longitude: 106.9465023020914,
               }}
               title="Fahreza"
               description="Marker Description"

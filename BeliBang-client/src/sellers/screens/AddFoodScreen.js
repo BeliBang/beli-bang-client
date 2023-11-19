@@ -7,7 +7,12 @@ import { TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { registerStore } from '../../../store/actions/actionCreator';
 
-export default function EditFoodScreen({navigation}) {
+export default function EditFoodScreen({navigation, route}) {
+  // const {id} = route.params
+  // if (id) {
+  //   console.log(id);
+  // }
+  console.log(route.params);
   const dispatch = useDispatch();
   const [name, setName] = React.useState('');
   const [price, setPrice] = React.useState('');

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { fetchTransaction } from '../../../store/actions/actionCreator';
 import * as SecureStore from 'expo-secure-store';
 import { useNavigation } from '@react-navigation/native';
+import stylesLib from '../../../assets/styles/styles-lib';
 
 export default function OrderSellerScreen() {
   const [access_token, setAccess_Token] = React.useState(null);
@@ -32,15 +33,19 @@ export default function OrderSellerScreen() {
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
       {transactions.map((transaction, index) => (
         <TouchableOpacity onPress={() => navigation.navigate('MapScreenTransc')}>
-          <View key={transaction.id} style={styles.cardContainer}>
+          <View key={transaction.id} style={[styles.cardContainer, stylesLib.bgColCr]}>
             <Image source={{ uri: transaction.imageUrl }} style={styles.cardImage} />
             <View style={styles.cardDetails}>
-              <Text style={styles.cardTitle}>{transaction.title}</Text>
-              <Text style={styles.cardPrice}>{transaction.price}</Text>
-              <Text style={styles.cardDescription}>Status: {transaction.status}</Text>
+              <View>
+                <Text style={styles.cardTitle}>{transaction.title}</Text>
+                <Text style={styles.cardPrice}>{transaction.price}</Text>
+              </View>
+              <View>
+                <Text style={[styles.cardDescription, stylesLib.colGrLight, {fontWeight:'700', textDecorationLine:'underline'}]}>{transaction.status}...</Text>
+              </View>
             </View>
           </View>
         </TouchableOpacity>
@@ -52,6 +57,7 @@ export default function OrderSellerScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    flex: 1
   },
   cardContainer: {
     flexDirection: 'row',
@@ -60,28 +66,29 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
     overflow: 'hidden',
-    backgroundColor: '#fff',
   },
   cardImage: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     resizeMode: 'cover',
   },
   cardDetails: {
     flex: 1,
     padding: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 23,
     fontWeight: 'bold',
     color: '#333',
   },
   cardDescription: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#666',
   },
   cardPrice: {
-    fontSize: 16,
+    fontSize: 19,
     fontWeight: 'bold',
     marginTop: 5,
     color: 'green',

@@ -3,6 +3,8 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { fetchTransaction } from '../../../store/actions/actionCreator';
 import * as SecureStore from 'expo-secure-store';
+import stylesLib from '../../../assets/styles/styles-lib';
+import { ColorMatrixImageFilters } from 'react-native-color-matrix-image-filters';
 
 export default function HistoryScreen() {
   const [access_token, setAccess_Token] = React.useState(null);
@@ -30,14 +32,26 @@ export default function HistoryScreen() {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, stylesLib.bgColGrLight]}>
       {transactions.map((transaction, index) => (
-        <View key={index} style={styles.cardContainer}>
-          <Image source={{ uri: transaction.imageUrl }} style={styles.cardImage} />
-          <View style={styles.cardDetails}>
-            <Text style={styles.cardTitle}>{transaction.title}</Text>
-            <Text style={styles.cardPrice}>{transaction.price}</Text>
-            <Text style={styles.cardDescription}>Status: {transaction.status}</Text>
+        <View key={index} style={[styles.cardContainer, stylesLib.bgColCr, transaction.status === 'Canceled' ? styles.cancelledCard : null]}>
+           <Image
+            source={{ uri: transaction.imageUrl }}
+            style={styles.cardImage}
+          />
+          {transaction.status === 'Canceled' && (
+            <View style={styles.overlay}>
+              <Text style={[styles.overlayText]}>{transaction.status}</Text>
+            </View>
+          )}
+          <View style={[styles.cardDetails]}>
+            <View>
+              <Text style={styles.cardTitle}>{transaction.title}</Text>
+              <Text style={styles.cardPrice}>{transaction.price}</Text>
+            </View>
+            <View>
+              {transaction.status !== 'Canceled'? <Text style={[styles.successStatus]}>{transaction.status}</Text> : <Text style={[styles.cancelStatus]}>{transaction.status}</Text>}
+            </View>
           </View>
         </View>
       ))}
@@ -58,30 +72,68 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
     overflow: 'hidden',
-    backgroundColor: '#fff',
   },
   cardImage: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     resizeMode: 'cover',
   },
   cardDetails: {
     flex: 1,
     padding: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 23,
     fontWeight: 'bold',
     color: '#333',
   },
   cardDescription: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#666',
   },
   cardPrice: {
-    fontSize: 16,
+    fontSize: 19,
     fontWeight: 'bold',
     marginTop: 5,
     color: 'green',
   },
+  cancelledCard: {
+    backgroundColor: '#ccc',
+  },
+  cancelledImage: {
+    tintColor: 'grey',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10
+  },
+  overlayText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#DB5856',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  successStatus: {
+    padding: 2,
+    backgroundColor: '#77DD77',
+    fontSize: 15,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    borderRadius: 10
+  },
+  cancelStatus: {
+    padding: 2,
+    backgroundColor: '#DB5856',
+    fontSize: 15,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    borderRadius: 10
+  }
 });
