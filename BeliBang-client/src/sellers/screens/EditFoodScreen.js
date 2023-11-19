@@ -7,7 +7,8 @@ import { TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { createFood, registerStore } from '../../../store/actions/actionCreator';
 
-export default function AddFoodScreen({ navigation, route }) {
+export default function EditFoodScreen({ navigation, route }) {
+  const id = route.params.id;
   const dispatch = useDispatch();
   const [name, setName] = React.useState('');
   const [price, setPrice] = React.useState('');
@@ -46,7 +47,7 @@ export default function AddFoodScreen({ navigation, route }) {
     }
   };
 
-  function registerFood() {
+  function updateFood() {
     formData.append('name', name);
     formData.append('price', price);
     formData.append('description', description);
@@ -60,7 +61,7 @@ export default function AddFoodScreen({ navigation, route }) {
         // setImage(null);
         // setAccess_Token(null);
         // navigation.navigate('SellerTab');
-        console.log('SUCCESS ADD FOOD!');
+        console.log('SUCCESS UPDATE FOOD!');
       })
       .catch((err) => {
         console.log(err);
@@ -71,7 +72,7 @@ export default function AddFoodScreen({ navigation, route }) {
     <View style={[stylesLib.bgColGr, { flex: 1 }]}>
       <View style={[stylesLib.pad20, { paddingTop: 20 }]}>
         <View>
-          <Text style={[{ fontSize: 25, fontWeight: '800', textDecorationLine: 'underline' }, stylesLib.colCr]}>ADD NEW FOOD</Text>
+          <Text style={[{ fontSize: 25, fontWeight: '800', textDecorationLine: 'underline' }, stylesLib.colCr]}>UPDATE FOOD</Text>
         </View>
         <View style={[{ marginTop: 20 }]}>
           <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>name</Text>
@@ -92,7 +93,7 @@ export default function AddFoodScreen({ navigation, route }) {
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
         </View>
         <View style={[{ marginTop: 60, alignSelf: 'center' }]}>
-          <TouchableOpacity onPress={registerFood} style={[]}>
+          <TouchableOpacity onPress={updateFood} style={[]}>
             <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign: 'center' }]}>SUBMIT</Text>
           </TouchableOpacity>
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}

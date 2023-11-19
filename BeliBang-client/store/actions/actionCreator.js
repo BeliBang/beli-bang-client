@@ -50,7 +50,7 @@ export const fetchFoodsAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://dd18-182-253-245-168.ngrok-free.app';
+let baseUrl = 'https://35f1-103-156-164-57.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
@@ -140,6 +140,7 @@ export const fetchSellerStore = ({ access_token }) => {
       const data = await response.json();
       const action = fetchSellerStoreAction(data);
       dispatch(action);
+      return data;
     } catch (err) {
       console.log(err);
       throw err;
@@ -190,17 +191,77 @@ export const showStores = (access_token) => {
 export const registerStore = (formData, access_token) => {
   return async (dispatch) => {
     try {
+      console.log(formData, '<<<<<');
       const response = await fetch(`${baseUrl}/stores`, {
         method: 'POST',
         headers: {
           access_token: access_token,
+          'Content-Type': 'multipart/form-data',
         },
-        'Content-Type': 'multipart/form-data',
         body: formData,
       });
       if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
       console.log(data, '<<<< data');
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const updateStatusStore = (formData, id, access_token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/stores/${id}`, {
+        method: 'PUT',
+        headers: {
+          access_token: access_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const createFood = (formData, access_token) => {
+  return async (dispatch) => {
+    try {
+      console.log({ formData, access_token });
+      // const response = await fetch(`${baseUrl}/foods`, {
+      //   method: 'POST',
+      //   headers: {
+      //     access_token,
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      //   body: formData,
+      // });
+      // if (!response.ok) throw new Error('Something Wrong!');
+      // const data = await response.json();
+      // console.log(data, '<<<< data');
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const deleteFood = (foodId, access_token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/foods/${foodId}`, {
+        method: 'DELETE',
+        headers: {
+          access_token,
+        },
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      dispatch(fetchSellerStore({ access_token }));
     } catch (err) {
       console.log(err);
       throw err;

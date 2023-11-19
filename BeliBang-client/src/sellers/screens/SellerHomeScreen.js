@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Button, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSellerStore } from '../../../store/actions/actionCreator';
+import { deleteFood, fetchSellerStore, updateStatusStore } from '../../../store/actions/actionCreator';
 import * as React from 'react';
 import { Card } from 'react-native-paper';
 import stylesLib from '../../../assets/styles/styles-lib';
@@ -12,24 +12,63 @@ export default function SellerHomeScreen({ navigation, food }) {
   const store = useSelector((state) => {
     return state.sellerStore;
   });
+  const [loading, setLoading] = React.useState(true);
+  const [statusStore, setStatusStore] = React.useState(false);
+  const [accessToken, setAccessToken] = React.useState(null);
 
-  const [loading, setLoading] = React.useState(true)
-  
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         let userId = await SecureStore.getItemAsync('userId');
         let access_token = await SecureStore.getItemAsync('access_token');
-        await dispatch(fetchSellerStore({ userId, access_token }));
-        setLoading(false)
+        setAccessToken(access_token);
+        const result = dispatch(fetchSellerStore({ userId, access_token }));
+        setStatusStore(result.status);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
     })();
   }, []);
 
-  // console.log(store, '<<<<<<<<');
+  function closeStore() {
+    const formData = {
+      name: store.name,
+      imageUrl: store.imageUrl,
+      description: store.description,
+      status: false,
+    };
+    dispatch(updateStatusStore(formData, store.id, accessToken)).then(() => {
+      console.log('SUCCESS CLOSE STORE !');
+    });
+    setStatusStore(false);
+  }
+
+  function openStore() {
+    const formData = {
+      name: store.name,
+      imageUrl: store.imageUrl,
+      description: store.description,
+      status: true,
+    };
+    dispatch(updateStatusStore(formData, store.id, accessToken)).then(() => {
+      console.log('SUCCESS OPEN STORE !');
+    });
+
+    setStatusStore(true);
+  }
+
+  function clickDeleteFood(foodId) {
+    dispatch(deleteFood(foodId, accessToken))
+      .then(() => {
+        dispatch();
+        console.log('SUCCESS DELETE FOOD !');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <SafeAreaView style={[stylesLib.flex1, stylesLib.bgColGrLight]}>
@@ -40,15 +79,15 @@ export default function SellerHomeScreen({ navigation, food }) {
           </Card>
           <View style={[{ marginBottom: 20 }]}>
             <View>
-              {store.status ? (
+              {statusStore ? (
                 <View style={[{ borderRadius: 20 }]}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={closeStore}>
                     <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center', backgroundColor: '#77DD77' }]}>OPEN</Text>
                   </TouchableOpacity>
                 </View>
               ) : (
                 <View>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={openStore}>
                     <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontSize: 20, fontWeight: '900', backgroundColor: '#DB5856', textAlign: 'center' }]}>CLOSE</Text>
                   </TouchableOpacity>
                 </View>
@@ -60,12 +99,12 @@ export default function SellerHomeScreen({ navigation, food }) {
             <Text style={[stylesLib.colCr, { fontSize: 20, textAlign: 'justify' }]}>{store.description}</Text>
             <View style={[{ alignSelf: 'flex-end', marginTop: 10, marginBottom: 15 }]}>
               <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen')}>
-                <Text style={[styles.statusBtn, stylesLib.bgColCr, stylesLib.colGrLight, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>TAMBAH MAKAN+</Text>
+                <Text style={[styles.statusBtn, stylesLib.bgColCr, stylesLib.colGrLight, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>CREATE FOOD +</Text>
               </TouchableOpacity>
             </View>
           </View>
           <View>
-            { !loading? (
+            {!loading ? (
               store.Food.map((food, id) => {
                 return (
                   <Card key={id} style={styles.foodCard}>
@@ -80,12 +119,12 @@ export default function SellerHomeScreen({ navigation, food }) {
                       </View>
                       <View style={[{ flexDirection: 'row', justifyContent: 'space-evenly' }]}>
                         <View style={[{ borderRadius: 20 }]}>
-                          <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen', {id: food.id})}>
+                          <TouchableOpacity onPress={() => navigation.navigate('EditFoodScreen', { id: food.id })}>
                             <Text style={[styles.statusBtn, stylesLib.pad20, stylesLib.bgColGrLight, stylesLib.colCr, { borderRadius: 20, fontWeight: '900' }]}>EDIT</Text>
                           </TouchableOpacity>
                         </View>
                         <View style={[{ borderRadius: 20 }]}>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={() => clickDeleteFood(food.id)}>
                             <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontWeight: '900', backgroundColor: '#DB5856' }]}>DELETE</Text>
                           </TouchableOpacity>
                         </View>
@@ -94,7 +133,7 @@ export default function SellerHomeScreen({ navigation, food }) {
                   </Card>
                 );
               })
-            ): (
+            ) : (
               <Text>loading</Text>
             )}
           </View>

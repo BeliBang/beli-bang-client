@@ -49,8 +49,8 @@ export default function RegisterStore({ navigation }) {
   function clickRegister() {
     formData.append('name', name);
     formData.append('description', description);
-    formData.append('imageUrl', JSON.stringify(formDataImage));
-    // formData.append('access_token', access_token);
+    // formData.append('imageUrl', JSON.stringify(formDataImage));
+    formData.append('imageUrl', new Blob([JSON.stringify(formDataImage)], { type: 'application/json' }));
     dispatch(registerStore(formData, access_token))
       .then(() => {
         setName('');
