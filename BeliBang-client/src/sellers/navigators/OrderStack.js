@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OrderSellerScreen from '../screens/OrderSellerScreen';
-import MapScreenTransc from '../screens/MapScreenTransc';
+import SellerMapScreen from '../screens/SellerMapScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,8 +15,8 @@ export default function OrderStack() {
         }}
       />
       <Stack.Screen
-        name="MapScreenTransc"
-        component={MapScreenTransc}
+        name="SellerMapScreen"
+        component={SellerMapScreen}
         // options={{
         //   headerShown: false,
         // }}

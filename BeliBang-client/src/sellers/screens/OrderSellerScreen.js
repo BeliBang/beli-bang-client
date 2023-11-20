@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSellerOrder, updateStatusOrder } from '../../../store/actions/actionCreator';
 import * as SecureStore from 'expo-secure-store';
@@ -11,13 +11,23 @@ export default function OrderSellerScreen() {
   const dispatch = useDispatch();
   const [accessToken, setAccessToken] = React.useState(null);
   const sellerOrder = useSelector((state) => state.sellerOrder);
+  const [isLoading, setIsLoading] = useState(true);
+  const [buyerLatitude, setBuyerLatitude] = useState('');
+  const [buyerLongitude, setBuyerLongitude] = useState('');
+  const [sellerLatitude, setSellerLatitude] = useState('');
+  const [sellerLongitude, setSellerLongitude] = useState('');
 
   useEffect(() => {
     (async () => {
       try {
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
-        dispatch(fetchSellerOrder(access_token));
+        const result = await dispatch(fetchSellerOrder(access_token));
+        setBuyerLatitude(sellerOrder.orders[0].User.location.coordinates[1]);
+        setBuyerLongitude(sellerOrder.orders[0].User.location.coordinates[0]);
+        setSellerLatitude(sellerOrder.locationSeller.coordinates[1]);
+        setSellerLongitude(sellerOrder.locationSeller.coordinates[0]);
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -27,7 +37,6 @@ export default function OrderSellerScreen() {
   function handleAccept(orderId) {
     try {
       const status = { status: 'Processing' };
-
       dispatch(updateStatusOrder(orderId, status, accessToken));
       console.log('UPDATE STATUS SUCCESS!');
     } catch (err) {
@@ -47,49 +56,81 @@ export default function OrderSellerScreen() {
     }
   }
 
+  const haversineDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371000; // Earth radius in meters
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in meters
+
+    return Math.floor(distance);
+  };
+
+  const toRadians = (degrees) => {
+    return degrees * (Math.PI / 180);
+  };
+
+  console.log(sellerOrder, '<<<<<<<<<<<<');
+
   return (
     <ScrollView contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
-      {sellerOrder.length !== 0 ? (
-        sellerOrder.map((order) => (
-          <React.Fragment key={order.id}>
-            {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing') && (
-              <TouchableOpacity onPress={() => navigation.navigate('MapScreenTransc')}>
-                <View style={[styles.cardContainer, stylesLib.bgColCr]}>
-                  <Image source={{ uri: order.User.profilePicture }} style={styles.cardImage} />
-                  {order.status === 'Canceled' && (
-                    <View style={styles.overlay}>
-                      <Text style={[styles.overlayText]}>{order.status}</Text>
-                    </View>
-                  )}
-
-                  <View style={styles.cardDetails}>
-                    <View>
-                      <Text style={styles.cardTitle}>{order.User.username}</Text>
-                      <Text>30 meters</Text>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                      {order.status === 'Waiting' && (
-                        <>
-                          <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(order.id)}>
-                            <Text style={styles.buttonText}>Accept</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleReject(order.id)}>
-                            <Text style={styles.buttonText}>Reject</Text>
-                          </TouchableOpacity>
-                        </>
+      <View>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <View>
+            {sellerOrder.orders.map((order) => (
+              <React.Fragment key={order.id}>
+                {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('SellerMapScreen', {
+                        id: order.id,
+                      })
+                    }
+                  >
+                    <View style={[styles.cardContainer, stylesLib.bgColCr]}>
+                      <Image source={{ uri: order.User.profilePicture }} style={styles.cardImage} />
+                      {order.status === 'Canceled' && (
+                        <View style={styles.overlay}>
+                          <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
+                        </View>
+                      )}
+                      {order.status === 'Completed' && (
+                        <View style={styles.overlay}>
+                          <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
+                        </View>
                       )}
 
-                      {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
+                      <View style={styles.cardDetails}>
+                        <View>
+                          <Text style={styles.cardTitle}>{order.User.username}</Text>
+                          <Text>{haversineDistance(buyerLatitude, buyerLongitude, sellerLatitude, sellerLongitude)} meters</Text>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                          {order.status === 'Waiting' && (
+                            <>
+                              <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(order.id)}>
+                                <Text style={styles.buttonText}>Accept</Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleReject(order.id)}>
+                                <Text style={styles.buttonText}>Reject</Text>
+                              </TouchableOpacity>
+                            </>
+                          )}
+
+                          {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
+                        </View>
+                      </View>
                     </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
-          </React.Fragment>
-        ))
-      ) : (
-        <Text>NO ORDERS FOUND</Text>
-      )}
+                  </TouchableOpacity>
+                )}
+              </React.Fragment>
+            ))}
+          </View>
+        )}
+      </View>
     </ScrollView>
   );
 }
@@ -139,13 +180,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   acceptButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#77DD77',
   },
   rejectButton: {
-    backgroundColor: 'red',
+    backgroundColor: '#DB5856',
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
+    fontWeight: 'bold',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -154,10 +196,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 10,
   },
-  overlayText: {
+  overlayTextCancelled: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#DB5856',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  overlayTextSuccess: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#77DD77',
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,

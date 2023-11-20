@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import stylesLib from '../../../assets/styles/styles-lib';
 import * as React from 'react';
 import * as ImagePicker from 'expo-image-picker';
@@ -53,14 +53,14 @@ export default function AddFoodScreen({ navigation, route }) {
     formData.append('imageUrl', formDataImage);
 
     dispatch(createFood(formData, access_token))
-      .then(() => {
-        // setName('');
-        // setPrice('');
-        // setDescription('');
-        // setImage(null);
-        // setAccess_Token(null);
-        // navigation.navigate('SellerTab');
-        console.log('SUCCESS ADD FOOD!');
+      .then((result) => {
+        setName('');
+        setPrice('');
+        setDescription('');
+        setImage(null);
+        setAccess_Token(null);
+        navigation.navigate('SellerHomeScreen');
+        console.log('SUCCESS ADD FOOD! : ', result);
       })
       .catch((err) => {
         console.log(err);
@@ -95,7 +95,6 @@ export default function AddFoodScreen({ navigation, route }) {
           <TouchableOpacity onPress={registerFood} style={[]}>
             <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign: 'center' }]}>SUBMIT</Text>
           </TouchableOpacity>
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
         </View>
       </View>
     </View>

@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import { FETCH_CUSTOMER_ORDERS, FETCH_DETAIL_STORE, FETCH_FOODS, FETCH_OPEN_STORES, FETCH_SELLER_ORDERS, FETCH_SELLER_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actionType';
+import { FETCH_CUSTOMER_ORDERS, FETCH_DETAIL_FOOD, FETCH_DETAIL_ORDER, FETCH_DETAIL_STORE, FETCH_FOODS, FETCH_OPEN_STORES, FETCH_SELLER_ORDERS, FETCH_SELLER_STORE, FETCH_STORES, FETCH_USER, FETCH_USERS } from './actionType';
 
 export const fetchUsersAction = (payload) => {
   return {
@@ -49,6 +49,12 @@ export const fetchFoodsAction = (payload) => {
     payload,
   };
 };
+export const fetchDetailFoodAction = (payload) => {
+  return {
+    type: FETCH_DETAIL_FOOD,
+    payload,
+  };
+};
 export const fetchSellerOrderAction = (payload) => {
   return {
     type: FETCH_SELLER_ORDERS,
@@ -58,6 +64,12 @@ export const fetchSellerOrderAction = (payload) => {
 export const fetchCustomerOrderAction = (payload) => {
   return {
     type: FETCH_CUSTOMER_ORDERS,
+    payload,
+  };
+};
+export const fetchDetailOrderAction = (payload) => {
+  return {
+    type: FETCH_DETAIL_ORDER,
     payload,
   };
 };
@@ -130,9 +142,9 @@ export const fetchUser = (userId, access_token) => {
       });
       if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
-      console.log(data, '<<< data');
       const action = fetchUserAction(data);
       dispatch(action);
+      return data;
     } catch (err) {
       console.log(err);
       throw err;
@@ -244,18 +256,19 @@ export const updateStatusStore = (formData, id, access_token) => {
 export const createFood = (formData, access_token) => {
   return async (dispatch) => {
     try {
-      console.log({ formData, access_token });
-      // const response = await fetch(`${baseUrl}/foods`, {
-      //   method: 'POST',
-      //   headers: {
-      //     access_token,
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      //   body: formData,
-      // });
-      // if (!response.ok) throw new Error('Something Wrong!');
-      // const data = await response.json();
-      // console.log(data, '<<<< data');
+      console.log(formData, '<<<<<<');
+      const response = await fetch(`${baseUrl}/foods`, {
+        method: 'POST',
+        headers: {
+          access_token,
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      dispatch(fetchSellerStore({ access_token }));
+      return data;
     } catch (err) {
       console.log(err);
       throw err;
@@ -327,6 +340,27 @@ export const fetchSellerOrder = (access_token) => {
   };
 };
 
+export const fetchDetailOrder = (orderId, access_token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/orders/${orderId}`, {
+        method: 'GET',
+        headers: {
+          access_token,
+        },
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      const action = fetchDetailOrderAction(data);
+      dispatch(action);
+      return data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
 export const updateStatusOrder = (orderId, status, access_token) => {
   return async (dispatch) => {
     try {
@@ -348,6 +382,26 @@ export const updateStatusOrder = (orderId, status, access_token) => {
   };
 };
 
+export const updateProfile = (field, value, access_token, userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/users/${field}`, {
+        method: 'PATCH',
+        headers: {
+          access_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ [field]: value }),
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      dispatch(fetchUser(userId, access_token));
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+};
+
 export const updateLocationUser = (userLocation, access_token) => {
   return async (dispatch) => {
     try {
@@ -356,6 +410,48 @@ export const updateLocationUser = (userLocation, access_token) => {
     } catch (err) {
       console.log(err);
       throw err;
+    }
+  };
+};
+
+export const fetchDetailFood = (foodId, access_token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/foods/${foodId}`, {
+        headers: {
+          access_token,
+        },
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      const action = fetchDetailFoodAction(data);
+      dispatch(action);
+      return data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
+export const updateFood = (formData, foodId, access_token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/foods/${foodId}`, {
+        method: 'PUT',
+        headers: {
+          access_token,
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      dispatch(fetchSellerStore({ access_token }));
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   };
 };
