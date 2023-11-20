@@ -11,12 +11,16 @@ export default function DetailStore({ route }) {
   const store = useSelector((state) => state.detailStore);
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = React.useState(true)
+
   useEffect(() => {
     (async () => {
       try {
+        setIsLoading(true)
         let access_token = await SecureStore.getItemAsync('access_token');
         dispatch(fetchDetailStore(route.params.storeId, access_token));
         console.log('FETCH DETAIL STORE SUCCESS');
+        setIsLoading(false)
       } catch (err) {
         console.log(err);
       }
@@ -36,6 +40,7 @@ export default function DetailStore({ route }) {
 
   return (
     <ScrollView style={styles.container}>
+      {/* {!isLoading? ActivityIndicator} */}
       <Image
         source={{
           uri: store.imageUrl,

@@ -19,7 +19,7 @@ export default function CustomerTab() {
           height: 70,
           paddingHorizontal: 5,
           paddingTop: 0,
-          backgroundColor: stylesLib.colGrBold.color,
+          backgroundColor: stylesLib.bgColCr.backgroundColor,
           position: 'absolute',
           borderTopWidth: 0,
         },
@@ -30,7 +30,8 @@ export default function CustomerTab() {
         component={HomeStack}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
         }}
       />
       <Tab.Screen
@@ -38,7 +39,7 @@ export default function CustomerTab() {
         component={LikeScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Entypo name="heart" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Entypo name="heart" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
         }}
       />
       <Tab.Screen
@@ -46,7 +47,7 @@ export default function CustomerTab() {
         component={OrderStack}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
         }}
       />
       <Tab.Screen
@@ -54,7 +55,7 @@ export default function CustomerTab() {
         component={HistoryScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="history" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="history" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
         }}
       />
       <Tab.Screen
@@ -62,7 +63,7 @@ export default function CustomerTab() {
         component={ProfileScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
         }}
       />
     </Tab.Navigator>

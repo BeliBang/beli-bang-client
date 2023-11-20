@@ -178,19 +178,25 @@ const stylesLib = StyleSheet.create({
     width: 450,
   },
   colGrBold: {
-    color: 'rgb(58, 77, 57)',
+    color: '#fcfcfc',
   },
   colGr: {
-    color: 'rgb(79, 111, 82)',
+    color: '#fcfcfc',
   },
   colGrLight: {
-    color: 'rgb(115, 144, 114)',
+    color: '#fcfcfc',
   },
   colCrBold: {
     color: 'rgb(171, 163, 144)',
   },
   colCr: {
     color: 'rgb(236, 227, 206)',
+  },
+  colRed: {
+    color: '#f16f61'
+  },
+  colWhite: {
+    color: '#fcfcfc'
   },
   bgColGrBold: {
     backgroundColor: 'rgb(58, 77, 57)',
@@ -199,13 +205,13 @@ const stylesLib = StyleSheet.create({
     backgroundColor: 'rgb(79, 111, 82)',
   },
   bgColGrLight: {
-    backgroundColor: 'rgb(115, 144, 114)',
+    backgroundColor: '#fcfcfc',
   },
   bgColCrBold: {
     backgroundColor: 'rgb(171, 163, 144)',
   },
   bgColCr: {
-    backgroundColor: 'rgb(236, 227, 206)',
+    backgroundColor: '#313d7f',
   },
 });
 

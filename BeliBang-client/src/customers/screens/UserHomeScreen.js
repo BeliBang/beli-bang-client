@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, ImageBackground } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
+import stylesLib from '../../../assets/styles/styles-lib';
+import iconBB from '../../../assets/belibang-CB.png'
 
 async function getValueFor(key) {
   let result = await SecureStore.getItemAsync(key);
@@ -13,41 +15,38 @@ async function getValueFor(key) {
 
 export default function UserHomeScreen({ navigation }) {
   return (
-    <ImageBackground
-      source={{ uri: 'https://media.istockphoto.com/id/1173579665/vector/seamless-pattern-supermarket-grocery-store-food-drinks-vegetables-fruits-fish-meat-dairy.jpg?s=612x612&w=0&k=20&c=XQQ9oPb6lx4m32iPIrmb1fzugwqr-WRUJo8nTod1D2Q=' }}
-      style={styles.container}
-    >
-      <View style={styles.overlay}>
-        <Text style={styles.title}>Welcome to BeliBang App</Text>
-        <View style={styles.buttonContainer}>
-          <Button title="Explore Street Sellers" onPress={() => navigation.navigate('ListStores')} />
-          <Button title="View Street Sellers on the Map" onPress={() => navigation.navigate('MapScreen')} />
-        </View>
+    <View style={[stylesLib.flex1, stylesLib.bgColGrLight, stylesLib.pad20]}>
+      <View style={[{ marginTop: 20, marginBottom:50 }]}>
+        <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
-    </ImageBackground>
+      <TouchableOpacity onPress={() => navigation.navigate('MapScreen')} 
+      style={[
+        stylesLib.bgColCr, 
+        {
+          marginBottom:30, 
+          padding:30, 
+          height:150, 
+          justifyContent:'center',
+          borderRadius: 30,
+          borderWidth: 5,
+          borderColor: 'white'
+        }]}>
+        <Text style={[{fontSize:30, textAlign:'center', fontWeight:'900'}, stylesLib.colGr]}>SELLERS NEAR ME</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('ListStores')} 
+      style={[
+        stylesLib.bgColCr, 
+        {
+          marginBottom:20, 
+          padding:30, 
+          height:150, 
+          justifyContent:'center',
+          borderRadius: 30,
+          borderWidth: 5,
+          borderColor: 'white'
+        }]}>
+        <Text style={[{fontSize:30, textAlign:'center', fontWeight:'900'}, stylesLib.colGr]}>Explore Street Sellers</Text>
+      </TouchableOpacity> 
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-  },
-  overlay: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    width: '80%',
-  },
-});

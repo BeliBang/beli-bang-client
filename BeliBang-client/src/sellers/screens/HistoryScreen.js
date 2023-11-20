@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { fetchTransaction } from '../../../store/actions/actionCreator';
 import * as SecureStore from 'expo-secure-store';
 import stylesLib from '../../../assets/styles/styles-lib';
-import { ColorMatrixImageFilters } from 'react-native-color-matrix-image-filters';
 
 export default function HistoryScreen() {
   const [access_token, setAccess_Token] = React.useState(null);
