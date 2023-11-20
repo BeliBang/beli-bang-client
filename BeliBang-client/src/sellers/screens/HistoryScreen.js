@@ -34,10 +34,7 @@ export default function HistoryScreen() {
     <View style={[styles.container, stylesLib.bgColGrLight]}>
       {transactions.map((transaction, index) => (
         <View key={index} style={[styles.cardContainer, stylesLib.bgColCr, transaction.status === 'Canceled' ? styles.cancelledCard : null]}>
-           <Image
-            source={{ uri: transaction.imageUrl }}
-            style={styles.cardImage}
-          />
+          <Image source={{ uri: transaction.imageUrl }} style={styles.cardImage} />
           {transaction.status === 'Canceled' && (
             <View style={styles.overlay}>
               <Text style={[styles.overlayText]}>{transaction.status}</Text>
@@ -48,9 +45,7 @@ export default function HistoryScreen() {
               <Text style={styles.cardTitle}>{transaction.title}</Text>
               <Text style={styles.cardPrice}>{transaction.price}</Text>
             </View>
-            <View>
-              {transaction.status !== 'Canceled'? <Text style={[styles.successStatus]}>{transaction.status}</Text> : <Text style={[styles.cancelStatus]}>{transaction.status}</Text>}
-            </View>
+            <View>{transaction.status !== 'Canceled' ? <Text style={[styles.successStatus]}>{transaction.status}</Text> : <Text style={[styles.cancelStatus]}>{transaction.status}</Text>}</View>
           </View>
         </View>
       ))}
@@ -81,7 +76,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   cardTitle: {
     fontSize: 23,
@@ -109,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(128, 128, 128, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10
+    zIndex: 10,
   },
   overlayText: {
     fontSize: 30,
@@ -125,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     alignSelf: 'center',
-    borderRadius: 10
+    borderRadius: 10,
   },
   cancelStatus: {
     padding: 2,
@@ -133,6 +128,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     alignSelf: 'center',
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
 });

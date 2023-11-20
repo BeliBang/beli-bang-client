@@ -49,15 +49,14 @@ export default function RegisterStore({ navigation }) {
   function clickRegister() {
     formData.append('name', name);
     formData.append('description', description);
-    formData.append('imageUrl', JSON.stringify(formDataImage));
-    // formData.append('access_token', access_token);
+    formData.append('imageUrl', formDataImage);
     dispatch(registerStore(formData, access_token))
       .then(() => {
         setName('');
         setDescription('');
         setImage(null);
         setAccess_Token(null);
-        // navigation.navigate('SellerTab');
+        navigation.navigate('SellerTab');
         console.log('SUCCESS CREATE STORE!');
       })
       .catch((err) => {

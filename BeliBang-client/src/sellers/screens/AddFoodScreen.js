@@ -1,18 +1,13 @@
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import stylesLib from '../../../assets/styles/styles-lib';
 import * as React from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store';
 import { TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import { registerStore } from '../../../store/actions/actionCreator';
+import { createFood, registerStore } from '../../../store/actions/actionCreator';
 
-export default function EditFoodScreen({navigation, route}) {
-  // const {id} = route.params
-  // if (id) {
-  //   console.log(id);
-  // }
-  console.log(route.params);
+export default function AddFoodScreen({ navigation, route }) {
   const dispatch = useDispatch();
   const [name, setName] = React.useState('');
   const [price, setPrice] = React.useState('');
@@ -26,7 +21,6 @@ export default function EditFoodScreen({navigation, route}) {
     let result = await SecureStore.getItemAsync(key);
     setAccess_Token(result);
   }
-
   getValueFor('access_token');
 
   const pickImage = async () => {
@@ -56,16 +50,17 @@ export default function EditFoodScreen({navigation, route}) {
     formData.append('name', name);
     formData.append('price', price);
     formData.append('description', description);
-    formData.append('image', formDataImage);
-    formData.append('access_token', access_token);
-    dispatch(registerStore(formData))
-      .then(() => {
+    formData.append('imageUrl', formDataImage);
+
+    dispatch(createFood(formData, access_token))
+      .then((result) => {
         setName('');
+        setPrice('');
         setDescription('');
         setImage(null);
         setAccess_Token(null);
-        navigation.navigate('SellerTab');
-        console.log('SUCCESS ADD FOOD!');
+        navigation.navigate('SellerHomeScreen');
+        console.log('SUCCESS ADD FOOD! : ', result);
       })
       .catch((err) => {
         console.log(err);
@@ -73,34 +68,33 @@ export default function EditFoodScreen({navigation, route}) {
   }
 
   return (
-    <View style={[stylesLib.bgColGr, {flex:1}]}>
-      <View style={[stylesLib.pad20, {paddingTop: 20}]}>
+    <View style={[stylesLib.bgColGr, { flex: 1 }]}>
+      <View style={[stylesLib.pad20, { paddingTop: 20 }]}>
         <View>
-          <Text style={[{fontSize: 25, fontWeight: '800', textDecorationLine:'underline'}, stylesLib.colCr]}>ADD NEW FOOD</Text>
+          <Text style={[{ fontSize: 25, fontWeight: '800', textDecorationLine: 'underline' }, stylesLib.colCr]}>ADD NEW FOOD</Text>
         </View>
-        <View style={[{marginTop: 20}]}>
-            <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>name</Text>
-            <TextInput value={name} onChangeText={(text) => setName(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
+        <View style={[{ marginTop: 20 }]}>
+          <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>name</Text>
+          <TextInput value={name} onChangeText={(text) => setName(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
         </View>
-        <View style={[{marginTop: 20}]}>
-            <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>price</Text>
-            <TextInput value={price} onChangeText={(text) => setPrice(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
+        <View style={[{ marginTop: 20 }]}>
+          <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>price</Text>
+          <TextInput value={price} onChangeText={(text) => setPrice(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
         </View>
-        <View style={[{marginTop: 20}]}>
-            <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>description</Text>
-            <TextInput value={description} onChangeText={(text) => setDescription(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
+        <View style={[{ marginTop: 20 }]}>
+          <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>description</Text>
+          <TextInput value={description} onChangeText={(text) => setDescription(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
         </View>
-        <View style={[{ marginTop: 20}]}>
+        <View style={[{ marginTop: 20 }]}>
           <TouchableOpacity onPress={pickImage} style={[]}>
-            <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign:'center' }]}>Pick Image</Text>
-          </TouchableOpacity> 
+            <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center' }]}>Pick Image</Text>
+          </TouchableOpacity>
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
         </View>
-        <View style={[{ marginTop: 60, alignSelf:'center'}]}>
+        <View style={[{ marginTop: 60, alignSelf: 'center' }]}>
           <TouchableOpacity onPress={registerFood} style={[]}>
-            <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign:'center' }]}>SUBMIT</Text>
-          </TouchableOpacity> 
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+            <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign: 'center' }]}>SUBMIT</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -111,9 +105,9 @@ const styles = StyleSheet.create({
   itemTitle: {
     textDecorationLine: 'underline',
     fontWeight: '900',
-    fontSize: 20
+    fontSize: 20,
   },
   item: {
-    fontSize: 20
+    fontSize: 20,
   },
 });
