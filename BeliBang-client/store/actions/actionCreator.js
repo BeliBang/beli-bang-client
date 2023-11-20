@@ -62,7 +62,7 @@ export const fetchCustomerOrderAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://6a63-103-156-164-57.ngrok-free.app';
+let baseUrl = 'https://5940-103-156-164-57.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
@@ -281,26 +281,25 @@ export const deleteFood = (foodId, access_token) => {
   };
 };
 
-export const createTransaction = (payload) => {
+export const createOrder = (access_token, StoreId) => {
   return async (dispatch) => {
     try {
-      // sementara UserId di hardcode dulu, nanti didapet dari server setelah mengembalikan akses token
       const dataTransaction = {
-        StoreId: payload.StoreId,
-        UserId: 1,
-        status: 'Proccessing',
+        StoreId,
+        status: 'Waiting',
       };
 
-      const response = await fetch(`${baseUrl}/transactions`, {
+      const response = await fetch(`${baseUrl}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          access_token,
         },
         body: JSON.stringify(dataTransaction),
       });
-      // if (!response.ok) throw new Error('Something Wrong!');
-      // const data = await response.json();
-      // return data;
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      return data;
     } catch (err) {
       console.log(err);
       throw err;

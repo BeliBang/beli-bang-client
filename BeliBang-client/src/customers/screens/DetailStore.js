@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import FoodCard from '../components/FoodCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTransaction, fetchDetailStore } from '../../../store/actions/actionCreator';
+import { createOrder, fetchDetailStore } from '../../../store/actions/actionCreator';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 
@@ -10,13 +10,18 @@ export default function DetailStore({ route }) {
   const navigation = useNavigation();
   const store = useSelector((state) => state.detailStore);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         let access_token = await SecureStore.getItemAsync('access_token');
+        setAccessToken(access_token);
         dispatch(fetchDetailStore(route.params.storeId, access_token));
         console.log('FETCH DETAIL STORE SUCCESS');
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -24,7 +29,7 @@ export default function DetailStore({ route }) {
   }, []);
 
   function clickCall() {
-    dispatch(createTransaction({ access_token, StoreId: route.params.storeId }))
+    dispatch(createOrder(accessToken, route.params.storeId))
       .then((result) => {
         console.log('CALLING ABANG BERHASIL! :', result);
         navigation.navigate('UserHomeScreen');
@@ -56,9 +61,17 @@ export default function DetailStore({ route }) {
       </View>
       <View style={styles.foodContainer}>
         <Text style={styles.storeName}>LIST FOOD</Text>
-        {store.Food.map((food) => {
-          return <FoodCard key={food.id} name={food.name} image={food.imageUrl} description={food.description} price={food.price} />;
-        })}
+        <View>
+          {loading ? (
+            <Text>LOADING</Text>
+          ) : store.Food && store.Food.length > 0 ? (
+            store.Food.map((food) => {
+              return <FoodCard key={food.id} name={food.name} image={food.imageUrl} description={food.description} price={food.price} />;
+            })
+          ) : (
+            <Text>No food available</Text>
+          )}
+        </View>
       </View>
     </ScrollView>
   );
