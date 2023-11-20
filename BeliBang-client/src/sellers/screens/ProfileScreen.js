@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import stylesLib from '../../../assets/styles/styles-lib';
+import ProfilePictureModal from './ProfilePictureModal';
 
 export default function ProfileScreen() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function ProfileScreen() {
   const [username, setUsername] = React.useState(user.username);
   const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber);
   const [address, setAdress] = React.useState(user.address);
+  const [isModalVisible, setModalVisible] = React.useState(false);
   const [editableFields, setEditableFields] = React.useState({
     username: false,
     email: false,
@@ -70,7 +72,7 @@ export default function ProfileScreen() {
         await dispatch(updateProfile(field, address, accessToken, userId));
       }
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
   };
 
@@ -84,6 +86,10 @@ export default function ProfileScreen() {
 
   const handleAddress = (value) => {
     setAdress(value);
+  };
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
   };
 
   const renderEditSaveButtons = (field) => {
@@ -123,10 +129,13 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             </View>
             <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 50 }]}>
-              <View style={[{ alignItems: 'center', borderWidth: 5, borderColor: 'rgb(236, 227, 206)', borderRadius: 70, overflow: 'hidden' }]}>
-                <Avatar.Image size={120} source={{ uri: user.profilePicture }} />
-              </View>
+              <TouchableOpacity onPress={toggleModal}>
+                <View style={[{ alignItems: 'center', borderWidth: 5, borderColor: 'rgb(236, 227, 206)', borderRadius: 70, overflow: 'hidden' }]}>
+                  <Avatar.Image size={120} source={{ uri: user.profilePicture }} />
+                </View>
+              </TouchableOpacity>
             </View>
+            <ProfilePictureModal isVisible={isModalVisible} toggleModal={toggleModal} profilePictureUri={user.profilePicture} />
             <View style={[stylesLib.padL20]}>
               <View style={[{ marginBottom: 20 }]}>
                 <Text style={[{ marginBottom: 5 }, stylesLib.colCr, styles.itemTitle]}>email</Text>

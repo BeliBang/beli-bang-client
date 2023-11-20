@@ -23,6 +23,7 @@ export default function OrderSellerScreen() {
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
         const result = await dispatch(fetchSellerOrder(access_token));
+        console.log(result, '<<<<<<<<<');
         setBuyerLatitude(sellerOrder.orders[0].User.location.coordinates[1]);
         setBuyerLongitude(sellerOrder.orders[0].User.location.coordinates[0]);
         setSellerLatitude(sellerOrder.locationSeller.coordinates[1]);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import FoodCard from '../components/FoodCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder, fetchDetailStore } from '../../../store/actions/actionCreator';
@@ -10,20 +10,18 @@ export default function DetailStore({ route }) {
   const navigation = useNavigation();
   const store = useSelector((state) => state.detailStore);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
-
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
-        dispatch(fetchDetailStore(route.params.storeId, access_token));
+        await dispatch(fetchDetailStore(route.params.storeId, access_token));
         console.log('FETCH DETAIL STORE SUCCESS');
-        setLoading(false);
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -41,42 +39,49 @@ export default function DetailStore({ route }) {
       });
   }
 
+  console.log(store, '<<<<<<<<');
+
   return (
-    <ScrollView style={styles.container}>
-      {/* {!isLoading? ActivityIndicator} */}
-      <Image
-        source={{
-          uri: store.imageUrl,
-        }}
-        style={styles.storeImage}
-      />
-      <View style={styles.storeInfoContainer}>
-        <Text style={styles.storeName}>{store.name}</Text>
-        <Text style={styles.storeDescription}>{store.description}</Text>
-      </View>
-      <View style={styles.ratingContainer}>
-        <Text style={styles.ratingStar}>⭐️</Text>
-        <Text style={styles.ratingText}>4.8</Text>
-        <Text style={styles.ratingCount}>(999+ Reviews)</Text>
-        <TouchableOpacity style={styles.callButton} onPress={clickCall}>
-          <Text style={styles.callButtonText}>CALL</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.foodContainer}>
-        <Text style={styles.storeName}>LIST FOOD</Text>
-        <View>
-          {loading ? (
-            <Text>LOADING</Text>
-          ) : store.Food && store.Food.length > 0 ? (
-            store.Food.map((food) => {
-              return <FoodCard key={food.id} name={food.name} image={food.imageUrl} description={food.description} price={food.price} />;
-            })
-          ) : (
-            <Text>No food available</Text>
-          )}
-        </View>
-      </View>
-    </ScrollView>
+    <View>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <ScrollView>
+          <View style={styles.container}>
+            <Image
+              source={{
+                uri: store.imageUrl,
+              }}
+              style={styles.storeImage}
+            />
+            <View style={styles.storeInfoContainer}>
+              <Text style={styles.storeName}>{store.name}</Text>
+              <Text style={styles.storeDescription}>{store.description}</Text>
+            </View>
+            <View style={styles.ratingContainer}>
+              <Text style={styles.ratingStar}>⭐️</Text>
+              <Text style={styles.ratingText}>4.8</Text>
+              <Text style={styles.ratingCount}>(999+ Reviews)</Text>
+              <TouchableOpacity style={styles.callButton} onPress={clickCall}>
+                <Text style={styles.callButtonText}>CALL</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.foodContainer}>
+              <Text style={styles.storeName}>LIST FOOD</Text>
+              <View>
+                {store.Food && store.Food.length > 0 ? (
+                  store.Food.map((food) => {
+                    return <FoodCard key={food.id} name={food.name} image={food.imageUrl} description={food.description} price={food.price} />;
+                  })
+                ) : (
+                  <Text>No food available</Text>
+                )}
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      )}
+    </View>
   );
 }
 

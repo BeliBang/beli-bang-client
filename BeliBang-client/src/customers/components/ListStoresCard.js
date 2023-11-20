@@ -19,7 +19,7 @@ export default function ListStoresCard({ title, imageSource, sellerLatitude, sel
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distance in meters
 
-    return distance;
+    return Math.floor(distance);
   };
 
   const toRadians = (degrees) => {

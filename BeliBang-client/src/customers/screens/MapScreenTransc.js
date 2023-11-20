@@ -1,45 +1,67 @@
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import * as Location from 'expo-location';
+import * as SecureStore from 'expo-secure-store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDetailOrder } from '../../../store/actions/actionCreator';
 
-export default function MapScreenTransc() {
-  const [getLocation, setLocation] = useState(null);
-  // const [errorMsg, setErrorMsg] = useState(null);
-  // const [loading, setLoading] = useState(true);
+export default function MapScreenTransc({ route }) {
+  const orderId = route.params.id;
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [accessToken, setAccessToken] = React.useState(null);
+  const dispatch = useDispatch();
+  const detailOrder = useSelector((state) => state.detailOrder);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let access_token = await SecureStore.getItemAsync('access_token');
+        setAccessToken(access_token);
+        const result = await dispatch(fetchDetailOrder(orderId, access_token));
+        // console.log(result, '<<<<<<<<<');
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   return (
     <View>
-      <View>
-        <View style={styles.container}>
-          <MapView
-            style={styles.map}
-            initialRegion={{
-              latitude: -6.94391578039737,
-              longitude: 107.59035604976992,
-              latitudeDelta: 0.0022,
-              longitudeDelta: 0.0021,
-            }}
-          >
-            <Marker
-              coordinate={{
-                latitude: -6.94391578039737,
-                longitude: 107.59035604976992,
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <View>
+          <View style={styles.container}>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: detailOrder.customer.location.coordinates[1],
+                longitude: detailOrder.customer.location.coordinates[0],
+                latitudeDelta: 0.0022,
+                longitudeDelta: 0.0021,
               }}
-              title="Fahreza"
-              description="Your Position"
-            />
-            <Marker
-              coordinate={{
-                latitude: -6.943857204627624,
-                longitude: 107.59072957213853,
-              }}
-              title="Pedagang A"
-              description="On The Way"
-            />
-          </MapView>
+            >
+              <Marker
+                coordinate={{
+                  latitude: detailOrder.customer.location.coordinates[1],
+                  longitude: detailOrder.customer.location.coordinates[0],
+                }}
+                title={detailOrder.customer.username}
+                description="Your Position"
+              />
+              <Marker
+                coordinate={{
+                  latitude: detailOrder.store.User.location.coordinates[1],
+                  longitude: detailOrder.store.User.location.coordinates[0],
+                }}
+                title={detailOrder.store.name}
+                description="Seller"
+              />
+            </MapView>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 }

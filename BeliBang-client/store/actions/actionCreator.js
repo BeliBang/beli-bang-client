@@ -74,7 +74,7 @@ export const fetchDetailOrderAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://7597-182-253-245-165.ngrok-free.app';
+let baseUrl = 'https://5940-103-156-164-57.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
@@ -340,6 +340,28 @@ export const fetchSellerOrder = (access_token) => {
   };
 };
 
+export const fetchCustomerOrder = (access_token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${baseUrl}/orders/customer`, {
+        method: 'GET',
+        headers: {
+          access_token,
+        },
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      const data = await response.json();
+      const action = fetchCustomerOrderAction(data);
+      dispatch(action);
+      // console.log(data, ' <<<<<<<< data');
+      return data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+};
+
 export const fetchDetailOrder = (orderId, access_token) => {
   return async (dispatch) => {
     try {
@@ -402,11 +424,44 @@ export const updateProfile = (field, value, access_token, userId) => {
   };
 };
 
+export const updateProfilePicture = (formData, access_token, userId) => {
+  return async (dispatch) => {
+    console.log(formData);
+    try {
+      const response = await fetch(`${baseUrl}/users/profilepicture`, {
+        method: 'PATCH',
+        headers: {
+          access_token,
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
+      dispatch(fetchUser(userId, access_token));
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+};
+
 export const updateLocationUser = (userLocation, access_token) => {
   return async (dispatch) => {
     try {
-      // hit endpoint update location user
-      console.log('update location');
+      const data = {
+        latitude: userLocation.coords.latitude,
+        longitude: userLocation.coords.longitude,
+      };
+
+      const response = await fetch(`${baseUrl}/users/location`, {
+        method: 'PATCH',
+        headers: {
+          access_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error('Something Wrong!');
     } catch (err) {
       console.log(err);
       throw err;
