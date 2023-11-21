@@ -5,23 +5,30 @@ import * as React from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch } from 'react-redux';
+import { updateProfilePicture } from '../../../store/actions/actionCreator';
 
 const ProfilePictureModal = ({ isVisible, toggleModal, profilePictureUri }) => {
   const dispatch = useDispatch();
   const [image, setImage] = React.useState('');
   const [access_token, setAccess_Token] = React.useState(null);
-
-  async function getValueFor(key) {
-    let result = await SecureStore.getItemAsync(key);
-    setAccess_Token(result);
-  }
-
-  getValueFor('access_token');
-
+  const [userId, setUserId] = React.useState(null);
   const [newImage, setNewImage] = React.useState(null);
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [formDataImage, setFormDataImage] = React.useState({});
-  
+  let formData = new FormData();
+
+  async function getAccessToken(key) {
+    let result = await SecureStore.getItemAsync(key);
+    setAccess_Token(result);
+  }
+  async function getUserId(key) {
+    let result = await SecureStore.getItemAsync(key);
+    setUserId(result);
+  }
+
+  getAccessToken('access_token');
+  getUserId('userId');
+
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,9 +52,11 @@ const ProfilePictureModal = ({ isVisible, toggleModal, profilePictureUri }) => {
       console.log(e);
     }
   };
-      
-  const handleSaveChanges = () => {
-    console.log('save success');
+
+  const handleSaveChanges = async () => {
+    formData.append('profilePicture', formDataImage);
+    await dispatch(updateProfilePicture(formData, access_token, userId));
+    console.log('save PP success');
     setIsEditMode(false);
     toggleModal();
   };
@@ -58,39 +67,29 @@ const ProfilePictureModal = ({ isVisible, toggleModal, profilePictureUri }) => {
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={isVisible}
-      onRequestClose={toggleModal}
-    >
+    <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={toggleModal}>
       <View style={[{ flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-        <View style={[stylesLib.bgColCr, { width: '80%', height: '70%', borderRadius:20}]}>
-          <Image
-            style={{ flex: 1, resizeMode: 'contain' }}
-            source={{ uri: isEditMode ? newImage : profilePictureUri }}
-          />
-          <Pressable
-            style={{ position: 'absolute', top: 20, right: 20 }}
-            onPress={handleClose}
-          >
+        <View style={[stylesLib.bgColCr, { width: '80%', height: '70%', borderRadius: 20 }]}>
+          <Image style={{ flex: 1, resizeMode: 'contain' }} source={{ uri: isEditMode ? newImage : profilePictureUri }} />
+          <Pressable style={{ position: 'absolute', top: 20, right: 20 }} onPress={handleClose}>
             <FontAwesome name="times" size={30} style={[stylesLib.colGr]} />
           </Pressable>
-          <Pressable
-            style={{ position: 'absolute', bottom: 15, alignSelf:'center' }}
-            onPress={isEditMode ? handleSaveChanges : pickImage}
-          >
-            <Text style={[
+          <Pressable style={{ position: 'absolute', bottom: 15, alignSelf: 'center' }} onPress={isEditMode ? handleSaveChanges : pickImage}>
+            <Text
+              style={[
                 stylesLib.bgColGrLight,
                 stylesLib.pad40,
-                stylesLib.colCr, 
+                stylesLib.colCr,
                 {
-                    padding:10, 
-                    borderRadius:20, 
-                    fontWeight:'700',
-                    fontSize: 15
-                }
-            ]}>{isEditMode ? 'Save Changes' : 'New Profile Image'}</Text>
+                  padding: 10,
+                  borderRadius: 20,
+                  fontWeight: '700',
+                  fontSize: 15,
+                },
+              ]}
+            >
+              {isEditMode ? 'Save Changes' : 'New Profile Image'}
+            </Text>
           </Pressable>
         </View>
       </View>

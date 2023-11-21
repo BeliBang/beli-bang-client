@@ -34,14 +34,14 @@ export default function CustomerTab() {
           tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Favorite"
         component={LikeScreen}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Entypo name="heart" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Order"
         component={OrderStack}
@@ -50,14 +50,14 @@ export default function CustomerTab() {
           tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="History"
         component={HistoryScreen}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="history" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}

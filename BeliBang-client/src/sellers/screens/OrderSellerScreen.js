@@ -16,6 +16,7 @@ export default function OrderSellerScreen() {
   const [buyerLongitude, setBuyerLongitude] = useState('');
   const [sellerLatitude, setSellerLatitude] = useState('');
   const [sellerLongitude, setSellerLongitude] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -23,14 +24,16 @@ export default function OrderSellerScreen() {
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
         const result = await dispatch(fetchSellerOrder(access_token));
-        console.log(result, '<<<< ini test ');
-        setBuyerLatitude(sellerOrder.orders[0].User.location.coordinates[1]);
-        setBuyerLongitude(sellerOrder.orders[0].User.location.coordinates[0]);
-        setSellerLatitude(sellerOrder.locationSeller.coordinates[1]);
-        setSellerLongitude(sellerOrder.locationSeller.coordinates[0]);
+        console.log(result, '<<<<<<< order');
+        setBuyerLatitude(result.orders[0].User.location.coordinates[1]);
+        setBuyerLongitude(result.orders[0].User.location.coordinates[0]);
+        setSellerLatitude(result.locationSeller.coordinates[1]);
+        setSellerLongitude(result.locationSeller.coordinates[0]);
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
+        console.log(err, '<<<<<<< ini err');
+        setErrorMessage(err);
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -81,7 +84,11 @@ export default function OrderSellerScreen() {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <View>
-            {sellerOrder.orders.map((order) => (
+            {errorMessage !== '' ? (
+              <Text>{errorMessage}</Text>
+            ) : (
+              <View>
+                {sellerOrder.orders.map((order) => (
               <React.Fragment key={order.id}>
                 {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
                   <TouchableOpacity
@@ -121,13 +128,15 @@ export default function OrderSellerScreen() {
                             </>
                           )}
                           {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
+                            </View>
+                          </View>
                         </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              </React.Fragment>
-            ))}
+                      </TouchableOpacity>
+                    )}
+                  </React.Fragment>
+                ))}
+              </View>
+            )}
           </View>
         )}
       </View>

@@ -21,6 +21,7 @@ export default function ProfileScreen() {
   const [username, setUsername] = React.useState(user.username);
   const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber);
   const [address, setAdress] = React.useState(user.address);
+  const [isModalVisible, setModalVisible] = React.useState(false);
   const [editableFields, setEditableFields] = React.useState({
     username: false,
     email: false,
@@ -28,7 +29,6 @@ export default function ProfileScreen() {
     address: false,
   });
   const [isLoading, setIsLoading] = React.useState(true);
-  const [isModalVisible, setModalVisible] = React.useState(false);
 
   useEffect(() => {
     (async () => {
@@ -70,12 +70,8 @@ export default function ProfileScreen() {
         await dispatch(updateProfile(field, address, accessToken, userId));
       }
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
-  };
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
   };
 
   const handleUsername = (value) => {
@@ -88,6 +84,10 @@ export default function ProfileScreen() {
 
   const handleAddress = (value) => {
     setAdress(value);
+  };
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
   };
 
   const renderEditSaveButtons = (field) => {
@@ -134,7 +134,7 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             </View>
             <ProfilePictureModal isVisible={isModalVisible} toggleModal={toggleModal} profilePictureUri={user.profilePicture} />
-            <View style={[stylesLib.padL20]}>
+            <View style={[stylesLib.pad20, {borderWidth: 5, paddingTop:30, paddingBottom:40, borderRadius:10, borderColor: stylesLib.colSec.color}]}>
               <View style={[{ marginBottom: 20 }]}>
                 <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>email</Text>
                 <Text style={[styles.item, stylesLib.colSec]}>{user.email}</Text>

@@ -5,23 +5,30 @@ import * as React from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch } from 'react-redux';
+import { updateProfilePicture } from '../../../store/actions/actionCreator';
 
 const ProfilePictureModal = ({ isVisible, toggleModal, profilePictureUri }) => {
   const dispatch = useDispatch();
   const [image, setImage] = React.useState('');
   const [access_token, setAccess_Token] = React.useState(null);
-
-  async function getValueFor(key) {
-    let result = await SecureStore.getItemAsync(key);
-    setAccess_Token(result);
-  }
-
-  getValueFor('access_token');
-
+  const [userId, setUserId] = React.useState(null);
   const [newImage, setNewImage] = React.useState(null);
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [formDataImage, setFormDataImage] = React.useState({});
-  
+  let formData = new FormData();
+
+  async function getAccessToken(key) {
+    let result = await SecureStore.getItemAsync(key);
+    setAccess_Token(result);
+  }
+  async function getUserId(key) {
+    let result = await SecureStore.getItemAsync(key);
+    setUserId(result);
+  }
+
+  getAccessToken('access_token');
+  getUserId('userId');
+
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,9 +52,11 @@ const ProfilePictureModal = ({ isVisible, toggleModal, profilePictureUri }) => {
       console.log(e);
     }
   };
-      
-  const handleSaveChanges = () => {
-    console.log('save success');
+
+  const handleSaveChanges = async () => {
+    formData.append('profilePicture', formDataImage);
+    await dispatch(updateProfilePicture(formData, access_token, userId));
+    console.log('save PP success');
     setIsEditMode(false);
     toggleModal();
   };
