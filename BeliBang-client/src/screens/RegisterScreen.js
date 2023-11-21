@@ -70,17 +70,19 @@ export default function RegisterScreen({ navigation }) {
       </View>
       <View style={{ justifyContent: 'center', marginBottom: 20 }}>
         <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>username</Text>
-          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={setUsername} />
+          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>username</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={setUsername} />
+          <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>email</Text>
-          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={setEmail} />
+          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>email</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={setEmail} />
+          <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>password</Text>
+          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>password</Text>
           <TextInput
-            style={[stylesLib.bgColCr, stylesLib.inputField]}
+            style={[stylesLib.bgColPri, stylesLib.inputField]}
             onChangeText={setPassword}
             secureTextEntry={hidePass ? true : false}
             blurOnSubmit={false}
@@ -88,37 +90,40 @@ export default function RegisterScreen({ navigation }) {
             returnKeyType="next"
             right={<TextInput.Icon icon="eye" onPress={() => setHidePass(!hidePass)} />}
           />
+          <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>phone number</Text>
-          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ''))} keyboardType="numeric" />
+          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>phone number</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ''))} keyboardType="numeric" />
+          <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colCr, stylesLib.padL20, stylesLib.inputLabel]}>address</Text>
-          <TextInput style={[stylesLib.bgColCr, stylesLib.inputField]} onChangeText={setAddress} />
+          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>address</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={setAddress} />
+          <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
       </View>
       <View>
-        <Text style={[{ textAlign: 'center', fontSize: 25, marginTop: 30 }, stylesLib.colCr]}>already have an account?</Text>
+        <Text style={[{ textAlign: 'center', fontSize: 25, marginTop: 30 }, stylesLib.colSec]}>already have an account?</Text>
       </View>
       <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
-        <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colCr]}>log in</Text>
+        <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colSec]}>log in</Text>
         <TouchableOpacity onPress={() => clickHere()} style={[style.activeLink, { marginLeft: 9 }]}>
-          <Text style={[style.loginLink]} onPress={() => navigation.navigate('LoginScreen')}>
+          <Text style={[style.loginLink, stylesLib.colSec]} onPress={() => navigation.navigate('LoginScreen')}>
             here
           </Text>
         </TouchableOpacity>
       </View>
       <View style={style.switchButtonContainer}>
         <TouchableOpacity onPress={() => setRole('Customer')} style={[style.footerText, { marginRight: 30 }]}>
-          <Text style={[role === 'Customer' ? style.activeLink : style.inactiveLink, role === 'Customer' ? stylesLib.bgColCr : stylesLib.bgColCrBold, stylesLib.colGrBold, stylesLib.pad10, style.roundedLink]}>Buyer</Text>
+          <Text style={[role === 'Customer' ? style.activeLink : style.inactiveLink, role === 'Customer' ? [stylesLib.bgColTer, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colTer], stylesLib.pad10, style.roundedLink]}>Buyer</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setRole('Seller')} style={[style.footerText, { marginLeft: 30 }]}>
-          <Text style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? stylesLib.bgColCr : stylesLib.bgColCrBold, , stylesLib.pad10, style.roundedLink]}>Seller</Text>
+          <Text style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? [stylesLib.bgColTer, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colTer], stylesLib.pad10, style.roundedLink]}>Seller</Text>
         </TouchableOpacity>
       </View>
       <View style={[{ alignItems: 'center', marginBottom:40 }]}>
-        <Button mode="contained" style={[stylesLib.bgColCr]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]} onPress={clickSignup}>
+        <Button mode="contained" style={[stylesLib.bgColTer]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]} onPress={clickSignup}>
           Sign Up
         </Button>
       </View>

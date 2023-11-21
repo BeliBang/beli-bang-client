@@ -80,13 +80,13 @@ export default function SellerHomeScreen({ navigation, food }) {
   }
 
   return (
-    <SafeAreaView style={[stylesLib.flex1, stylesLib.bgColGrLight]}>
+    <SafeAreaView style={[stylesLib.flex1, stylesLib.bgColPri]}>
       <ScrollView>
         <View>
           {isLoading ? (
             <ActivityIndicator size="large" color="#0000ff" />
           ) : (
-            <View style={[stylesLib.bgColGrLight, { padding: 10, paddingBottom: 80 }]}>
+            <View style={[stylesLib.bgColPri, { padding: 10, paddingBottom: 80 }]}>
               <Card style={[{ marginBottom: 20, borderRadius: 30 }]}>
                 <Card.Cover source={{ uri: store.imageUrl }} style={[styles.foodImage, { borderRadius: 20, overflow: 'hidden' }]} />
               </Card>
@@ -95,24 +95,24 @@ export default function SellerHomeScreen({ navigation, food }) {
                   {!statusStore ? (
                     <View style={[{ borderRadius: 20 }]}>
                       <TouchableOpacity onPress={openStore}>
-                        <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center', backgroundColor: '#77DD77' }]}>OPEN</Text>
+                        <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center' }]}>OPEN</Text>
                       </TouchableOpacity>
                     </View>
                   ) : (
                     <View>
                       <TouchableOpacity onPress={closeStore}>
-                        <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontSize: 20, fontWeight: '900', backgroundColor: '#DB5856', textAlign: 'center' }]}>CLOSE</Text>
+                        <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center' }]}>CLOSE</Text>
                       </TouchableOpacity>
                     </View>
                   )}
                 </View>
               </View>
               <View style={[stylesLib.pad10]}>
-                <Text style={[stylesLib.colCr, { fontSize: 30, fontWeight: '700' }]}>{store.name}</Text>
-                <Text style={[stylesLib.colCr, { fontSize: 20, textAlign: 'justify' }]}>{store.description}</Text>
-                <View style={[{ alignSelf: 'flex-end', marginTop: 10, marginBottom: 15 }]}>
+                <Text style={[stylesLib.colSec, { fontSize: 25, fontWeight: '700', marginTop: 15, marginBottom:10 }]}>{store.name}</Text>
+                <Text style={[stylesLib.colSec, { fontSize: 20, textAlign: 'justify', fontStyle:'italic' }]}>"{store.description}"</Text>
+                <View style={[{ alignSelf: 'flex-end', marginTop: 15, marginBottom: 15 }]}>
                   <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen')}>
-                    <Text style={[styles.statusBtn, stylesLib.bgColCr, stylesLib.colGrLight, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>CREATE FOOD +</Text>
+                    <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>CREATE FOOD +</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -124,21 +124,21 @@ export default function SellerHomeScreen({ navigation, food }) {
                         <Card.Cover source={{ uri: food.imageUrl }} style={styles.foodImage} />
                         <Card.Content>
                           <View style={[{ marginTop: 15, marginBottom: 10 }]}>
-                            <Text style={[stylesLib.colGrBold, { fontWeight: '800', fontSize: 25 }]}>{food.name}</Text>
-                            <Text style={[stylesLib.colGrBold, { fontWeight: '600', fontSize: 20 }]}>{formatCurrency(food.price)}</Text>
+                            <Text style={[stylesLib.colPri, { fontWeight: '800', fontSize: 25 }]}>{food.name}</Text>
+                            <Text style={[stylesLib.colPri, { fontWeight: '600', fontSize: 20 }]}>{formatCurrency(food.price)}</Text>
                           </View>
                           <View style={[{ marginBottom: 10 }]}>
-                            <Text style={[stylesLib.colGrBold, { fontWeight: '500', fontSize: 15, textAlign: 'justify' }]}>{food.description}</Text>
+                            <Text style={[stylesLib.colPri, { fontWeight: '500', fontSize: 15, textAlign: 'justify' }]}>{food.description}</Text>
                           </View>
                           <View style={[{ flexDirection: 'row', justifyContent: 'space-evenly' }]}>
                             <View style={[{ borderRadius: 20 }]}>
                               <TouchableOpacity onPress={() => navigation.navigate('EditFoodScreen', { id: food.id })}>
-                                <Text style={[styles.statusBtn, stylesLib.pad20, stylesLib.bgColGrLight, stylesLib.colCr, { borderRadius: 20, fontWeight: '900' }]}>EDIT</Text>
+                                <Text style={[styles.statusBtn, stylesLib.pad20, stylesLib.bgColTer, stylesLib.colPri, { borderRadius: 20, fontWeight: '900' }]}>EDIT</Text>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ borderRadius: 20 }]}>
                               <TouchableOpacity onPress={() => clickDeleteFood(food.id)}>
-                                <Text style={[styles.statusBtn, stylesLib.colCr, { borderRadius: 20, fontWeight: '900', backgroundColor: '#DB5856' }]}>DELETE</Text>
+                                <Text style={[styles.statusBtn, stylesLib.colPri, { borderRadius: 20, fontWeight: '900' }]}>DELETE</Text>
                               </TouchableOpacity>
                             </View>
                           </View>
@@ -171,11 +171,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 20,
     overflow: 'hidden',
-    backgroundColor: 'rgb(236, 227, 206)',
+    backgroundColor: stylesLib.bgColSec.backgroundColor
   },
   foodImage: {
     height: 200,
     padding: 10,
-    backgroundColor: 'rgb(236, 227, 206)',
+    backgroundColor: stylesLib.bgColSec.backgroundColor
   },
 });

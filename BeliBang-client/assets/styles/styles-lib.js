@@ -195,9 +195,6 @@ const stylesLib = StyleSheet.create({
   colRed: {
     color: '#f16f61'
   },
-  colWhite: {
-    color: '#fcfcfc'
-  },
   bgColGrBold: {
     backgroundColor: 'rgb(58, 77, 57)',
   },
@@ -212,6 +209,24 @@ const stylesLib = StyleSheet.create({
   },
   bgColCr: {
     backgroundColor: '#313d7f',
+  },
+  colPri: {
+    color: '#fcfcfc'
+  },
+  colSec: {
+    color: '#313d7f'
+  },
+  colTer: {
+    color: '#f16f61'
+  },
+  bgColPri: {
+    backgroundColor: '#fcfcfc'
+  },
+  bgColSec: {
+    backgroundColor: '#313d7f'
+  },
+  bgColTer: {
+    backgroundColor: '#f16f61'
   },
 });
 

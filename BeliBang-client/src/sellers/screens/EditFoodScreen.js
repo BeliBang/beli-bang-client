@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity, Image, ScrollView } from 'react-native';
 import stylesLib from '../../../assets/styles/styles-lib';
 import * as React from 'react';
 import * as ImagePicker from 'expo-image-picker';
@@ -85,40 +85,43 @@ export default function EditFoodScreen({ navigation, route }) {
   }
 
   return (
-    <View style={[stylesLib.bgColGr, { flex: 1 }]}>
+    <ScrollView style={[stylesLib.bgColPri, { flex: 1 }]}>
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <View style={[stylesLib.pad20, { paddingTop: 20 }]}>
+        <View style={[stylesLib.pad20, { paddingTop: 20, paddingBottom: 80 }]}>
           <View>
-            <Text style={[{ fontSize: 25, fontWeight: '800', textDecorationLine: 'underline' }, stylesLib.colCr]}>UPDATE FOOD</Text>
+            <Text style={[{ fontSize: 25, fontWeight: '800', paddingLeft: 10 }, stylesLib.colPri, stylesLib.bgColSec]}>UPDATE FOOD</Text>
           </View>
           <View style={[{ marginTop: 20 }]}>
-            <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>Name</Text>
-            <TextInput value={name} onChangeText={(text) => setName(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
+            <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>Name</Text>
+            <TextInput value={name} onChangeText={(text) => setName(text)} style={[stylesLib.inputField, stylesLib.bgColPri]} />
+            <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
           </View>
           <View style={[{ marginTop: 20 }]}>
-            <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>Price</Text>
-            <TextInput value={JSON.stringify(price)} onChangeText={(text) => setPrice(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
+            <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>Price</Text>
+            <TextInput value={JSON.stringify(price)} onChangeText={(text) => setPrice(text)} style={[stylesLib.inputField, stylesLib.bgColPri]} />
+            <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
           </View>
           <View style={[{ marginTop: 20 }]}>
-            <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>Description</Text>
-            <TextInput value={description} onChangeText={(text) => setDescription(text)} style={[stylesLib.inputField, stylesLib.bgColCr]} />
+            <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>Description</Text>
+            <TextInput value={description} onChangeText={(text) => setDescription(text)} style={[stylesLib.inputField, stylesLib.bgColPri]} />
+            <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
           </View>
-          <View style={[{ marginTop: 20 }]}>
+          <View style={[{ marginTop: 40 }]}>
             <TouchableOpacity onPress={pickImage} style={[]}>
-              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center' }]}>Pick Image</Text>
+              <Text style={[stylesLib.colPri, stylesLib.bgColSec, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center' }]}>PICK IMAGE</Text>
             </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop:10, alignSelf:'center' }} />}
           </View>
-          <View style={[{ marginTop: 60, alignSelf: 'center' }]}>
+          <View style={[{ marginTop: 20, alignSelf: 'center' }]}>
             <TouchableOpacity onPress={clickUpdateFood} style={[]}>
-              <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign: 'center' }]}>SUBMIT</Text>
+              <Text style={[stylesLib.colPri, stylesLib.bgColTer, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign: 'center' }]}>SUBMIT</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 

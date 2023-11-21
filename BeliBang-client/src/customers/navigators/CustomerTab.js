@@ -31,7 +31,7 @@ export default function CustomerTab() {
         options={{
           tabBarLabel: () => null,
           headerShown: false,
-          tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
       />
       <Tab.Screen
@@ -39,7 +39,7 @@ export default function CustomerTab() {
         component={LikeScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Entypo name="heart" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Entypo name="heart" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
       />
       <Tab.Screen
@@ -47,7 +47,7 @@ export default function CustomerTab() {
         component={OrderStack}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
       />
       <Tab.Screen
@@ -55,7 +55,7 @@ export default function CustomerTab() {
         component={HistoryScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="history" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
+          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="history" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
       />
       <Tab.Screen
@@ -63,7 +63,7 @@ export default function CustomerTab() {
         component={ProfileScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? stylesLib.colRed.color : stylesLib.colWhite.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color} />,
         }}
       />
     </Tab.Navigator>

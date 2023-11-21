@@ -1,13 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import stylesLib from '../../../assets/styles/styles-lib';
-import WeatherScreen from '../screens/WeatherScreen';
-import SellerHomeScreen from '../screens/SellerHomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import HistoryScreen from '../screens/HistoryScreen';
-import OrderSellerScreen from '../screens/OrderSellerScreen';
-import AddFoodScreen from '../screens/AddFoodScreen';
 import SellerHomeStack from './SellerHomeStack';
 import OrderStack from './OrderStack';
 
@@ -21,7 +16,7 @@ export default function SellerTab() {
           height: 70,
           paddingHorizontal: 5,
           paddingTop: 0,
-          backgroundColor: stylesLib.colGrBold.color,
+          backgroundColor: stylesLib.bgColSec.backgroundColor,
           position: 'absolute',
           borderTopWidth: 0,
         },
@@ -33,40 +28,23 @@ export default function SellerTab() {
         options={{
           // headerShown: false,
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color } />,
         }}
       />
-
-      {/* <Tab.Screen
-        name="Weather"
-        component={WeatherScreen}
-        options={{
-          tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="weather-partly-cloudy" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
-        }}
-      /> */}
       <Tab.Screen
         name="Order Seller"
         component={OrderStack}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color } />,
         }}
       />
-      {/* <Tab.Screen
-        name="History"
-        component={HistoryScreen}
-        options={{
-          tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <MaterialCommunityIcons name="history" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
-        }}
-      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? '#FEF5ED' : stylesLib.colCr.color} />,
+          tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color } />,
         }}
       />
     </Tab.Navigator>

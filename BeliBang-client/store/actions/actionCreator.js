@@ -74,7 +74,7 @@ export const fetchDetailOrderAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://7597-182-253-245-165.ngrok-free.app';
+let baseUrl = 'https://df96-182-253-245-184.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
@@ -100,6 +100,7 @@ export const login = (inputForm) => {
 export const register = (inputForm) => {
   return async (dispatch) => {
     try {
+      console.log(inputForm);
       const response = await fetch(`${baseUrl}/register`, {
         method: 'POST',
         headers: {
@@ -332,6 +333,7 @@ export const fetchSellerOrder = (access_token) => {
       if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
       const action = fetchSellerOrderAction(data);
+      console.log(action, 'ini dari action');
       dispatch(action);
     } catch (err) {
       console.log(err);

@@ -23,6 +23,7 @@ export default function OrderSellerScreen() {
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
         const result = await dispatch(fetchSellerOrder(access_token));
+        console.log(result, '<<<< ini test ');
         setBuyerLatitude(sellerOrder.orders[0].User.location.coordinates[1]);
         setBuyerLongitude(sellerOrder.orders[0].User.location.coordinates[0]);
         setSellerLatitude(sellerOrder.locationSeller.coordinates[1]);
@@ -90,7 +91,7 @@ export default function OrderSellerScreen() {
                       })
                     }
                   >
-                    <View style={[styles.cardContainer, stylesLib.bgColCr]}>
+                    <View style={[styles.cardContainer, stylesLib.bgColPri]}>
                       <Image source={{ uri: order.User.profilePicture }} style={styles.cardImage} />
                       {order.status === 'Canceled' && (
                         <View style={styles.overlay}>
@@ -112,14 +113,13 @@ export default function OrderSellerScreen() {
                           {order.status === 'Waiting' && (
                             <>
                               <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(order.id)}>
-                                <Text style={styles.buttonText}>Accept</Text>
+                                <Text style={[styles.buttonText, stylesLib.colPri]}>Accept</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleReject(order.id)}>
-                                <Text style={styles.buttonText}>Reject</Text>
+                                <Text style={[styles.buttonText, stylesLib.colTer]}>Reject</Text>
                               </TouchableOpacity>
                             </>
                           )}
-
                           {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
                         </View>
                       </View>
@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 5,
+    borderColor: stylesLib.colSec.color,
     borderRadius: 10,
     marginVertical: 10,
     overflow: 'hidden',
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 23,
     fontWeight: 'bold',
-    color: '#333',
+    color: stylesLib.colSec.color,
   },
   cardDescription: {
     fontSize: 16,
-    color: '#666',
+    color: stylesLib.colSec.color,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -180,10 +180,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   acceptButton: {
-    backgroundColor: '#77DD77',
+    backgroundColor: stylesLib.bgColTer.backgroundColor,
   },
   rejectButton: {
-    backgroundColor: '#DB5856',
+    backgroundColor: stylesLib.bgColPri.backgroundColor,
   },
   buttonText: {
     color: 'black',
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(128, 128, 128, 0.7)',
+    backgroundColor: 'rgba(128, 128, 128, 0.3)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   overlayTextCancelled: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#DB5856',
+    color: stylesLib.colPri.color,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
@@ -207,14 +207,14 @@ const styles = StyleSheet.create({
   overlayTextSuccess: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#77DD77',
+    color: stylesLib.colPri.color,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
   },
   successStatus: {
     padding: 4,
-    backgroundColor: '#77DD77',
+    backgroundColor: stylesLib.colSec.color,
     fontSize: 15,
     fontWeight: 'bold',
     alignSelf: 'center',
