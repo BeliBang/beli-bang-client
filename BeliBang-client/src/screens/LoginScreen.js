@@ -135,49 +135,49 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={[styles.container]}>
-      <View style={[{ marginTop: 40 }]}>
+      <View style={[{ paddingTop: 80 }]}>
         <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
-      <View style={{ justifyContent: 'center', height: '50%' }}>
+      <View style={{ justifyContent: 'center', marginTop: 60}}>
         <View style={[styles.containerEmail, styles.pad90]}>
-          <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>email</Text>
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Email</Text>
           <TextInput 
             onChangeText={setEmail} 
             style = {[
               stylesLib.bgColPri, 
-              stylesLib.inputField
+              stylesLib.inputField,
+              { fontSize: 20}
               ]}
             underlineColor={stylesLib.colSec.color} 
           />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[styles.containerPassword, styles.pad90, { marginTop: 20 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>password</Text>
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Password</Text>
           <TextInput
-            style={[stylesLib.inputField, stylesLib.bgColPri, {color:stylesLib.colPri.color}]}
+            style={[stylesLib.inputField, stylesLib.bgColPri, {color:stylesLib.colPri.color, fontSize: 20}]}
             onChangeText={setPassword}
             secureTextEntry={hidePass ? true : false}
-            // blurOnSubmit={false}
-            // autoCapitalize="none"
-            // returnKeyType="next"
             right={<TextInput.Icon icon="eye" onPress={() => setHidePass(!hidePass)} />}
           />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
       </View>
-      <View>
-        <Text style={[{ textAlign: 'center', fontSize: 25 }, stylesLib.colSec]}>Don't have an account ?</Text>
-      </View>
-      <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
-        <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colSec]}>Sign up</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} style={[styles.textHere, { marginLeft: 9 }]}>
-          <Text style={[styles.textHere]}>here</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={[styles.pad30]}>
-        <Button mode="contained" onPress={clickLogin} style={[styles.buttonLogin]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]}>
-          Login
-        </Button>
+      <View style={[{marginTop:40}]}>
+        <View style={[styles.pad30]}>
+          <Button mode="contained" onPress={clickLogin} style={[styles.buttonLogin]} labelStyle={[stylesLib.colPri, { fontSize: 22, fontWeight:'700' }]}>
+            Login
+          </Button>
+        </View>
+        <View style={[{marginTop:40}]}>
+          <Text style={[{ textAlign: 'center', fontSize: 25 }, stylesLib.colSec]}>Don't have an account ?</Text>
+        </View>
+        <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
+          <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colSec]}>Sign up</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} style={[styles.textHere, { marginLeft: 9 }]}>
+            <Text style={[styles.textHere]}>here</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

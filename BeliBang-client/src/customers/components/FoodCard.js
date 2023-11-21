@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import stylesLib from '../../../assets/styles/styles-lib';
 
 export default function FoodCard({ name, image, description, price }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
   foodItemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 3,
+    borderColor: stylesLib.colSec.color,
     borderRadius: 10,
     margin: 10,
     overflow: 'hidden',

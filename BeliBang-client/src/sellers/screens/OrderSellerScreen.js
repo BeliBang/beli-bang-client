@@ -78,16 +78,22 @@ export default function OrderSellerScreen() {
   console.log(sellerOrder, '<<<<<<<<<<<<');
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
+    <ScrollView contentContainerStyle={[styles.container, stylesLib.bgColPri]}>
       <View>
         {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <View style={[stylesLib.pad10, stylesLib.center, { height: '100%', justifyContent: 'center' }]}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
         ) : (
           <View>
             {errorMessage !== '' ? (
-              <Text>{errorMessage}</Text>
+              <View style={[stylesLib.pad10, {height:'100%' ,justifyContent:'center'}]}>
+                <View style={[{alignItems:'center', alignContent:'center'}]}>
+                  <Text style={[stylesLib.colSec, {fontSize:30, fontWeight:'600'}]}>{errorMessage}</Text>
+                </View>
+              </View>
             ) : (
-              <View>
+              <View style={[{paddingBottom: 90}]}>
                 {sellerOrder.orders.map((order) => (
               <React.Fragment key={order.id}>
                 {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
@@ -105,12 +111,11 @@ export default function OrderSellerScreen() {
                           <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
                         </View>
                       )}
-                      {order.status === 'Completed' && (
+                      {/* {order.status === 'Completed' && (
                         <View style={styles.overlay}>
                           <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
                         </View>
-                      )}
-
+                      )} */}
                       <View style={styles.cardDetails}>
                         <View>
                           <Text style={styles.cardTitle}>{order.User.username}</Text>
@@ -128,6 +133,7 @@ export default function OrderSellerScreen() {
                             </>
                           )}
                           {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
+                          {order.status === 'Completed' && <Text style={[styles.completedStatus]}>Completed</Text>}
                             </View>
                           </View>
                         </View>
@@ -147,6 +153,7 @@ export default function OrderSellerScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    paddingBottom: 120,
     flex: 1,
   },
   cardContainer: {
@@ -200,7 +207,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(128, 128, 128, 0.3)',
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
@@ -228,5 +235,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     borderRadius: 10,
+    color: stylesLib.colPri.color
+  },
+  completedStatus: {
+    padding: 4,
+    backgroundColor: stylesLib.colTer.color,
+    fontSize: 15,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    borderRadius: 10,
+    color: stylesLib.colPri.color
   },
 });

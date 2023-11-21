@@ -71,16 +71,18 @@ export default function OrderSellerScreen() {
   };
 
   return (
-    <View>
+    <View style={[stylesLib.bgColPri, stylesLib.flex1,{paddingBottom:70}]}>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <View style={[stylesLib.pad10, stylesLib.center, { height: '100%', justifyContent: 'center' }]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
       ) : (
         <View>
           {errorMessage !== '' ? (
             <Text>{errorMessage}</Text>
           ) : (
-            <ScrollView>
-              <View contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
+            <ScrollView style={[stylesLib.pad10]}>
+              <View contentContainerStyle={[styles.container, stylesLib.bgColPri]}>
                 {customerOrder.map((order) => (
                   <React.Fragment key={order.id}>
                     {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
@@ -91,19 +93,13 @@ export default function OrderSellerScreen() {
                           })
                         }
                       >
-                        <View style={[styles.cardContainer, stylesLib.bgColCr]}>
+                        <View style={[styles.cardContainer, stylesLib.bgColPri]}>
                           <Image source={{ uri: order.Store.imageUrl }} style={styles.cardImage} />
                           {order.status === 'Canceled' && (
                             <View style={styles.overlay}>
                               <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
                             </View>
                           )}
-                          {order.status === 'Completed' && (
-                            <View style={styles.overlay}>
-                              <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
-                            </View>
-                          )}
-
                           <View style={styles.cardDetails}>
                             <View>
                               <Text style={styles.cardTitle}>{order.Store.name}</Text>
@@ -113,15 +109,15 @@ export default function OrderSellerScreen() {
                               {order.status === 'Processing' && (
                                 <>
                                   <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleReceive(order.id)}>
-                                    <Text style={styles.buttonText}>Receive</Text>
+                                    <Text style={[stylesLib.colPri, {fontWeight:'600'}]}>Receive</Text>
                                   </TouchableOpacity>
                                   <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleCancel(order.id)}>
-                                    <Text style={styles.buttonText}>Cancel</Text>
+                                    <Text style={[stylesLib.colSec, {fontWeight:'600'}]}>Cancel</Text>
                                   </TouchableOpacity>
                                 </>
                               )}
-
-                              {order.status === 'Waiting' && <Text style={[styles.successStatus]}>Waiting</Text>}
+                              {order.status === 'Waiting' && <Text style={[styles.waitingStatus]}>Waiting</Text>}
+                              {order.status === 'Completed' && <Text style={[styles.successStatus]}>Completed</Text>}
                             </View>
                           </View>
                         </View>
@@ -145,8 +141,8 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 5,
+    borderColor: stylesLib.colSec.color,
     borderRadius: 10,
     marginVertical: 10,
     overflow: 'hidden',
@@ -165,11 +161,11 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 23,
     fontWeight: 'bold',
-    color: '#333',
+    color: stylesLib.colSec.color,
   },
   cardDescription: {
     fontSize: 16,
-    color: '#666',
+    color: stylesLib.colSec.color,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -183,10 +179,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   acceptButton: {
-    backgroundColor: '#77DD77',
+    backgroundColor: stylesLib.bgColSec.backgroundColor,
   },
   rejectButton: {
-    backgroundColor: '#DB5856',
+    backgroundColor: stylesLib.bgColPri.backgroundColor,
   },
   buttonText: {
     color: 'black',
@@ -202,7 +198,7 @@ const styles = StyleSheet.create({
   overlayTextCancelled: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#DB5856',
+    color: stylesLib.colPri.color,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
@@ -217,11 +213,21 @@ const styles = StyleSheet.create({
   },
   successStatus: {
     padding: 4,
-    backgroundColor: '#77DD77',
+    backgroundColor: stylesLib.bgColTer.backgroundColor,
     fontSize: 15,
     fontWeight: 'bold',
     alignSelf: 'center',
     borderRadius: 10,
+    color: stylesLib.colPri.color
+  },
+  waitingStatus: {
+    padding: 4,
+    backgroundColor: stylesLib.bgColSec.backgroundColor,
+    fontSize: 15,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    borderRadius: 10,
+    color: stylesLib.colPri.color
   },
 });
 

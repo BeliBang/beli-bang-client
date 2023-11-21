@@ -32,13 +32,13 @@ export default function UserHomeScreen({ navigation }) {
 
   return (
     <View style={[stylesLib.flex1, stylesLib.bgColGrLight, stylesLib.pad20]}>
-      <View style={[{ marginTop: 20, marginBottom: 50 }]}>
+      <View style={[{ paddingTop: 60, paddingBottom: 50 }]}>
         <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
       <TouchableOpacity
         onPress={() => navigation.navigate('MapScreen')}
         style={[
-          stylesLib.bgColCr,
+          stylesLib.bgColSec,
           {
             marginBottom: 30,
             padding: 30,
@@ -46,16 +46,16 @@ export default function UserHomeScreen({ navigation }) {
             justifyContent: 'center',
             borderRadius: 30,
             borderWidth: 5,
-            borderColor: 'white',
+            borderColor: stylesLib.colTer.color,
           },
         ]}
       >
-        <Text style={[{ fontSize: 30, textAlign: 'center', fontWeight: '900' }, stylesLib.colGr]}>SELLERS NEAR ME</Text>
+        <Text style={[{ fontSize: 30, textAlign: 'center', fontWeight: '900' }, stylesLib.colPri]}>SELLERS NEAR ME</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => navigation.navigate('ListStores')}
         style={[
-          stylesLib.bgColCr,
+          stylesLib.bgColSec,
           {
             marginBottom: 20,
             padding: 30,
@@ -63,11 +63,11 @@ export default function UserHomeScreen({ navigation }) {
             justifyContent: 'center',
             borderRadius: 30,
             borderWidth: 5,
-            borderColor: 'white',
+            borderColor: stylesLib.colTer.color,
           },
         ]}
       >
-        <Text style={[{ fontSize: 30, textAlign: 'center', fontWeight: '900' }, stylesLib.colGr]}>Explore Street Sellers</Text>
+        <Text style={[{ fontSize: 30, textAlign: 'center', fontWeight: '900' }, stylesLib.colPri]}>EXPLORE STREET SELLERS</Text>
       </TouchableOpacity>
     </View>
   );

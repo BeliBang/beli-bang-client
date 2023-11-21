@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import stylesLib from '../../../assets/styles/styles-lib';
 
 export default function ListStoresCard({ title, imageSource, sellerLatitude, sellerLongitude, userLatitude, userLongitude, storeId }) {
   const navigation = useNavigation();
@@ -42,7 +43,7 @@ export default function ListStoresCard({ title, imageSource, sellerLatitude, sel
             <Text style={styles.cardDistance}>{`${distance.toFixed(2)} meters`}</Text>
           </View>
           <TouchableOpacity onPress={handleFavoritePress} style={styles.favoriteButton}>
-            <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={24} color={isFavorite ? '#FF0000' : 'black'} />
+            <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={24} color={isFavorite ? stylesLib.colTer.color : 'black'} />
           </TouchableOpacity>
         </View>
       </View>
@@ -64,10 +65,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 }, // for iOS
     shadowOpacity: 0.8, // for iOS
     shadowRadius: 2, // for iOS
+    borderWidth: 5,
+    borderColor: stylesLib.colSec.color
   },
   cardImage: {
-    width: 100,
-    height: 100,
+    width: 110,
+    height: 110,
     resizeMode: 'cover',
   },
   cardDetails: {

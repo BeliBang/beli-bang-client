@@ -69,17 +69,17 @@ const ProfilePictureModal = ({ isVisible, toggleModal, profilePictureUri }) => {
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={toggleModal}>
       <View style={[{ flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-        <View style={[stylesLib.bgColCr, { width: '80%', height: '70%', borderRadius: 20 }]}>
+        <View style={[stylesLib.bgColSec, { width: '80%', height: '70%', borderRadius: 20 }]}>
           <Image style={{ flex: 1, resizeMode: 'contain' }} source={{ uri: isEditMode ? newImage : profilePictureUri }} />
           <Pressable style={{ position: 'absolute', top: 20, right: 20 }} onPress={handleClose}>
-            <FontAwesome name="times" size={30} style={[stylesLib.colGr]} />
+            <FontAwesome name="times" size={30} style={[stylesLib.colTer]} />
           </Pressable>
           <Pressable style={{ position: 'absolute', bottom: 15, alignSelf: 'center' }} onPress={isEditMode ? handleSaveChanges : pickImage}>
             <Text
               style={[
-                stylesLib.bgColGrLight,
+                stylesLib.bgColTer,
                 stylesLib.pad40,
-                stylesLib.colCr,
+                stylesLib.colPri,
                 {
                   padding: 10,
                   borderRadius: 20,

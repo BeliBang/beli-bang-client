@@ -74,7 +74,7 @@ const ProfilePictureModal = ({ isVisible, toggleModal, profilePictureUri }) => {
       onRequestClose={toggleModal}
     >
       <View style={[{ flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-        <View style={[stylesLib.bgColCr, { width: '80%', height: '70%', borderRadius:20}]}>
+        <View style={[stylesLib.bgColCr, { width: '80%', height: '55%', borderRadius:20}]}>
           <Image
             style={{ flex: 1, resizeMode: 'contain' }}
             source={{ uri: isEditMode ? newImage : profilePictureUri }}

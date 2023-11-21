@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, updateProfile } from '../../../store/actions/actionCreator';
@@ -6,7 +6,6 @@ import * as React from 'react';
 import { Avatar } from 'react-native-paper';
 import * as SecureStore from 'expo-secure-store';
 import { useNavigation } from '@react-navigation/native';
-import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import ProfilePictureModal from './ProfilePictureModal';
 import stylesLib from '../../../assets/styles/styles-lib';
@@ -103,12 +102,12 @@ export default function ProfileScreen() {
       <>
         {!editableFields[field] && (
           <TouchableOpacity onPress={() => handleEdit(field)}>
-            <FontAwesome name="edit" size={25} color="white" />
+            <FontAwesome name="edit" size={25} style={[stylesLib.colTer]} />
           </TouchableOpacity>
         )}
         {editableFields[field] && (
           <TouchableOpacity onPress={() => handleSave(field)}>
-            <FontAwesome name="save" size={25} color="white" />
+            <FontAwesome name="save" size={25} style={[stylesLib.colTer]} />
           </TouchableOpacity>
         )}
       </>
@@ -119,87 +118,93 @@ export default function ProfileScreen() {
     <ScrollView style={[stylesLib.pad30, styles.container]}>
       <View>
         {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <View style={[stylesLib.pad10, stylesLib.center, { height: '100%', justifyContent: 'center' }]}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
         ) : (
           <View>
             <View style={[{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, marginBottom: 10 }]}>
               <TouchableOpacity onPress={() => clickSignOut()}>
-                <Text style={[stylesLib.colCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20, backgroundColor: '#DB5856' }]}>LOGOUT</Text>
+                <Text style={[stylesLib.colPri, stylesLib.pad10, { fontSize: 20, borderRadius: 20, backgroundColor: stylesLib.bgColTer.backgroundColor }]}>LOGOUT</Text>
               </TouchableOpacity>
             </View>
             <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 50 }]}>
               <TouchableOpacity onPress={toggleModal}>
-                <View style={[{ alignItems: 'center', borderWidth: 5, borderColor: 'rgb(236, 227, 206)', borderRadius: 70, overflow: 'hidden' }]}>
+                <View style={[{ alignItems: 'center', borderWidth: 5, borderColor: stylesLib.colSec.color, borderRadius: 70, overflow: 'hidden' }]}>
                   <Avatar.Image size={120} source={{ uri: user.profilePicture }} />
                 </View>
               </TouchableOpacity>
             </View>
             <ProfilePictureModal isVisible={isModalVisible} toggleModal={toggleModal} profilePictureUri={user.profilePicture} />
-            <View style={[stylesLib.padL20]}>
+            <View style={[stylesLib.pad20, {borderWidth: 5, paddingTop:30, paddingBottom:40, borderRadius:10, borderColor: stylesLib.colSec.color}]}>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colCr, styles.itemTitle]}>email</Text>
-                <Text style={[styles.item, stylesLib.colCr]}>{user.email}</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>email</Text>
+                <Text style={[styles.item, stylesLib.colSec]}>{user.email}</Text>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colCr, styles.itemTitle]}>username</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>username</Text>
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.username ? (
-                      <TextInput
-                        style={[styles.item, stylesLib.colGrLight, stylesLib.bgColCr, { borderRadius: 10 }]}
-                        value={username}
-                        onChangeText={(value) => {
-                          handleUsername(value);
-                        }}
-                      />
+                      <View>
+                        <TextInput
+                          style={[styles.item, stylesLib.colSec, stylesLib.bgColPri, { borderRadius: 10 }]}
+                          value={username}
+                          onChangeText={(value) => {
+                            handleUsername(value);
+                          }}
+                        />
+                        <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
+                      </View>
                     ) : (
-                      <Text style={[styles.item, stylesLib.colCr]}>{user.username}</Text>
+                      <Text style={[styles.item, stylesLib.colSec]}>{user.username}</Text>
                     )}
                   </View>
                   <View style={[stylesLib.flex1]}>{renderEditSaveButtons('username')}</View>
                 </View>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colCr, styles.itemTitle]}>phone number</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>phone number</Text>
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.phoneNumber ? (
-                      <TextInput
-                        style={[styles.item, stylesLib.colGrLight, stylesLib.bgColCr, { borderRadius: 10 }]}
-                        value={phoneNumber}
-                        onChangeText={(value) => {
-                          handlePhoneNumber(value);
-                        }}
-                      />
+                      <View>
+                        <TextInput
+                          style={[styles.item, stylesLib.colSec, stylesLib.bgColPri, { borderRadius: 10 }]}
+                          value={phoneNumber}
+                          onChangeText={(value) => {
+                            handlePhoneNumber(value);
+                          }}
+                        />
+                        <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
+                      </View>
                     ) : (
-                      <Text style={[styles.item, stylesLib.colCr]}>{user.phoneNumber}</Text>
+                      <Text style={[styles.item, stylesLib.colSec]}>{user.phoneNumber}</Text>
                     )}
                   </View>
                   <View style={[stylesLib.flex1]}>{renderEditSaveButtons('phoneNumber')}</View>
                 </View>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colCr, styles.itemTitle]}>address</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>address</Text>
                 <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.address ? (
-                      <TextInput
-                        style={[styles.item, stylesLib.colGrLight, stylesLib.bgColCr, { borderRadius: 10 }]}
-                        value={address}
-                        onChangeText={(value) => {
-                          handleAddress(value);
-                        }}
-                      />
+                      <View>
+                        <TextInput
+                          style={[styles.item, stylesLib.colSec, stylesLib.bgColPri, { borderRadius: 10 }]}
+                          value={address}
+                          onChangeText={(value) => {
+                            handleAddress(value);
+                          }}
+                        />
+                        <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
+                      </View>
                     ) : (
-                      <Text style={[styles.item, stylesLib.colCr]}>{user.address}</Text>
+                      <Text style={[styles.item, stylesLib.colSec]}>{user.address}</Text>
                     )}
                   </View>
                   <View style={[stylesLib.flex1]}>{renderEditSaveButtons('address')}</View>
-                </View>
-                <View style={[{ marginTop: 50, alignSelf: 'center', paddingBottom: 80 }]}>
-                  {/* <TouchableOpacity onPress={() => clickSignOut()}>
-                    <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center' }]}>CHANGE PASSWORD</Text>
-                  </TouchableOpacity> */}
                 </View>
               </View>
             </View>

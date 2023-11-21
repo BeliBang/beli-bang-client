@@ -69,20 +69,20 @@ export default function RegisterScreen({ navigation }) {
         <Image source={iconBB} style={[stylesLib.logo]} />
       </View>
       <View style={{ justifyContent: 'center', marginBottom: 20 }}>
-        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>username</Text>
-          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={setUsername} />
+        <View style={[stylesLib.pad40, { marginBottom: 20 }]}>
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Username</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField, {fontSize:22}]} onChangeText={setUsername} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
-        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>email</Text>
-          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={setEmail} />
+        <View style={[stylesLib.pad40, { marginBottom: 20 }]}>
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Email</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField, {fontSize:22}]} onChangeText={setEmail} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
-        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>password</Text>
+        <View style={[stylesLib.pad40, { marginBottom: 20 }]}>
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Password</Text>
           <TextInput
-            style={[stylesLib.bgColPri, stylesLib.inputField]}
+            style={[stylesLib.bgColPri, stylesLib.inputField, {fontSize:22}]}
             onChangeText={setPassword}
             secureTextEntry={hidePass ? true : false}
             blurOnSubmit={false}
@@ -92,40 +92,41 @@ export default function RegisterScreen({ navigation }) {
           />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
-        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>phone number</Text>
-          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ''))} keyboardType="numeric" />
+        <View style={[stylesLib.pad40, { marginBottom: 20 }]}>
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Phone Number</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField, {fontSize:22}]} onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ''))} keyboardType="numeric" />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
-        <View style={[stylesLib.pad50, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.padL20, stylesLib.inputLabel]}>address</Text>
-          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField]} onChangeText={setAddress} />
+        <View style={[stylesLib.pad40, { marginBottom: 20 }]}>
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Address</Text>
+          <TextInput style={[stylesLib.bgColPri, stylesLib.inputField, {fontSize:22}]} onChangeText={setAddress} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
+      </View>
+      
+      <View style={style.switchButtonContainer}>
+        <TouchableOpacity onPress={() => setRole('Customer')} style={[style.footerText, { marginRight: 30 }]}>
+          <Text style={[role === 'Customer' ? style.activeLink : style.inactiveLink, role === 'Customer' ? [stylesLib.bgColSec, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colSec], stylesLib.pad10, style.roundedLink, {padding:3}]}>Buyer</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setRole('Seller')} style={[style.footerText, { marginLeft: 30 }]}>
+          <Text style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? [stylesLib.bgColSec, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colSec], stylesLib.pad10, style.roundedLink, {padding:3}]}>Seller</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={[{ alignItems: 'center', marginBottom:20 }]}>
+        <Button mode="contained" style={[stylesLib.bgColTer]} labelStyle={[stylesLib.colGrLight, { fontSize: 22, fontWeight:'700' }]} onPress={clickSignup}>
+          Sign Up
+        </Button>
       </View>
       <View>
         <Text style={[{ textAlign: 'center', fontSize: 25, marginTop: 30 }, stylesLib.colSec]}>already have an account?</Text>
       </View>
       <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
-        <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colSec]}>log in</Text>
+        <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 40 }, stylesLib.colSec]}>log in</Text>
         <TouchableOpacity onPress={() => clickHere()} style={[style.activeLink, { marginLeft: 9 }]}>
           <Text style={[style.loginLink, stylesLib.colSec]} onPress={() => navigation.navigate('LoginScreen')}>
             here
           </Text>
         </TouchableOpacity>
-      </View>
-      <View style={style.switchButtonContainer}>
-        <TouchableOpacity onPress={() => setRole('Customer')} style={[style.footerText, { marginRight: 30 }]}>
-          <Text style={[role === 'Customer' ? style.activeLink : style.inactiveLink, role === 'Customer' ? [stylesLib.bgColTer, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colTer], stylesLib.pad10, style.roundedLink]}>Buyer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setRole('Seller')} style={[style.footerText, { marginLeft: 30 }]}>
-          <Text style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? [stylesLib.bgColTer, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colTer], stylesLib.pad10, style.roundedLink]}>Seller</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={[{ alignItems: 'center', marginBottom:40 }]}>
-        <Button mode="contained" style={[stylesLib.bgColTer]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]} onPress={clickSignup}>
-          Sign Up
-        </Button>
       </View>
     </ScrollView>
   );

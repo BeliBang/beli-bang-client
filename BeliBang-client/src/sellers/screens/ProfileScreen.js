@@ -118,12 +118,14 @@ export default function ProfileScreen() {
     <ScrollView style={[stylesLib.pad30, styles.container]}>
       <View>
         {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <View style={[stylesLib.pad10, stylesLib.center, { height: '100%', justifyContent: 'center' }]}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
         ) : (
           <View>
             <View style={[{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, marginBottom: 10 }]}>
               <TouchableOpacity onPress={() => clickSignOut()}>
-                <Text style={[stylesLib.colPri, stylesLib.pad10, { fontSize: 20, borderRadius: 20, backgroundColor: stylesLib.bgColTer.backgroundColor }]}>LOGOUT</Text>
+                <Text style={[stylesLib.colPri, stylesLib.pad10, { fontSize: 20, borderRadius: 20, backgroundColor: stylesLib.bgColTer.backgroundColor, fontWeight:'700' }]}>LOGOUT</Text>
               </TouchableOpacity>
             </View>
             <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 50 }]}>
@@ -136,11 +138,11 @@ export default function ProfileScreen() {
             <ProfilePictureModal isVisible={isModalVisible} toggleModal={toggleModal} profilePictureUri={user.profilePicture} />
             <View style={[stylesLib.pad20, {borderWidth: 5, paddingTop:30, paddingBottom:40, borderRadius:10, borderColor: stylesLib.colSec.color}]}>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>email</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Email</Text>
                 <Text style={[styles.item, stylesLib.colSec]}>{user.email}</Text>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>username</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Username</Text>
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.username ? (
@@ -162,7 +164,7 @@ export default function ProfileScreen() {
                 </View>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>phone number</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Phone Number</Text>
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.phoneNumber ? (
@@ -184,7 +186,7 @@ export default function ProfileScreen() {
                 </View>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>address</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Address</Text>
                 <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.address ? (
@@ -205,11 +207,6 @@ export default function ProfileScreen() {
                   <View style={[stylesLib.flex1]}>{renderEditSaveButtons('address')}</View>
                 </View>
               </View>
-              {/* <View style={[{ marginTop: 50, alignSelf: 'center' }]}>
-          <TouchableOpacity onPress={() => clickSignOut()}>
-            <Text style={[stylesLib.colGrBold, stylesLib.bgColCr, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center' }]}>CHANGE PASSWORD</Text>
-          </TouchableOpacity>
-        </View> */}
             </View>
           </View>
         )}

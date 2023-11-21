@@ -68,28 +68,28 @@ export default function RegisterStore({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={{ justifyContent: 'center' }}>
         <View style={[stylesLib.pad30, { marginBottom: 30, marginTop: 40 }]}>
-          <Text style={[stylesLib.inputLabel, stylesLib.colSec]}>store name :</Text>
-          <TextInput value={name} onChangeText={setName} style={[stylesLib.inputField, stylesLib.bgColPri, stylesLib.colSec]} />
+          <Text style={[stylesLib.inputLabel, stylesLib.colSec]}>Store Name</Text>
+          <TextInput value={name} onChangeText={setName} style={[stylesLib.inputField, stylesLib.bgColPri, stylesLib.colSec, {fontSize:20}]} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[stylesLib.pad30, { marginBottom: 30 }]}>
-          <Text style={[stylesLib.inputLabel, stylesLib.colSec]}>description :</Text>
-          <TextInput value={description} onChangeText={setDescription} style={[stylesLib.inputField, stylesLib.bgColPri, stylesLib.colSec]} />
+          <Text style={[stylesLib.inputLabel, stylesLib.colSec]}>Description</Text>
+          <TextInput value={description} onChangeText={setDescription} style={[stylesLib.inputField, stylesLib.bgColPri, stylesLib.colSec, {fontSize:20}]} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[stylesLib.pad30]}>
-          <View style={[{ marginBottom: 10, paddingLeft:20 }]}>
-            <Text style={[{ fontSize: 25 }, stylesLib.colSec]}>store photo :</Text>
+          <View style={[{ marginBottom: 10 }]}>
+            <Text style={[{ fontSize: 25 }, stylesLib.colSec]}>Store Photo</Text>
           </View>
           <View style={[{ marginBottom: 40 }]}>
             <TouchableOpacity onPress={pickImage} style={[]}>
-              <Text style={[stylesLib.colPri, stylesLib.bgColSec, stylesLib.pad10, { fontSize: 25, borderRadius: 20 }]}>Choose image</Text>
+              <Text style={[stylesLib.colPri, stylesLib.bgColSec, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign:'center', padding:3}]}>PICK IMAGE</Text>
             </TouchableOpacity>
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 20, alignSelf:'center' }} />}
           </View>
           <View style={[{ marginBottom: 20 }]}>
             <TouchableOpacity onPress={clickRegister} style={[{alignSelf:'center'}]}>
-              <Text style={[stylesLib.colPri, stylesLib.bgColTer, stylesLib.pad20, { fontSize: 30, borderRadius: 20 }]}>REGISTER</Text>
+              <Text style={[stylesLib.colPri, stylesLib.bgColTer, stylesLib.pad20, { fontSize: 30, borderRadius: 20 }]}>REGISTER STORE</Text>
             </TouchableOpacity>
           </View>
         </View>

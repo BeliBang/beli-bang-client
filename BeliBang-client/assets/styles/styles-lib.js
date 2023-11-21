@@ -108,12 +108,12 @@ const stylesLib = StyleSheet.create({
     width: 100,
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
   },
   inputField: {
-    height: 40,
+    height: 30,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderRadius: 20,
@@ -121,7 +121,6 @@ const stylesLib = StyleSheet.create({
   inputLabel: {
     fontSize: 25,
     marginBottom: 10,
-    paddingLeft: 25,
   },
   flex1: {
     flex: 1,
@@ -217,7 +216,9 @@ const stylesLib = StyleSheet.create({
     color: '#313d7f'
   },
   colTer: {
-    color: '#f16f61'
+    // color: '#f16f61'
+    color: '#5e9299'
+    // color: '#e8b867'
   },
   bgColPri: {
     backgroundColor: '#fcfcfc'
@@ -226,7 +227,13 @@ const stylesLib = StyleSheet.create({
     backgroundColor: '#313d7f'
   },
   bgColTer: {
-    backgroundColor: '#f16f61'
+    // backgroundColor: '#f16f61'
+    backgroundColor: '#5e9299'
+    // backgroundColor: '#e8b867'
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

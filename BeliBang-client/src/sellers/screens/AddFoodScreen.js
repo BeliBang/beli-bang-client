@@ -71,32 +71,32 @@ export default function AddFoodScreen({ navigation, route }) {
     <ScrollView style={[stylesLib.bgColPri, { flex: 1 }]}>
       <View style={[stylesLib.pad20, { paddingTop: 20, paddingBottom: 80 }]}>
         <View>
-          <Text style={[{ fontSize: 25, fontWeight: '800', paddingLeft: 10 }, stylesLib.colPri, stylesLib.bgColSec]}>ADD NEW FOOD</Text>
+          <Text style={[{ fontSize: 25, fontWeight: '800', padding: 7, textAlign:'center' }, stylesLib.colPri, stylesLib.bgColSec]}>NEW ITEM</Text>
         </View>
         <View style={[{ marginTop: 20 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>name</Text>
-          <TextInput value={name} onChangeText={(text) => setName(text)} style={[stylesLib.inputField, stylesLib.bgColPri]} />
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Name</Text>
+          <TextInput value={name} onChangeText={(text) => setName(text)} style={[stylesLib.inputField, stylesLib.bgColPri, {fontSize: 20}]} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[{ marginTop: 20 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>price</Text>
-          <TextInput value={price} onChangeText={(text) => setPrice(text)} style={[stylesLib.inputField, stylesLib.bgColPri]} />
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Price</Text>
+          <TextInput value={price} onChangeText={(text) => setPrice(text)} style={[stylesLib.inputField, stylesLib.bgColPri, {fontSize: 20}]} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[{ marginTop: 20 }]}>
-          <Text style={[stylesLib.colSec, stylesLib.inputLabel, { paddingLeft: 20 }]}>description</Text>
-          <TextInput value={description} onChangeText={(text) => setDescription(text)} style={[stylesLib.inputField, stylesLib.bgColPri]} />
+          <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Description</Text>
+          <TextInput value={description} onChangeText={(text) => setDescription(text)} style={[stylesLib.inputField, stylesLib.bgColPri, {fontSize: 20}]} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[{ marginTop: 40 }]}>
           <TouchableOpacity onPress={pickImage} style={[]}>
-            <Text style={[stylesLib.colPri, stylesLib.bgColSec, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center' }]}>PICK IMAGE</Text>
+            <Text style={[stylesLib.colPri, stylesLib.bgColSec, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center', padding:3 }]}>PICK IMAGE</Text>
           </TouchableOpacity>
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop:10, alignSelf:'center'  }} />}
         </View>
         <View style={[{ marginTop: 20, alignSelf: 'center' }]}>
           <TouchableOpacity onPress={registerFood} style={[]}>
-            <Text style={[stylesLib.colGrBold, stylesLib.bgColTer, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign: 'center' }]}>SUBMIT</Text>
+            <Text style={[stylesLib.colGrBold, stylesLib.bgColTer, stylesLib.pad10, { fontSize: 25, borderRadius: 20, textAlign: 'center', padding: 5, fontWeight:'700' }]}>SUBMIT</Text>
           </TouchableOpacity>
         </View>
       </View>

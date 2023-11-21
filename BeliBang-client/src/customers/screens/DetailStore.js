@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createOrder, fetchDetailStore } from '../../../store/actions/actionCreator';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
+import stylesLib from '../../../assets/styles/styles-lib';
 
 export default function DetailStore({ route }) {
   const navigation = useNavigation();
@@ -44,7 +45,9 @@ export default function DetailStore({ route }) {
   return (
     <View>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <View style={[stylesLib.pad10, stylesLib.center, { height: '100%', justifyContent: 'center' }]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
       ) : (
         <ScrollView>
           <View style={styles.container}>
@@ -88,7 +91,8 @@ export default function DetailStore({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: stylesLib.bgColPri.backgroundColor,
+    paddingBottom: 60
   },
   storeImage: {
     width: '100%',
@@ -144,14 +148,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    backgroundColor: 'green',
+    backgroundColor: stylesLib.bgColTer.backgroundColor,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     marginRight: 15,
   },
   callButtonText: {
-    color: 'white',
+    color: stylesLib.colPri.color,
     fontWeight: 'bold',
   },
 });

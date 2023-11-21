@@ -74,7 +74,7 @@ export const fetchDetailOrderAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://f3eb-182-253-245-138.ngrok-free.app';
+let baseUrl = 'https://7208-182-253-245-138.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {

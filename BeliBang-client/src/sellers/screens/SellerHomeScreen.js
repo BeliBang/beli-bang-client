@@ -7,6 +7,7 @@ import { Card } from 'react-native-paper';
 import stylesLib from '../../../assets/styles/styles-lib';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
+// import { Grayscale } from 'react-native-image-filter-kit';
 
 export default function SellerHomeScreen({ navigation, food }) {
   const dispatch = useDispatch();
@@ -92,24 +93,32 @@ export default function SellerHomeScreen({ navigation, food }) {
       <ScrollView>
         <View>
           {isLoading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
+            <View style={[stylesLib.pad10, stylesLib.center, { height: '100%', justifyContent: 'center' }]}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
           ) : (
             <View style={[stylesLib.bgColPri, { padding: 10, paddingBottom: 80 }]}>
-              <Card style={[{ marginBottom: 20, borderRadius: 30 }]}>
-                <Card.Cover source={{ uri: store.imageUrl }} style={[styles.foodImage, { borderRadius: 20, overflow: 'hidden' }]} />
+              <Card style={[{ marginBottom: 20, borderRadius: 30, overflow: 'hidden'}]}>
+                <Card.Cover source={{ uri: store.imageUrl }} style={[styles.foodImage, { borderRadius: 20, overflow: 'hidden' }]} 
+                />
+                {!statusStore && (
+                  <View style={styles.overlay}>
+                    <Text style={[styles.overlayTextCancelled]}></Text>
+                  </View>
+                )}
               </Card>
               <View style={[{ marginBottom: 20 }]}>
                 <View>
                   {!statusStore ? (
                     <View style={[{ borderRadius: 20 }]}>
                       <TouchableOpacity onPress={openStore}>
-                        <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center' }]}>OPEN</Text>
+                        <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center' }]}>OPEN STORE</Text>
                       </TouchableOpacity>
                     </View>
                   ) : (
                     <View>
                       <TouchableOpacity onPress={closeStore}>
-                        <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center' }]}>CLOSE</Text>
+                        <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontSize: 20, fontWeight: '900', textAlign: 'center' }]}>CLOSE STORE</Text>
                       </TouchableOpacity>
                     </View>
                   )}
@@ -120,7 +129,7 @@ export default function SellerHomeScreen({ navigation, food }) {
                 <Text style={[stylesLib.colSec, { fontSize: 20, textAlign: 'justify', fontStyle:'italic' }]}>"{store.description}"</Text>
                 <View style={[{ alignSelf: 'flex-end', marginTop: 15, marginBottom: 15 }]}>
                   <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen')}>
-                    <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>CREATE FOOD +</Text>
+                    <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>NEW ITEM +</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -185,5 +194,20 @@ const styles = StyleSheet.create({
     height: 200,
     padding: 10,
     backgroundColor: stylesLib.bgColSec.backgroundColor
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  overlayTextCancelled: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: stylesLib.colPri.color,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });
