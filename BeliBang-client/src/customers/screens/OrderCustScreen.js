@@ -14,6 +14,7 @@ export default function OrderSellerScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [buyerLatitude, setBuyerLatitude] = useState('');
   const [buyerLongitude, setBuyerLongitude] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -25,7 +26,9 @@ export default function OrderSellerScreen() {
         setBuyerLongitude(result[0].User.location.coordinates[0]);
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
+        console.log(err, '<<<<<<< ini err');
+        setErrorMessage(err);
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -73,8 +76,8 @@ export default function OrderSellerScreen() {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <View>
-          {customerOrder.length === 0 ? (
-            <Text>You have no order</Text>
+          {errorMessage !== '' ? (
+            <Text>{errorMessage}</Text>
           ) : (
             <ScrollView>
               <View contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>

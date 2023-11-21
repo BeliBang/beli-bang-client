@@ -16,6 +16,7 @@ export default function OrderSellerScreen() {
   const [buyerLongitude, setBuyerLongitude] = useState('');
   const [sellerLatitude, setSellerLatitude] = useState('');
   const [sellerLongitude, setSellerLongitude] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -24,13 +25,15 @@ export default function OrderSellerScreen() {
         setAccessToken(access_token);
         const result = await dispatch(fetchSellerOrder(access_token));
         console.log(result, '<<<<<<< order');
-        setBuyerLatitude(sellerOrder.orders[0].User.location.coordinates[1]);
-        setBuyerLongitude(sellerOrder.orders[0].User.location.coordinates[0]);
-        setSellerLatitude(sellerOrder.locationSeller.coordinates[1]);
-        setSellerLongitude(sellerOrder.locationSeller.coordinates[0]);
+        setBuyerLatitude(result.orders[0].User.location.coordinates[1]);
+        setBuyerLongitude(result.orders[0].User.location.coordinates[0]);
+        setSellerLatitude(result.locationSeller.coordinates[1]);
+        setSellerLongitude(result.locationSeller.coordinates[0]);
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
+        console.log(err, '<<<<<<< ini err');
+        setErrorMessage(err);
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -81,8 +84,8 @@ export default function OrderSellerScreen() {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <View>
-            {sellerOrder.orders.length === 0 ? (
-              <Text>You have no order</Text>
+            {errorMessage !== '' ? (
+              <Text>{errorMessage}</Text>
             ) : (
               <View>
                 {sellerOrder.orders.map((order) => (

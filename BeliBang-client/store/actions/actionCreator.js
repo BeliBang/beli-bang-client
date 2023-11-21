@@ -329,15 +329,13 @@ export const fetchSellerOrder = (access_token) => {
           access_token,
         },
       });
-      if (!response.ok) throw new Error('Something Wrong!');
-      // if (!response.ok) {
-      //   const error = await response.json();
-      //   console.log(response.json());
-      //   throw new Error(error);
-      // }
+
+      // if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
+      if (!response.ok) throw data.message;
       const action = fetchSellerOrderAction(data);
       dispatch(action);
+      return data;
     } catch (err) {
       console.log(err);
       throw err;
@@ -354,8 +352,9 @@ export const fetchCustomerOrder = (access_token) => {
           access_token,
         },
       });
-      if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
+      // if (!response.ok) throw new Error('Something Wrong!');
+      if (!response.ok) throw data.message;
       const action = fetchCustomerOrderAction(data);
       dispatch(action);
       // console.log(data, ' <<<<<<<< data');
@@ -457,6 +456,7 @@ export const updateLocationUser = (userLocation, access_token) => {
         latitude: userLocation.coords.latitude,
         longitude: userLocation.coords.longitude,
       };
+      console.log(data, '<<<<<<<');
 
       const response = await fetch(`${baseUrl}/users/location`, {
         method: 'PATCH',

@@ -138,7 +138,7 @@ export default function LoginScreen({ navigation }) {
       <View style={{ justifyContent: 'center', height: '50%' }}>
         <View style={[styles.containerEmail, styles.pad90]}>
           <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>email</Text>
-          <TextInput onChangeText={setEmail} style={[stylesLib.bgColCr, stylesLib.inputField]} />
+          <TextInput onChangeText={setEmail} style={[stylesLib.bgColCr, stylesLib.inputField]} returnKeyType="next" />
         </View>
         <View style={[styles.containerPassword, styles.pad90, { marginTop: 20 }]}>
           <Text style={[stylesLib.colCr, stylesLib.inputLabel, { paddingLeft: 20 }]}>password</Text>
@@ -146,9 +146,9 @@ export default function LoginScreen({ navigation }) {
             style={[stylesLib.bgColCr, stylesLib.inputField]}
             onChangeText={setPassword}
             secureTextEntry={hidePass ? true : false}
-            blurOnSubmit={false}
-            autoCapitalize="none"
-            returnKeyType="next"
+            // blurOnSubmit={false}
+            // autoCapitalize="none"
+            // returnKeyType="next"
             right={<TextInput.Icon icon="eye" onPress={() => setHidePass(!hidePass)} />}
           />
         </View>

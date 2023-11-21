@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, Button, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFood, fetchSellerStore, updateStatusStore } from '../../../store/actions/actionCreator';
+import { deleteFood, fetchSellerStore, updateLocationUser, updateStatusStore } from '../../../store/actions/actionCreator';
 import * as React from 'react';
 import { Card } from 'react-native-paper';
 import stylesLib from '../../../assets/styles/styles-lib';
 import * as SecureStore from 'expo-secure-store';
+import * as Location from 'expo-location';
 
 export default function SellerHomeScreen({ navigation, food }) {
   const dispatch = useDispatch();
@@ -15,14 +16,21 @@ export default function SellerHomeScreen({ navigation, food }) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [statusStore, setStatusStore] = React.useState(false);
   const [accessToken, setAccessToken] = React.useState(null);
+  const [getLocation, setLocation] = React.useState(null);
 
   useEffect(() => {
     (async () => {
       try {
-        let userId = await SecureStore.getItemAsync('userId');
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permission to access location was denied');
+        }
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        setLocation(currentLocation);
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
-        const result = await dispatch(fetchSellerStore({ userId, access_token }));
+        const setLocationUser = await dispatch(updateLocationUser(currentLocation, access_token));
+        const result = await dispatch(fetchSellerStore({ access_token }));
         setStatusStore(result.status);
         setIsLoading(false);
       } catch (err) {

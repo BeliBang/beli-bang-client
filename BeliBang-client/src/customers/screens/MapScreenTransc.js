@@ -20,7 +20,6 @@ export default function MapScreenTransc({ route }) {
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
         const result = await dispatch(fetchDetailOrder(orderId, access_token));
-        // console.log(result, '<<<<<<<<<');
         setIsLoading(false);
       } catch (err) {
         console.log(err);
