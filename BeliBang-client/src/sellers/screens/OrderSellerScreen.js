@@ -23,7 +23,7 @@ export default function OrderSellerScreen() {
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
         const result = await dispatch(fetchSellerOrder(access_token));
-        console.log(result, '<<<<<<<<<');
+        console.log(result, '<<<<<<< order');
         setBuyerLatitude(sellerOrder.orders[0].User.location.coordinates[1]);
         setBuyerLongitude(sellerOrder.orders[0].User.location.coordinates[0]);
         setSellerLatitude(sellerOrder.locationSeller.coordinates[1]);
@@ -81,54 +81,60 @@ export default function OrderSellerScreen() {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <View>
-            {sellerOrder.orders.map((order) => (
-              <React.Fragment key={order.id}>
-                {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('SellerMapScreen', {
-                        id: order.id,
-                      })
-                    }
-                  >
-                    <View style={[styles.cardContainer, stylesLib.bgColCr]}>
-                      <Image source={{ uri: order.User.profilePicture }} style={styles.cardImage} />
-                      {order.status === 'Canceled' && (
-                        <View style={styles.overlay}>
-                          <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
-                        </View>
-                      )}
-                      {order.status === 'Completed' && (
-                        <View style={styles.overlay}>
-                          <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
-                        </View>
-                      )}
-
-                      <View style={styles.cardDetails}>
-                        <View>
-                          <Text style={styles.cardTitle}>{order.User.username}</Text>
-                          <Text>{haversineDistance(buyerLatitude, buyerLongitude, sellerLatitude, sellerLongitude)} meters</Text>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                          {order.status === 'Waiting' && (
-                            <>
-                              <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(order.id)}>
-                                <Text style={styles.buttonText}>Accept</Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleReject(order.id)}>
-                                <Text style={styles.buttonText}>Reject</Text>
-                              </TouchableOpacity>
-                            </>
+            {sellerOrder.orders.length === 0 ? (
+              <Text>You have no order</Text>
+            ) : (
+              <View>
+                {sellerOrder.orders.map((order) => (
+                  <React.Fragment key={order.id}>
+                    {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('SellerMapScreen', {
+                            id: order.id,
+                          })
+                        }
+                      >
+                        <View style={[styles.cardContainer, stylesLib.bgColCr]}>
+                          <Image source={{ uri: order.User.profilePicture }} style={styles.cardImage} />
+                          {order.status === 'Canceled' && (
+                            <View style={styles.overlay}>
+                              <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
+                            </View>
+                          )}
+                          {order.status === 'Completed' && (
+                            <View style={styles.overlay}>
+                              <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
+                            </View>
                           )}
 
-                          {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
+                          <View style={styles.cardDetails}>
+                            <View>
+                              <Text style={styles.cardTitle}>{order.User.username}</Text>
+                              <Text>{haversineDistance(buyerLatitude, buyerLongitude, sellerLatitude, sellerLongitude)} meters</Text>
+                            </View>
+                            <View style={styles.buttonContainer}>
+                              {order.status === 'Waiting' && (
+                                <>
+                                  <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(order.id)}>
+                                    <Text style={styles.buttonText}>Accept</Text>
+                                  </TouchableOpacity>
+                                  <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleReject(order.id)}>
+                                    <Text style={styles.buttonText}>Reject</Text>
+                                  </TouchableOpacity>
+                                </>
+                              )}
+
+                              {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
+                            </View>
+                          </View>
                         </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              </React.Fragment>
-            ))}
+                      </TouchableOpacity>
+                    )}
+                  </React.Fragment>
+                ))}
+              </View>
+            )}
           </View>
         )}
       </View>

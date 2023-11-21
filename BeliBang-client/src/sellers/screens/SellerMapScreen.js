@@ -5,6 +5,8 @@ import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetailOrder } from '../../../store/actions/actionCreator';
+import stylesLib from '../../../assets/styles/styles-lib';
+import MapViewDirections from 'react-native-maps-directions';
 
 export default function SellerMapScreen({ route }) {
   const orderId = route.params.id;
@@ -44,6 +46,19 @@ export default function SellerMapScreen({ route }) {
                 longitudeDelta: 0.0021,
               }}
             >
+              <MapViewDirections
+                origin={{
+                  latitude: detailOrder.store.User.location.coordinates[1],
+                  longitude: detailOrder.store.User.location.coordinates[0],
+                }}
+                destination={{
+                  latitude: detailOrder.customer.location.coordinates[1],
+                  longitude: detailOrder.customer.location.coordinates[0],
+                }}
+                apikey="AIzaSyBgg7wUs0UDo5Z_8X6OXCns06fwoUoyK2A"
+                strokeWidth={4}
+                strokeColor={stylesLib.colRed.color}
+              />
               <Marker
                 coordinate={{
                   latitude: detailOrder.store.User.location.coordinates[1],
@@ -51,6 +66,7 @@ export default function SellerMapScreen({ route }) {
                 }}
                 title={detailOrder.store.name}
                 description="Your Position"
+                pinColor={stylesLib.colRed.color}
               />
               <Marker
                 coordinate={{
@@ -58,7 +74,8 @@ export default function SellerMapScreen({ route }) {
                   longitude: detailOrder.customer.location.coordinates[0],
                 }}
                 title={detailOrder.customer.username}
-                description="Buyer"
+                description="Customer"
+                pinColor={stylesLib.bgColCr.backgroundColor}
               />
             </MapView>
           </View>

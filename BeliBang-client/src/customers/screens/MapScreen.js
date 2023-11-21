@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, showStores, updateLocationUser } from '../../../store/actions/actionCreator';
 import * as SecureStore from 'expo-secure-store';
+import MapViewDirections from 'react-native-maps-directions';
+import stylesLib from '../../../assets/styles/styles-lib';
 
 export default function MapScreen() {
   const [getLocation, setLocation] = useState(null);
@@ -82,6 +84,7 @@ export default function MapScreen() {
                 }}
                 title={user.username}
                 description="Your position"
+                pinColor={stylesLib.colRed.color}
               />
               {openStore.map((e) => {
                 return (
@@ -93,6 +96,7 @@ export default function MapScreen() {
                     title={e.name}
                     description="Seller"
                     key={e.id}
+                    pinColor={stylesLib.bgColCr.backgroundColor}
                   />
                 );
               })}

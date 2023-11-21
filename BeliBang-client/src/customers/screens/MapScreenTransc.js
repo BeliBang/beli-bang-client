@@ -4,6 +4,8 @@ import MapView, { Marker } from 'react-native-maps';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetailOrder } from '../../../store/actions/actionCreator';
+import MapViewDirections from 'react-native-maps-directions';
+import stylesLib from '../../../assets/styles/styles-lib';
 
 export default function MapScreenTransc({ route }) {
   const orderId = route.params.id;
@@ -42,6 +44,19 @@ export default function MapScreenTransc({ route }) {
                 longitudeDelta: 0.0021,
               }}
             >
+              <MapViewDirections
+                origin={{
+                  latitude: detailOrder.customer.location.coordinates[1],
+                  longitude: detailOrder.customer.location.coordinates[0],
+                }}
+                destination={{
+                  latitude: detailOrder.store.User.location.coordinates[1],
+                  longitude: detailOrder.store.User.location.coordinates[0],
+                }}
+                apikey="AIzaSyBgg7wUs0UDo5Z_8X6OXCns06fwoUoyK2A"
+                strokeWidth={4}
+                strokeColor={stylesLib.colRed.color}
+              />
               <Marker
                 coordinate={{
                   latitude: detailOrder.customer.location.coordinates[1],
@@ -49,7 +64,9 @@ export default function MapScreenTransc({ route }) {
                 }}
                 title={detailOrder.customer.username}
                 description="Your Position"
+                pinColor={stylesLib.colRed.color}
               />
+
               <Marker
                 coordinate={{
                   latitude: detailOrder.store.User.location.coordinates[1],
@@ -57,6 +74,7 @@ export default function MapScreenTransc({ route }) {
                 }}
                 title={detailOrder.store.name}
                 description="Seller"
+                pinColor={stylesLib.bgColCr.backgroundColor}
               />
             </MapView>
           </View>

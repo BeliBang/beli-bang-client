@@ -72,58 +72,64 @@ export default function OrderSellerScreen() {
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <ScrollView>
-          <View contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
-            {customerOrder.map((order) => (
-              <React.Fragment key={order.id}>
-                {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('MapScreenTransc', {
-                        id: order.id,
-                      })
-                    }
-                  >
-                    <View style={[styles.cardContainer, stylesLib.bgColCr]}>
-                      <Image source={{ uri: order.Store.imageUrl }} style={styles.cardImage} />
-                      {order.status === 'Canceled' && (
-                        <View style={styles.overlay}>
-                          <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
-                        </View>
-                      )}
-                      {order.status === 'Completed' && (
-                        <View style={styles.overlay}>
-                          <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
-                        </View>
-                      )}
-
-                      <View style={styles.cardDetails}>
-                        <View>
-                          <Text style={styles.cardTitle}>{order.Store.name}</Text>
-                          <Text>{haversineDistance(buyerLatitude, buyerLongitude, order.Store.User.location.coordinates[1], order.Store.User.location.coordinates[0])} meters</Text>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                          {order.status === 'Processing' && (
-                            <>
-                              <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleReceive(order.id)}>
-                                <Text style={styles.buttonText}>Receive</Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleCancel(order.id)}>
-                                <Text style={styles.buttonText}>Cancel</Text>
-                              </TouchableOpacity>
-                            </>
+        <View>
+          {customerOrder.length === 0 ? (
+            <Text>You have no order</Text>
+          ) : (
+            <ScrollView>
+              <View contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
+                {customerOrder.map((order) => (
+                  <React.Fragment key={order.id}>
+                    {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('MapScreenTransc', {
+                            id: order.id,
+                          })
+                        }
+                      >
+                        <View style={[styles.cardContainer, stylesLib.bgColCr]}>
+                          <Image source={{ uri: order.Store.imageUrl }} style={styles.cardImage} />
+                          {order.status === 'Canceled' && (
+                            <View style={styles.overlay}>
+                              <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
+                            </View>
+                          )}
+                          {order.status === 'Completed' && (
+                            <View style={styles.overlay}>
+                              <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
+                            </View>
                           )}
 
-                          {order.status === 'Waiting' && <Text style={[styles.successStatus]}>Waiting</Text>}
+                          <View style={styles.cardDetails}>
+                            <View>
+                              <Text style={styles.cardTitle}>{order.Store.name}</Text>
+                              <Text>{haversineDistance(buyerLatitude, buyerLongitude, order.Store.User.location.coordinates[1], order.Store.User.location.coordinates[0])} meters</Text>
+                            </View>
+                            <View style={styles.buttonContainer}>
+                              {order.status === 'Processing' && (
+                                <>
+                                  <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleReceive(order.id)}>
+                                    <Text style={styles.buttonText}>Receive</Text>
+                                  </TouchableOpacity>
+                                  <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleCancel(order.id)}>
+                                    <Text style={styles.buttonText}>Cancel</Text>
+                                  </TouchableOpacity>
+                                </>
+                              )}
+
+                              {order.status === 'Waiting' && <Text style={[styles.successStatus]}>Waiting</Text>}
+                            </View>
+                          </View>
                         </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              </React.Fragment>
-            ))}
-          </View>
-        </ScrollView>
+                      </TouchableOpacity>
+                    )}
+                  </React.Fragment>
+                ))}
+              </View>
+            </ScrollView>
+          )}
+        </View>
       )}
     </View>
   );

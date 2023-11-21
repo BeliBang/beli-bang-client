@@ -74,7 +74,7 @@ export const fetchDetailOrderAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://5940-103-156-164-57.ngrok-free.app';
+let baseUrl = 'https://b304-103-157-48-77.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
@@ -330,6 +330,11 @@ export const fetchSellerOrder = (access_token) => {
         },
       });
       if (!response.ok) throw new Error('Something Wrong!');
+      // if (!response.ok) {
+      //   const error = await response.json();
+      //   console.log(response.json());
+      //   throw new Error(error);
+      // }
       const data = await response.json();
       const action = fetchSellerOrderAction(data);
       dispatch(action);
