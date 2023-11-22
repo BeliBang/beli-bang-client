@@ -26,7 +26,7 @@ export default function SellerTab() {
         name="Home"
         component={SellerHomeStack}
         options={{
-          // headerShown: false,
+          headerShown: false,
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size, focused }) => <Ionicons name="home" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color } />,
         }}
@@ -36,6 +36,7 @@ export default function SellerTab() {
         component={OrderStack}
         options={{
           tabBarLabel: () => null,
+          headerShown: false,
           tabBarIcon: ({ color, size, focused }) => <Feather name="list" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color } />,
         }}
       />
@@ -44,6 +45,9 @@ export default function SellerTab() {
         component={ProfileScreen}
         options={{
           tabBarLabel: () => null,
+          title: 'My Profile',
+            headerTitleAlign: 'left',
+            headerTitleStyle: {color: stylesLib.colSec.color, fontWeight:'800', fontSize:25},
           tabBarIcon: ({ color, size, focused }) => <Ionicons name="person-circle-outline" size={24} color={focused ? stylesLib.colTer.color : stylesLib.colPri.color } />,
         }}
       />

@@ -91,7 +91,7 @@ export default function EditFoodScreen({ navigation, route }) {
       ) : (
         <View style={[stylesLib.pad20, { paddingTop: 20, paddingBottom: 80 }]}>
           <View>
-            <Text style={[{ fontSize: 25, fontWeight: '800', padding: 7, textAlign:'center' }, stylesLib.colPri, stylesLib.bgColSec]}>UPDATE FOOD</Text>
+            <Text style={[{ fontSize: 25, fontWeight: '800', padding: 7, textAlign:'center' }, stylesLib.colPri, stylesLib.bgColSec]}>UPDATE ITEM</Text>
           </View>
           <View style={[{ marginTop: 20 }]}>
             <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Name</Text>

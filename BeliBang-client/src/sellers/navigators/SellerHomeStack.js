@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SellerHomeScreen from '../screens/SellerHomeScreen';
 import AddFoodScreen from '../screens/AddFoodScreen';
 import EditFoodScreen from '../screens/EditFoodScreen';
+import stylesLib from '../../../assets/styles/styles-lib';
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
@@ -11,22 +12,24 @@ export default function HomeStack() {
         name="SellerHomeScreen"
         component={SellerHomeScreen}
         options={{
-          headerShown: false,
+          title: 'BELI BANG!',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {color: stylesLib.colSec.color, fontWeight:'800', fontSize:30}
         }}
       />
       <Stack.Screen
         name="AddFoodScreen"
         component={AddFoodScreen}
-        // options={{
-        //   headerShown: false,
-        // }}
+        options={{
+          title: ''
+        }}
       />
       <Stack.Screen
         name="EditFoodScreen"
         component={EditFoodScreen}
-        // options={{
-        //   headerShown: false,
-        // }}
+        options={{
+          title: ''
+        }}
       />
     </Stack.Navigator>
   );
