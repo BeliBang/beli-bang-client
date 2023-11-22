@@ -26,7 +26,7 @@ export default function OrderSellerScreen() {
         setBuyerLongitude(result[0].User.location.coordinates[0]);
         setIsLoading(false);
       } catch (err) {
-        console.log(err, '<<<<<<< ini err');
+        console.log(err, '<<<<< ini err');
         setErrorMessage(err);
         setIsLoading(false);
       }
@@ -36,7 +36,7 @@ export default function OrderSellerScreen() {
   function handleReceive(orderId) {
     try {
       const status = { status: 'Completed' };
-      dispatch(updateStatusOrder(orderId, status, accessToken));
+      dispatch(updateStatusOrder(orderId, status, accessToken, 'Customer'));
       console.log('UPDATE STATUS SUCCESS!');
     } catch (err) {
       console.log(err);
@@ -48,7 +48,7 @@ export default function OrderSellerScreen() {
       const status = {
         status: 'Canceled',
       };
-      dispatch(updateStatusOrder(orderId, status, accessToken));
+      dispatch(updateStatusOrder(orderId, status, accessToken, 'Customer'));
       console.log('UPDATE STATUS SUCCESS');
     } catch (err) {
       console.log(err);

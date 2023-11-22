@@ -85,7 +85,7 @@ export default function RegisterScreen({ navigation }) {
             style={[stylesLib.bgColPri, stylesLib.inputField]}
             onChangeText={setPassword}
             secureTextEntry={hidePass ? true : false}
-            blurOnSubmit={false}
+            // blurOnSubmit={false}
             autoCapitalize="none"
             returnKeyType="next"
             right={<TextInput.Icon icon="eye" onPress={() => setHidePass(!hidePass)} />}
@@ -108,7 +108,7 @@ export default function RegisterScreen({ navigation }) {
       </View>
       <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
         <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 20 }, stylesLib.colSec]}>log in</Text>
-        <TouchableOpacity onPress={() => clickHere()} style={[style.activeLink, { marginLeft: 9 }]}>
+        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')} style={[style.activeLink, { marginLeft: 9 }]}>
           <Text style={[style.loginLink, stylesLib.colSec]} onPress={() => navigation.navigate('LoginScreen')}>
             here
           </Text>
@@ -119,10 +119,14 @@ export default function RegisterScreen({ navigation }) {
           <Text style={[role === 'Customer' ? style.activeLink : style.inactiveLink, role === 'Customer' ? [stylesLib.bgColTer, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colTer], stylesLib.pad10, style.roundedLink]}>Buyer</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setRole('Seller')} style={[style.footerText, { marginLeft: 30 }]}>
-          <Text style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? [stylesLib.bgColTer, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colTer], stylesLib.pad10, style.roundedLink]}>Seller</Text>
+          <Text
+            style={[role === 'Seller' ? style.activeLink : style.inactiveLink, stylesLib.colGrBold, role === 'Seller' ? [stylesLib.bgColTer, stylesLib.colPri] : [stylesLib.bgColPri, stylesLib.colTer], stylesLib.pad10, style.roundedLink]}
+          >
+            Seller
+          </Text>
         </TouchableOpacity>
       </View>
-      <View style={[{ alignItems: 'center', marginBottom:40 }]}>
+      <View style={[{ alignItems: 'center', marginBottom: 40 }]}>
         <Button mode="contained" style={[stylesLib.bgColTer]} labelStyle={[stylesLib.colGrLight, { fontSize: 22 }]} onPress={clickSignup}>
           Sign Up
         </Button>

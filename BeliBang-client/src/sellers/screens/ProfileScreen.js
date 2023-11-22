@@ -134,7 +134,7 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             </View>
             <ProfilePictureModal isVisible={isModalVisible} toggleModal={toggleModal} profilePictureUri={user.profilePicture} />
-            <View style={[stylesLib.pad20, {borderWidth: 5, paddingTop:30, paddingBottom:40, borderRadius:10, borderColor: stylesLib.colSec.color}]}>
+            <View style={[stylesLib.pad20, { borderWidth: 5, paddingTop: 30, paddingBottom: 40, borderRadius: 10, borderColor: stylesLib.colSec.color }]}>
               <View style={[{ marginBottom: 20 }]}>
                 <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>email</Text>
                 <Text style={[styles.item, stylesLib.colSec]}>{user.email}</Text>
@@ -173,6 +173,7 @@ export default function ProfileScreen() {
                           onChangeText={(value) => {
                             handlePhoneNumber(value);
                           }}
+                          keyboardType="numeric"
                         />
                         <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
                       </View>

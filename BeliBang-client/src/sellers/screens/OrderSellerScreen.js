@@ -31,7 +31,7 @@ export default function OrderSellerScreen() {
         setSellerLongitude(result.locationSeller.coordinates[0]);
         setIsLoading(false);
       } catch (err) {
-        console.log(err, '<<<<<<< ini err');
+        console.log(err, '<<<<<< ini err');
         setErrorMessage(err);
         setIsLoading(false);
       }
@@ -41,7 +41,7 @@ export default function OrderSellerScreen() {
   function handleAccept(orderId) {
     try {
       const status = { status: 'Processing' };
-      dispatch(updateStatusOrder(orderId, status, accessToken));
+      dispatch(updateStatusOrder(orderId, status, accessToken, 'Seller'));
       console.log('UPDATE STATUS SUCCESS!');
     } catch (err) {
       console.log(err);
@@ -53,7 +53,7 @@ export default function OrderSellerScreen() {
       const status = {
         status: 'Canceled',
       };
-      dispatch(updateStatusOrder(orderId, status, accessToken));
+      dispatch(updateStatusOrder(orderId, status, accessToken, 'Seller'));
       console.log('UPDATE STATUS SUCCESS');
     } catch (err) {
       console.log(err);
@@ -78,56 +78,56 @@ export default function OrderSellerScreen() {
   console.log(sellerOrder, '<<<<<<<<<<<<');
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
-      <View>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <View>
-            {errorMessage !== '' ? (
-              <Text>{errorMessage}</Text>
-            ) : (
-              <View>
+    <View>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <View>
+          {errorMessage !== '' ? (
+            <Text>{errorMessage}</Text>
+          ) : (
+            <ScrollView>
+              <View contentContainerStyle={[styles.container, stylesLib.bgColGrLight]}>
                 {sellerOrder.orders.map((order) => (
-              <React.Fragment key={order.id}>
-                {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('SellerMapScreen', {
-                        id: order.id,
-                      })
-                    }
-                  >
-                    <View style={[styles.cardContainer, stylesLib.bgColPri]}>
-                      <Image source={{ uri: order.User.profilePicture }} style={styles.cardImage} />
-                      {order.status === 'Canceled' && (
-                        <View style={styles.overlay}>
-                          <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
-                        </View>
-                      )}
-                      {order.status === 'Completed' && (
-                        <View style={styles.overlay}>
-                          <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
-                        </View>
-                      )}
-
-                      <View style={styles.cardDetails}>
-                        <View>
-                          <Text style={styles.cardTitle}>{order.User.username}</Text>
-                          <Text>{haversineDistance(buyerLatitude, buyerLongitude, sellerLatitude, sellerLongitude)} meters</Text>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                          {order.status === 'Waiting' && (
-                            <>
-                              <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(order.id)}>
-                                <Text style={[styles.buttonText, stylesLib.colPri]}>Accept</Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleReject(order.id)}>
-                                <Text style={[styles.buttonText, stylesLib.colTer]}>Reject</Text>
-                              </TouchableOpacity>
-                            </>
+                  <React.Fragment key={order.id}>
+                    {(order.status === 'Waiting' || order.status === 'Canceled' || order.status === 'Processing' || order.status === 'Completed') && (
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('SellerMapScreen', {
+                            id: order.id,
+                          })
+                        }
+                      >
+                        <View style={[styles.cardContainer, stylesLib.bgColPri]}>
+                          <Image source={{ uri: order.User.profilePicture }} style={styles.cardImage} />
+                          {order.status === 'Canceled' && (
+                            <View style={styles.overlay}>
+                              <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
+                            </View>
                           )}
-                          {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
+                          {order.status === 'Completed' && (
+                            <View style={styles.overlay}>
+                              <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
+                            </View>
+                          )}
+
+                          <View style={styles.cardDetails}>
+                            <View>
+                              <Text style={styles.cardTitle}>{order.User.username}</Text>
+                              <Text>{haversineDistance(buyerLatitude, buyerLongitude, sellerLatitude, sellerLongitude)} meters</Text>
+                            </View>
+                            <View style={styles.buttonContainer}>
+                              {order.status === 'Waiting' && (
+                                <>
+                                  <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(order.id)}>
+                                    <Text style={[styles.buttonText, stylesLib.colPri]}>Accept</Text>
+                                  </TouchableOpacity>
+                                  <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={() => handleReject(order.id)}>
+                                    <Text style={[styles.buttonText, stylesLib.colTer]}>Reject</Text>
+                                  </TouchableOpacity>
+                                </>
+                              )}
+                              {order.status === 'Processing' && <Text style={[styles.successStatus]}>Processing</Text>}
                             </View>
                           </View>
                         </View>
@@ -136,11 +136,11 @@ export default function OrderSellerScreen() {
                   </React.Fragment>
                 ))}
               </View>
-            )}
-          </View>
-        )}
-      </View>
-    </ScrollView>
+            </ScrollView>
+          )}
+        </View>
+      )}
+    </View>
   );
 }
 

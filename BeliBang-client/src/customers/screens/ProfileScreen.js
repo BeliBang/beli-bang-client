@@ -170,6 +170,7 @@ export default function ProfileScreen() {
                         onChangeText={(value) => {
                           handlePhoneNumber(value);
                         }}
+                        keyboardType="numeric"
                       />
                     ) : (
                       <Text style={[styles.item, stylesLib.colCr]}>{user.phoneNumber}</Text>

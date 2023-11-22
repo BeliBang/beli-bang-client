@@ -21,22 +21,44 @@ export default function SellerHomeScreen({ navigation, food }) {
   useEffect(() => {
     (async () => {
       try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
+        const permission = await Location.requestForegroundPermissionsAsync();
+        if (permission.status !== 'granted') {
           console.log('Permission to access location was denied');
+          return;
         }
-        let currentLocation = await Location.getCurrentPositionAsync({});
-        setLocation(currentLocation);
         let access_token = await SecureStore.getItemAsync('access_token');
         setAccessToken(access_token);
-        const setLocationUser = await dispatch(updateLocationUser(currentLocation, access_token));
         const result = await dispatch(fetchSellerStore({ access_token }));
         setStatusStore(result.status);
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        setLocation(currentLocation);
+        const setLocationUser = await dispatch(updateLocationUser(currentLocation, access_token));
         setIsLoading(false);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.log(error);
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      (async () => {
+        try {
+          const permission = await Location.requestForegroundPermissionsAsync();
+          if (permission.status !== 'granted') {
+            console.log('Permission to access location was denied');
+            return;
+          }
+          let access_token = await SecureStore.getItemAsync('access_token');
+          let currentLocation = await Location.getCurrentPositionAsync({});
+          setLocation(currentLocation);
+          const setLocationUser = await dispatch(updateLocationUser(currentLocation, access_token));
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }, 50000);
+    return () => clearInterval(interval);
   }, []);
 
   function closeStore() {
@@ -77,14 +99,16 @@ export default function SellerHomeScreen({ navigation, food }) {
       });
   }
 
-  function formatCurrency(number) {
-    const formattedNumber = new Intl.NumberFormat('id-ID', {
+  function formatCurrency(amount) {
+    const integerAmount = parseInt(amount, 10);
+    if (isNaN(integerAmount)) {
+      return 'Invalid Input';
+    }
+    const formattedAmount = integerAmount.toLocaleString('id-ID', {
       style: 'currency',
       currency: 'IDR',
-      minimumFractionDigits: 0,
-    }).format(number);
-
-    return formattedNumber.replace('IDR', 'Rp');
+    });
+    return `Rp${formattedAmount}`;
   }
 
   return (
@@ -116,8 +140,8 @@ export default function SellerHomeScreen({ navigation, food }) {
                 </View>
               </View>
               <View style={[stylesLib.pad10]}>
-                <Text style={[stylesLib.colSec, { fontSize: 25, fontWeight: '700', marginTop: 15, marginBottom:10 }]}>{store.name}</Text>
-                <Text style={[stylesLib.colSec, { fontSize: 20, textAlign: 'justify', fontStyle:'italic' }]}>"{store.description}"</Text>
+                <Text style={[stylesLib.colSec, { fontSize: 25, fontWeight: '700', marginTop: 15, marginBottom: 10 }]}>{store.name}</Text>
+                <Text style={[stylesLib.colSec, { fontSize: 20, textAlign: 'justify', fontStyle: 'italic' }]}>"{store.description}"</Text>
                 <View style={[{ alignSelf: 'flex-end', marginTop: 15, marginBottom: 15 }]}>
                   <TouchableOpacity onPress={() => navigation.navigate('AddFoodScreen')}>
                     <Text style={[styles.statusBtn, stylesLib.colPri, stylesLib.bgColTer, { borderRadius: 20, fontWeight: '900', fontSize: 15 }]}>CREATE FOOD +</Text>
@@ -179,11 +203,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 20,
     overflow: 'hidden',
-    backgroundColor: stylesLib.bgColSec.backgroundColor
+    backgroundColor: stylesLib.bgColSec.backgroundColor,
   },
   foodImage: {
     height: 200,
     padding: 10,
-    backgroundColor: stylesLib.bgColSec.backgroundColor
+    backgroundColor: stylesLib.bgColSec.backgroundColor,
   },
 });
