@@ -216,9 +216,7 @@ const stylesLib = StyleSheet.create({
     color: '#313d7f'
   },
   colTer: {
-    // color: '#f16f61'
     color: '#5e9299'
-    // color: '#e8b867'
   },
   bgColPri: {
     backgroundColor: '#fcfcfc'
@@ -227,9 +225,7 @@ const stylesLib = StyleSheet.create({
     backgroundColor: '#313d7f'
   },
   bgColTer: {
-    // backgroundColor: '#f16f61'
     backgroundColor: '#5e9299'
-    // backgroundColor: '#e8b867'
   },
   center: {
     alignItems: 'center',
