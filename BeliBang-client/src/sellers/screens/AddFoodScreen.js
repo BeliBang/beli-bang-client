@@ -80,7 +80,7 @@ export default function AddFoodScreen({ navigation, route }) {
         </View>
         <View style={[{ marginTop: 20 }]}>
           <Text style={[stylesLib.colSec, stylesLib.inputLabel]}>Price</Text>
-          <TextInput value={price} onChangeText={(text) => setPrice(text)} style={[stylesLib.inputField, stylesLib.bgColPri, {fontSize: 20}]} />
+          <TextInput value={price} onChangeText={(text) => setPrice(text)} keyboardType = 'numeric' style={[stylesLib.inputField, stylesLib.bgColPri, {fontSize: 20}]} />
           <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
         </View>
         <View style={[{ marginTop: 20 }]}>
@@ -92,7 +92,7 @@ export default function AddFoodScreen({ navigation, route }) {
           <TouchableOpacity onPress={pickImage} style={[]}>
             <Text style={[stylesLib.colPri, stylesLib.bgColSec, stylesLib.pad10, { fontSize: 20, borderRadius: 20, textAlign: 'center', padding:3 }]}>PICK IMAGE</Text>
           </TouchableOpacity>
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop:10, alignSelf:'center'  }} />}
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 10, alignSelf: 'center' }} />}
         </View>
         <View style={[{ marginTop: 20, alignSelf: 'center' }]}>
           <TouchableOpacity onPress={registerFood} style={[]}>

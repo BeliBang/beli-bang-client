@@ -175,6 +175,7 @@ export default function ProfileScreen() {
                           onChangeText={(value) => {
                             handlePhoneNumber(value);
                           }}
+                          keyboardType="numeric"
                         />
                         <View style={{ borderBottomWidth: 2, borderBottomColor: stylesLib.colSec.color }} />
                       </View>

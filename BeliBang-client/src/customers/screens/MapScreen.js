@@ -42,6 +42,30 @@ export default function MapScreen() {
     })();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      (async () => {
+        try {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            console.log('Permission to access location was denied');
+            return navigation.navigate('UserHomeScreen');
+          }
+          let currentLocation = await Location.getCurrentPositionAsync({});
+          setLocation(currentLocation);
+          let userId = await SecureStore.getItemAsync('userId');
+          let access_token = await SecureStore.getItemAsync('access_token');
+          const stores = await dispatch(showStores(access_token));
+          const setLocationUser = await dispatch(updateLocationUser(currentLocation, access_token));
+          const detailUser = await dispatch(fetchUser(userId, access_token));
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }, 50000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <View>
       {isLoading ? (

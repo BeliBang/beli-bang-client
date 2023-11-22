@@ -43,7 +43,7 @@ export default function DetailStore({ route }) {
   console.log(store, '<<<<<<<<');
 
   return (
-    <View>
+    <View style={[stylesLib.bgColPri, stylesLib.flex1]}>
       {isLoading ? (
         <View style={[stylesLib.pad10, stylesLib.center, { height: '100%', justifyContent: 'center' }]}>
           <ActivityIndicator size="large" color="#0000ff" />

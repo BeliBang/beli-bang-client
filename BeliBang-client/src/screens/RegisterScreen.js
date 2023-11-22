@@ -85,7 +85,6 @@ export default function RegisterScreen({ navigation }) {
             style={[stylesLib.bgColPri, stylesLib.inputField, {fontSize:22}]}
             onChangeText={setPassword}
             secureTextEntry={hidePass ? true : false}
-            blurOnSubmit={false}
             autoCapitalize="none"
             returnKeyType="next"
             right={<TextInput.Icon icon="eye" onPress={() => setHidePass(!hidePass)} />}
@@ -122,7 +121,7 @@ export default function RegisterScreen({ navigation }) {
       </View>
       <View style={[{ flexDirection: 'row', justifyContent: 'center' }]}>
         <Text style={[{ textAlign: 'center', fontSize: 25, marginBottom: 40 }, stylesLib.colSec]}>log in</Text>
-        <TouchableOpacity onPress={() => clickHere()} style={[style.activeLink, { marginLeft: 9 }]}>
+        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')} style={[style.activeLink, { marginLeft: 9 }]}>
           <Text style={[style.loginLink, stylesLib.colSec]} onPress={() => navigation.navigate('LoginScreen')}>
             here
           </Text>

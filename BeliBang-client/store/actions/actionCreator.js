@@ -74,7 +74,7 @@ export const fetchDetailOrderAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://7208-182-253-245-138.ngrok-free.app';
+let baseUrl = 'https://bd56-182-253-245-178.ngrok-free.app';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
@@ -161,8 +161,9 @@ export const fetchSellerStore = ({ access_token }) => {
           access_token,
         },
       });
-      if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
+      // if (!response.ok) throw new Error('Something Wrong!');
+      if (!response.ok) throw data.message;
       const action = fetchSellerStoreAction(data);
       dispatch(action);
       return data;
@@ -239,7 +240,7 @@ export const updateStatusStore = (formData, id, access_token) => {
   return async (dispatch) => {
     try {
       const response = await fetch(`${baseUrl}/stores/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           access_token: access_token,
           'Content-Type': 'application/json',
@@ -313,6 +314,7 @@ export const createOrder = (access_token, StoreId) => {
       });
       if (!response.ok) throw new Error('Something Wrong!');
       const data = await response.json();
+      dispatch(fetchCustomerOrder(access_token));
       return data;
     } catch (err) {
       console.log(err);
@@ -389,10 +391,10 @@ export const fetchDetailOrder = (orderId, access_token) => {
   };
 };
 
-export const updateStatusOrder = (orderId, status, access_token) => {
+export const updateStatusOrder = (orderId, status, access_token, role) => {
   return async (dispatch) => {
     try {
-      console.log({ orderId, status, access_token });
+      console.log({ orderId, status, access_token }, '<<<<<<<<<< aaaaaaa');
       const response = await fetch(`${baseUrl}/orders/${orderId}`, {
         method: 'PUT',
         headers: {
@@ -401,8 +403,15 @@ export const updateStatusOrder = (orderId, status, access_token) => {
         },
         body: JSON.stringify(status),
       });
-      if (!response.ok) throw new Error('Something Wrong!');
-      dispatch(fetchSellerOrder(access_token));
+      const data = await response.json();
+      // if (!response.ok) throw new Error('Something Wrong!');
+      if (!response.ok) throw data.message;
+
+      if (role === 'Seller') {
+        dispatch(fetchSellerOrder(access_token));
+      } else {
+        dispatch(fetchCustomerOrder(access_token));
+      }
     } catch (err) {
       console.log(err);
       throw err;

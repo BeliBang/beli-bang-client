@@ -27,6 +27,21 @@ export default function MapScreenTransc({ route }) {
     })();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      (async () => {
+        try {
+          let access_token = await SecureStore.getItemAsync('access_token');
+          setAccessToken(access_token);
+          const result = await dispatch(fetchDetailOrder(orderId, access_token));
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }, 50000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <View>
       {isLoading ? (

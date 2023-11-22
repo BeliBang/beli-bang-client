@@ -31,7 +31,7 @@ export default function OrderSellerScreen() {
         setSellerLongitude(result.locationSeller.coordinates[0]);
         setIsLoading(false);
       } catch (err) {
-        console.log(err, '<<<<<<< ini err');
+        console.log(err, '<<<<<< ini err');
         setErrorMessage(err);
         setIsLoading(false);
       }
@@ -41,7 +41,7 @@ export default function OrderSellerScreen() {
   function handleAccept(orderId) {
     try {
       const status = { status: 'Processing' };
-      dispatch(updateStatusOrder(orderId, status, accessToken));
+      dispatch(updateStatusOrder(orderId, status, accessToken, 'Seller'));
       console.log('UPDATE STATUS SUCCESS!');
     } catch (err) {
       console.log(err);
@@ -53,7 +53,7 @@ export default function OrderSellerScreen() {
       const status = {
         status: 'Canceled',
       };
-      dispatch(updateStatusOrder(orderId, status, accessToken));
+      dispatch(updateStatusOrder(orderId, status, accessToken, 'Seller'));
       console.log('UPDATE STATUS SUCCESS');
     } catch (err) {
       console.log(err);
@@ -142,10 +142,11 @@ export default function OrderSellerScreen() {
                   </React.Fragment>
                 ))}
               </View>
-            )}
-          </View>
-        )}
-      </View>
+            // </ScrollView>
+          )}
+        </View>
+      )}
+    </View>
     </ScrollView>
   );
 }

@@ -6,6 +6,7 @@ import { fetchAllStore, fetchUser, showStores, updateLocationUser } from '../../
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import { useNavigation } from '@react-navigation/native';
+import stylesLib from '../../../assets/styles/styles-lib';
 
 export default function ListStores() {
   const [getLocation, setLocation] = useState(null);
@@ -23,15 +24,47 @@ export default function ListStores() {
   useEffect(() => {
     (async () => {
       try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permission to access location was denied');
+          return navigation.navigate('UserHomeScreen');
+        }
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        setLocation(currentLocation);
         let userId = await SecureStore.getItemAsync('userId');
         let access_token = await SecureStore.getItemAsync('access_token');
         const stores = await dispatch(showStores(access_token));
+        const setLocationUser = await dispatch(updateLocationUser(currentLocation, access_token));
         const detailUser = await dispatch(fetchUser(userId, access_token));
         setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      (async () => {
+        try {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            console.log('Permission to access location was denied');
+            return navigation.navigate('UserHomeScreen');
+          }
+          let currentLocation = await Location.getCurrentPositionAsync({});
+          setLocation(currentLocation);
+          let userId = await SecureStore.getItemAsync('userId');
+          let access_token = await SecureStore.getItemAsync('access_token');
+          const stores = await dispatch(showStores(access_token));
+          const setLocationUser = await dispatch(updateLocationUser(currentLocation, access_token));
+          const detailUser = await dispatch(fetchUser(userId, access_token));
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }, 50000);
+    return () => clearInterval(interval);
   }, []);
 
   let text = 'Waiting..';
@@ -59,10 +92,6 @@ export default function ListStores() {
                   rating="4"
                   sellerLatitude={e.User.location.coordinates[1]}
                   sellerLongitude={e.User.location.coordinates[0]}
-                  // userLatitude={getLocation.coords.latitude}
-                  // userLongitude={getLocation.coords.longitude}
-                  // userLatitude={-6.944393028777816}
-                  // userLongitude={107.59063799989175}
                   userLatitude={user.location.coordinates[1]}
                   userLongitude={user.location.coordinates[0]}
                   key={e.id}
