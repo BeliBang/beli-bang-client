@@ -83,7 +83,7 @@ export default function ListStores() {
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
         ) : (
-          <View>
+          <View style={[{paddingBottom: 80}, stylesLib.bgColPri]}>
             {openStore.map((e) => {
               return (
                 <ListStoresCard
