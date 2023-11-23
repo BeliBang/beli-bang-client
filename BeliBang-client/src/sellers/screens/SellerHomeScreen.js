@@ -7,7 +7,6 @@ import { Card } from 'react-native-paper';
 import stylesLib from '../../../assets/styles/styles-lib';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
-// import { Grayscale } from 'react-native-image-filter-kit';
 
 export default function SellerHomeScreen({ navigation, food }) {
   const dispatch = useDispatch();

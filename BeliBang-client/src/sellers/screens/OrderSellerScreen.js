@@ -111,11 +111,6 @@ export default function OrderSellerScreen() {
                           <Text style={[styles.overlayTextCancelled]}>{order.status}</Text>
                         </View>
                       )}
-                      {/* {order.status === 'Completed' && (
-                        <View style={styles.overlay}>
-                          <Text style={[styles.overlayTextSuccess]}>{order.status}</Text>
-                        </View>
-                      )} */}
                       <View style={styles.cardDetails}>
                         <View>
                           <Text style={styles.cardTitle}>{order.User.username}</Text>

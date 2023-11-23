@@ -74,7 +74,7 @@ export const fetchDetailOrderAction = (payload) => {
   };
 };
 
-let baseUrl = 'https://58de-182-253-245-150.ngrok-free.app';
+let baseUrl = 'https://api.syonportal.my.id';
 
 export const login = (inputForm) => {
   return async (dispatch) => {
