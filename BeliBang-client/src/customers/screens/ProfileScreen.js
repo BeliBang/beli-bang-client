@@ -138,11 +138,11 @@ export default function ProfileScreen() {
             <ProfilePictureModal isVisible={isModalVisible} toggleModal={toggleModal} profilePictureUri={user.profilePicture} />
             <View style={[stylesLib.pad20, {borderWidth: 5, paddingTop:30, paddingBottom:40, borderRadius:10, borderColor: stylesLib.colSec.color}]}>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>email</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Email</Text>
                 <Text style={[styles.item, stylesLib.colSec]}>{user.email}</Text>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>username</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Username</Text>
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.username ? (
@@ -164,7 +164,7 @@ export default function ProfileScreen() {
                 </View>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>phone number</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Phone Number</Text>
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.phoneNumber ? (
@@ -187,7 +187,7 @@ export default function ProfileScreen() {
                 </View>
               </View>
               <View style={[{ marginBottom: 20 }]}>
-                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>address</Text>
+                <Text style={[{ marginBottom: 5 }, stylesLib.colSec, styles.itemTitle]}>Address</Text>
                 <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}>
                   <View style={[stylesLib.flex9, { marginRight: 20 }]}>
                     {editableFields.address ? (
