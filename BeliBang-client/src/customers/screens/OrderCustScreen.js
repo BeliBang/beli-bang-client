@@ -79,7 +79,11 @@ export default function OrderSellerScreen() {
       ) : (
         <View>
           {errorMessage !== '' ? (
-            <Text>{errorMessage}</Text>
+            <View style={[stylesLib.pad10, {height:'100%' ,justifyContent:'center'}]}>
+              <View style={[{alignItems:'center', alignContent:'center'}]}>
+                <Text style={[stylesLib.colSec, {fontSize:30, fontWeight:'600'}]}>{errorMessage}</Text>
+              </View>
+            </View>
           ) : (
             <ScrollView style={[stylesLib.pad10]}>
               <View contentContainerStyle={[styles.container, stylesLib.bgColPri]}>
